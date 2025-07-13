@@ -63,8 +63,8 @@ msgid "**clash_serve**"
 msgstr "**clash_serve**"
 
 #: ../../source/index.rst:20
-msgid "Simple utility for starting the Clash service with proper configuration"
-msgstr "用于启动 Clash 服务的简单工具，使用正确的配置"
+msgid "Service management tool for starting the Clash service and managing configuration files"
+msgstr "用于启动 Clash 服务和管理配置文件的服务管理工具"
 
 #: ../../source/index.rst:22
 msgid "Features"

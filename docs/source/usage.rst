@@ -58,19 +58,24 @@ Tools Overview
 clash_serve - Service Management
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-A simple utility for starting the Clash service with proper configuration.
+A comprehensive utility for Clash service management and configuration.
 
 **Usage**::
 
-    clash_serve
+    clash_serve [OPTIONS] COMMAND [ARGS]...
+
+**Available Commands**:
+  - ``run`` - Start the Clash service
+  - ``config`` - Manage config.yaml file
 
 **Description**:
-  This script starts the Clash service by running ``sudo ./clash -d ./`` in the script directory. It's designed to be a simple wrapper that ensures Clash runs with the correct configuration directory.
+  This tool provides two main functions: starting the Clash service and managing the configuration file. The ``run`` command starts the Clash service by running ``sudo ./clash -d ./`` in the script directory, while the ``config`` command helps manage the ``config.yaml`` file.
 
 **Features**:
-  - Automatically changes to the correct directory
-  - Runs Clash with sudo privileges
-  - Uses the current directory as the configuration directory
+  - Service management with proper directory handling
+  - Configuration file management
+  - Built-in editor integration
+  - Configuration file path display
 
 clash_proxy - Environment Variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -79,7 +84,7 @@ A shell script for setting up proxy environment variables in the current session
 
 **Usage**::
 
-    source clash_proxy
+    eval "$(clash_proxy)"
 
 **Description**:
   This script reads the configuration from ``config.yaml`` and sets up all necessary proxy environment variables for the current shell session.
@@ -113,6 +118,56 @@ A comprehensive Docker proxy management tool for enabling/disabling Docker proxy
 
 Detailed Tool Usage
 -------------------
+
+clash_serve Commands
+~~~~~~~~~~~~~~~~~~~~
+
+run - Start Clash Service
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Start the Clash service with proper configuration::
+
+    clash_serve run
+
+**Description**:
+  This command starts the Clash service by running ``sudo ./clash -d ./`` in the script directory. It automatically changes to the correct directory and ensures Clash runs with the proper configuration.
+
+**Features**:
+  - Automatically changes to the correct directory
+  - Runs Clash with sudo privileges
+  - Uses the current directory as the configuration directory
+
+config - Manage Configuration File
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Manage the config.yaml file::
+
+    clash_serve config [OPTIONS]
+
+**Options**::
+
+    -e, --edit  Open config file in default editor
+    --help      Show help information
+
+**Examples**::
+
+    # Display config file path
+    clash_serve config
+
+    # Edit config file with default editor
+    clash_serve config --edit
+
+    # Edit config file with specific editor
+    EDITOR=vim clash_serve config --edit
+
+**Description**:
+  This command helps manage the ``config.yaml`` file. By default, it displays the absolute path of the configuration file. With the ``--edit`` option, it opens the file in your default editor.
+
+**Features**:
+  - Display configuration file absolute path
+  - Open configuration file in editor
+  - Respects ``EDITOR`` environment variable
+  - Fallback to ``nano`` if no editor is set
 
 clash_docker Commands
 ~~~~~~~~~~~~~~~~~~~~~

@@ -11,7 +11,13 @@ from pathlib import Path
 import click
 
 
-@click.command()
+@click.group()
+def cli():
+    """Clash service management tool"""
+    pass
+
+
+@cli.command()
 def run():
     """Run 'sudo ./clash -d ./' in script directory"""
     # Get script directory
@@ -30,5 +36,29 @@ def run():
     os.chdir(original_cwd)
 
 
+@cli.command()
+@click.option('--edit', '-e', is_flag=True, help='Open config file in default editor')
+def config(edit):
+    """Manage config.yaml file"""
+    # Get config file path
+    script_dir = Path(__file__).parent.absolute()
+    config_file = script_dir / "config.yaml"
+
+    # Always print config file path
+    click.echo(f"Config file: {config_file.absolute()}")
+
+    if not config_file.exists():
+        click.echo("❌ Config file not found!", err=True)
+        return
+
+    # Handle --edit option
+    if edit:
+        editor = os.environ.get('EDITOR', 'nano')
+        try:
+            subprocess.run([editor, str(config_file)])
+        except Exception as e:
+            click.echo(f"❌ Error opening editor: {e}", err=True)
+
+
 if __name__ == '__main__':
-    run()
+    cli()

@@ -1,16 +1,15 @@
-# SOME DESCRIPTIVE TITLE.
+# Translations template for clash_tools.
 # Copyright (C) 2025, the clash_tools developers
-# This file is distributed under the same license as the clash_tools
-# package.
+# This file is distributed under the same license as the clash_tools package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: clash_tools 0.0.1\n"
+"Project-Id-Version: clash_tools 1.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 22:42+0800\n"
-"PO-Revision-Date: 2025-07-13 22:42+0800\n"
+"POT-Creation-Date: 2025-07-14 02:15+0800\n"
+"PO-Revision-Date: 2025-07-14 02:15+0800\n"
 "Last-Translator: clash_tools developers <nyanyanyaworld@gmail.com>\n"
 "Language: zh_CN\n"
 "Language-Team: zh_CN <LL@li.org>\n"
@@ -26,9 +25,9 @@ msgstr "使用指南"
 
 #: ../../source/usage.rst:4
 msgid ""
-"clash_tools is a comprehensive toolkit that provides multiple command-line "
-"utilities for managing Clash proxy configurations and services. This guide "
-"covers all three main tools included in the package."
+"clash_tools is a comprehensive toolkit that provides multiple command-"
+"line utilities for managing Clash proxy configurations and services. This"
+" guide covers all three main tools included in the package."
 msgstr ""
 "clash_tools 是一个综合工具包，提供多种命令行工具用于管理 Clash 代理配置和服务。"
 "本指南涵盖了该包中包含的所有三个主要工具。"
@@ -55,8 +54,8 @@ msgstr "Clash 配置文件"
 
 #: ../../source/usage.rst:25
 msgid ""
-"All tools use a ``config.yaml`` file to configure the Clash proxy server. "
-"Default configuration::"
+"All tools use a ``config.yaml`` file to configure the Clash proxy server."
+" Default configuration::"
 msgstr ""
 "所有工具都使用 ``config.yaml`` 文件来配置 Clash 代理服务器。"
 "默认配置::"
@@ -70,163 +69,241 @@ msgid "clash_serve - Service Management"
 msgstr "clash_serve - 服务管理"
 
 #: ../../source/usage.rst:61
-msgid "A simple utility for starting the Clash service with proper configuration."
-msgstr "用于启动 Clash 服务的简单工具，使用正确的配置。"
+msgid "A comprehensive utility for Clash service management and configuration."
+msgstr "用于 Clash 服务管理和配置的综合工具。"
 
-#: ../../source/usage.rst:63
+#: ../../source/usage.rst:63 ../../source/usage.rst:85
+#: ../../source/usage.rst:109
 msgid "**Usage**::"
 msgstr "**用法**::"
 
-#: ../../source/usage.rst:67
-msgid ""
-"**Description**: This script starts the Clash service by running ``sudo "
-"./clash -d ./`` in the script directory. It's designed to be a simple "
-"wrapper that ensures Clash runs with the correct configuration directory."
-msgstr ""
-"**说明**：此脚本通过在脚本目录中运行 ``sudo ./clash -d ./`` 来启动 Clash 服务。"
-"它被设计为一个简单的包装器，确保 Clash 使用正确的配置目录运行。"
-
-#: ../../source/usage.rst:70
-msgid "**Features**:"
-msgstr "**特性**："
-
-#: ../../source/usage.rst:71
-msgid "Automatically changes to the correct directory"
-msgstr "自动切换到正确的目录"
-
-#: ../../source/usage.rst:72
-msgid "Runs Clash with sudo privileges"
-msgstr "使用 sudo 权限运行 Clash"
-
-#: ../../source/usage.rst:73
-msgid "Uses the current directory as the configuration directory"
-msgstr "使用当前目录作为配置目录"
-
-#: ../../source/usage.rst:76
-msgid "clash_proxy - Environment Variables"
-msgstr "clash_proxy - 环境变量"
-
-#: ../../source/usage.rst:78
-msgid "A shell script for setting up proxy environment variables in the current session."
-msgstr "用于在当前会话中设置代理环境变量的 shell 脚本。"
-
-#: ../../source/usage.rst:80
-msgid "**Usage**::"
-msgstr "**用法**::"
-
-#: ../../source/usage.rst:84
-msgid ""
-"**Description**: This script reads the configuration from ``config.yaml`` "
-"and sets up all necessary proxy environment variables for the current shell "
-"session."
-msgstr ""
-"**说明**：此脚本从 ``config.yaml`` 读取配置，并为当前 shell 会话设置所有必要的代理环境变量。"
-
-#: ../../source/usage.rst:87
-msgid "**Environment Variables Set**:"
-msgstr "**设置的环境变量**："
-
-#: ../../source/usage.rst:88
-msgid "``http_proxy`` / ``HTTP_PROXY``"
-msgstr "``http_proxy`` / ``HTTP_PROXY``"
-
-#: ../../source/usage.rst:89
-msgid "``https_proxy`` / ``HTTPS_PROXY``"
-msgstr "``https_proxy`` / ``HTTPS_PROXY``"
-
-#: ../../source/usage.rst:90
-msgid "``all_proxy`` / ``ALL_PROXY`` (SOCKS5)"
-msgstr "``all_proxy`` / ``ALL_PROXY`` (SOCKS5)"
-
-#: ../../source/usage.rst:91
-msgid "``no_proxy`` / ``NO_PROXY``"
-msgstr "``no_proxy`` / ``NO_PROXY``"
-
-#: ../../source/usage.rst:93
-msgid "**Features**:"
-msgstr "**特性**："
-
-#: ../../source/usage.rst:94
-msgid "Automatic port detection from config file"
-msgstr "从配置文件自动检测端口"
-
-#: ../../source/usage.rst:95
-msgid "Error handling and validation"
-msgstr "错误处理和验证"
-
-#: ../../source/usage.rst:96
-msgid "Both lowercase and uppercase variable formats"
-msgstr "支持小写和大写变量格式"
-
-#: ../../source/usage.rst:97
-msgid "Support for HTTP and SOCKS5 proxies"
-msgstr "支持 HTTP 和 SOCKS5 代理"
-
-#: ../../source/usage.rst:100
-msgid "clash_docker - Docker Proxy Management"
-msgstr "clash_docker - Docker 代理管理"
-
-#: ../../source/usage.rst:102
-msgid "A comprehensive Docker proxy management tool for enabling/disabling Docker proxy settings."
-msgstr "用于启用/禁用 Docker 代理设置的综合 Docker 代理管理工具。"
-
-#: ../../source/usage.rst:104
-msgid "**Usage**::"
-msgstr "**用法**::"
-
-#: ../../source/usage.rst:108
+#: ../../source/usage.rst:67 ../../source/usage.rst:113
 msgid "**Available Commands**:"
 msgstr "**可用命令**："
 
-#: ../../source/usage.rst:109
+#: ../../source/usage.rst:68
+msgid "``run`` - Start the Clash service"
+msgstr "``run`` - 启动 Clash 服务"
+
+#: ../../source/usage.rst:69
+msgid "``config`` - Manage config.yaml file"
+msgstr "``config`` - 管理 config.yaml 文件"
+
+#: ../../source/usage.rst:71 ../../source/usage.rst:89
+#: ../../source/usage.rst:132 ../../source/usage.rst:163
+msgid "**Description**:"
+msgstr "**说明**："
+
+#: ../../source/usage.rst:72
+msgid ""
+"This tool provides two main functions: starting the Clash service and "
+"managing the configuration file. The ``run`` command starts the Clash "
+"service by running ``sudo ./clash -d ./`` in the script directory, while "
+"the ``config`` command helps manage the ``config.yaml`` file."
+msgstr ""
+"此工具提供两个主要功能：启动 Clash 服务和管理配置文件。"
+"``run`` 命令通过在脚本目录中运行 ``sudo ./clash -d ./`` 来启动 Clash 服务，"
+"而 ``config`` 命令帮助管理 ``config.yaml`` 文件。"
+
+#: ../../source/usage.rst:74 ../../source/usage.rst:98
+#: ../../source/usage.rst:135 ../../source/usage.rst:166
+msgid "**Features**:"
+msgstr "**特性**："
+
+#: ../../source/usage.rst:75
+msgid "Service management with proper directory handling"
+msgstr "带有适当目录处理的服务管理"
+
+#: ../../source/usage.rst:76
+msgid "Configuration file management"
+msgstr "配置文件管理"
+
+#: ../../source/usage.rst:77
+msgid "Built-in editor integration"
+msgstr "内置编辑器集成"
+
+#: ../../source/usage.rst:78
+msgid "Configuration file path display"
+msgstr "配置文件路径显示"
+
+#: ../../source/usage.rst:81
+msgid "clash_proxy - Environment Variables"
+msgstr "clash_proxy - 环境变量"
+
+#: ../../source/usage.rst:83
+msgid ""
+"A shell script for setting up proxy environment variables in the current "
+"session."
+msgstr "用于在当前会话中设置代理环境变量的 shell 脚本。"
+
+#: ../../source/usage.rst:90
+msgid ""
+"This script reads the configuration from ``config.yaml`` and sets up all "
+"necessary proxy environment variables for the current shell session."
+msgstr ""
+"此脚本从 ``config.yaml`` 读取配置，并为当前 shell 会话设置所有必要的代理环境变量。"
+
+#: ../../source/usage.rst:92
+msgid "**Environment Variables Set**:"
+msgstr "**设置的环境变量**："
+
+#: ../../source/usage.rst:93
+msgid "``http_proxy`` / ``HTTP_PROXY``"
+msgstr "``http_proxy`` / ``HTTP_PROXY``"
+
+#: ../../source/usage.rst:94
+msgid "``https_proxy`` / ``HTTPS_PROXY``"
+msgstr "``https_proxy`` / ``HTTPS_PROXY``"
+
+#: ../../source/usage.rst:95
+msgid "``all_proxy`` / ``ALL_PROXY`` (SOCKS5)"
+msgstr "``all_proxy`` / ``ALL_PROXY`` (SOCKS5)"
+
+#: ../../source/usage.rst:96
+msgid "``no_proxy`` / ``NO_PROXY``"
+msgstr "``no_proxy`` / ``NO_PROXY``"
+
+#: ../../source/usage.rst:99
+msgid "Automatic port detection from config file"
+msgstr "从配置文件自动检测端口"
+
+#: ../../source/usage.rst:100
+msgid "Error handling and validation"
+msgstr "错误处理和验证"
+
+#: ../../source/usage.rst:101
+msgid "Both lowercase and uppercase variable formats"
+msgstr "支持小写和大写变量格式"
+
+#: ../../source/usage.rst:102
+msgid "Support for HTTP and SOCKS5 proxies"
+msgstr "支持 HTTP 和 SOCKS5 代理"
+
+#: ../../source/usage.rst:105
+msgid "clash_docker - Docker Proxy Management"
+msgstr "clash_docker - Docker 代理管理"
+
+#: ../../source/usage.rst:107
+msgid ""
+"A comprehensive Docker proxy management tool for enabling/disabling "
+"Docker proxy settings."
+msgstr "用于启用/禁用 Docker 代理设置的综合 Docker 代理管理工具。"
+
+#: ../../source/usage.rst:114
 msgid "``enable`` - Enable Docker proxy settings"
 msgstr "``enable`` - 启用 Docker 代理设置"
 
-#: ../../source/usage.rst:110
+#: ../../source/usage.rst:115
 msgid "``disable`` - Disable Docker proxy settings"
 msgstr "``disable`` - 禁用 Docker 代理设置"
 
-#: ../../source/usage.rst:111
+#: ../../source/usage.rst:116
 msgid "``status`` - Check current proxy status"
 msgstr "``status`` - 检查当前代理状态"
 
-#: ../../source/usage.rst:112
+#: ../../source/usage.rst:117
 msgid "``reset`` - Reset all proxy configurations"
 msgstr "``reset`` - 重置所有代理配置"
 
-#: ../../source/usage.rst:115
+#: ../../source/usage.rst:120
 msgid "Detailed Tool Usage"
 msgstr "详细工具使用"
 
-#: ../../source/usage.rst:118
-msgid "clash_docker Commands"
-msgstr "clash_docker 命令"
-
-#: ../../source/usage.rst:121
-msgid "enable - Enable Docker Proxy"
-msgstr "enable - 启用 Docker 代理"
-
 #: ../../source/usage.rst:123
-msgid "Enable Docker proxy settings::"
-msgstr "启用 Docker 代理设置::"
+msgid "clash_serve Commands"
+msgstr "clash_serve 命令"
 
-#: ../../source/usage.rst:127
+#: ../../source/usage.rst:126
+msgid "run - Start Clash Service"
+msgstr "run - 启动 Clash 服务"
+
+#: ../../source/usage.rst:128
+msgid "Start the Clash service with proper configuration::"
+msgstr "启动 Clash 服务并使用正确的配置::"
+
+#: ../../source/usage.rst:133
+msgid ""
+"This command starts the Clash service by running ``sudo ./clash -d ./`` "
+"in the script directory. It automatically changes to the correct "
+"directory and ensures Clash runs with the proper configuration."
+msgstr ""
+"此命令通过在脚本目录中运行 ``sudo ./clash -d ./`` 来启动 Clash 服务。"
+"它自动切换到正确的目录并确保 Clash 使用正确的配置运行。"
+
+#: ../../source/usage.rst:136
+msgid "Automatically changes to the correct directory"
+msgstr "自动切换到正确的目录"
+
+#: ../../source/usage.rst:137
+msgid "Runs Clash with sudo privileges"
+msgstr "使用 sudo 权限运行 Clash"
+
+#: ../../source/usage.rst:138
+msgid "Uses the current directory as the configuration directory"
+msgstr "使用当前目录作为配置目录"
+
+#: ../../source/usage.rst:141
+msgid "config - Manage Configuration File"
+msgstr "config - 管理配置文件"
+
+#: ../../source/usage.rst:143
+msgid "Manage the config.yaml file::"
+msgstr "管理 config.yaml 文件::"
+
+#: ../../source/usage.rst:147 ../../source/usage.rst:182
 msgid "**Options**::"
 msgstr "**选项**::"
 
-#: ../../source/usage.rst:132
+#: ../../source/usage.rst:152 ../../source/usage.rst:187
 msgid "**Examples**::"
 msgstr "**示例**::"
 
-#: ../../source/usage.rst:143
+#: ../../source/usage.rst:164
+msgid ""
+"This command helps manage the ``config.yaml`` file. By default, it "
+"displays the absolute path of the configuration file. With the ``--edit``"
+" option, it opens the file in your default editor."
+msgstr ""
+"此命令帮助管理 ``config.yaml`` 文件。默认情况下，它显示配置文件的绝对路径。"
+"使用 ``--edit`` 选项，它会在您的默认编辑器中打开文件。"
+
+#: ../../source/usage.rst:167
+msgid "Display configuration file absolute path"
+msgstr "显示配置文件绝对路径"
+
+#: ../../source/usage.rst:168
+msgid "Open configuration file in editor"
+msgstr "在编辑器中打开配置文件"
+
+#: ../../source/usage.rst:169
+msgid "Respects ``EDITOR`` environment variable"
+msgstr "遵循 ``EDITOR`` 环境变量"
+
+#: ../../source/usage.rst:170
+msgid "Fallback to ``nano`` if no editor is set"
+msgstr "如果没有设置编辑器，则默认使用 ``nano``"
+
+#: ../../source/usage.rst:173
+msgid "clash_docker Commands"
+msgstr "clash_docker 命令"
+
+#: ../../source/usage.rst:176
+msgid "enable - Enable Docker Proxy"
+msgstr "enable - 启用 Docker 代理"
+
+#: ../../source/usage.rst:178
+msgid "Enable Docker proxy settings::"
+msgstr "启用 Docker 代理设置::"
+
+#: ../../source/usage.rst:198 ../../source/usage.rst:211
 msgid "**This command will**:"
 msgstr "**此命令将**："
 
-#: ../../source/usage.rst:145
+#: ../../source/usage.rst:200
 msgid "Configure Docker client proxy (``~/.docker/config.json``)"
 msgstr "配置 Docker 客户端代理 (``~/.docker/config.json``)"
 
-#: ../../source/usage.rst:146
+#: ../../source/usage.rst:201
 msgid ""
 "If run with root privileges, also configure Docker daemon proxy "
 "(``/etc/systemd/system/docker.service.d/http-proxy.conf``)"
@@ -234,296 +311,306 @@ msgstr ""
 "如果以 root 权限运行，还会配置 Docker 守护进程代理 "
 "(``/etc/systemd/system/docker.service.d/http-proxy.conf``)"
 
-#: ../../source/usage.rst:147
+#: ../../source/usage.rst:202
 msgid "Restart Docker service (only when configuring daemon proxy)"
 msgstr "重启 Docker 服务（仅在配置守护进程代理时）"
 
-#: ../../source/usage.rst:150
+#: ../../source/usage.rst:205
 msgid "disable - Disable Docker Proxy"
 msgstr "disable - 禁用 Docker 代理"
 
-#: ../../source/usage.rst:152
+#: ../../source/usage.rst:207
 msgid "Disable Docker proxy settings::"
 msgstr "禁用 Docker 代理设置::"
 
-#: ../../source/usage.rst:156
-msgid "**This command will**:"
-msgstr "**此命令将**："
-
-#: ../../source/usage.rst:158
+#: ../../source/usage.rst:213
 msgid "Remove Docker client proxy configuration"
 msgstr "移除 Docker 客户端代理配置"
 
-#: ../../source/usage.rst:159
+#: ../../source/usage.rst:214
 msgid "If run with root privileges, also remove Docker daemon proxy configuration"
 msgstr "如果以 root 权限运行，还会移除 Docker 守护进程代理配置"
 
-#: ../../source/usage.rst:160
+#: ../../source/usage.rst:215
 msgid "Restart Docker service (only when removing daemon proxy)"
 msgstr "重启 Docker 服务（仅在移除守护进程代理时）"
 
-#: ../../source/usage.rst:163
+#: ../../source/usage.rst:218
 msgid "status - Check Docker Proxy Status"
 msgstr "status - 检查 Docker 代理状态"
 
-#: ../../source/usage.rst:165
+#: ../../source/usage.rst:220
 msgid "Check current Docker proxy status::"
 msgstr "检查当前 Docker 代理状态::"
 
-#: ../../source/usage.rst:169
+#: ../../source/usage.rst:224
 msgid "**Example output**::"
 msgstr "**示例输出**::"
 
-#: ../../source/usage.rst:183
+#: ../../source/usage.rst:238
 msgid "reset - Reset Docker Proxy Configuration"
 msgstr "reset - 重置 Docker 代理配置"
 
-#: ../../source/usage.rst:185
+#: ../../source/usage.rst:240
 msgid "Reset all Docker proxy configurations::"
 msgstr "重置所有 Docker 代理配置::"
 
-#: ../../source/usage.rst:189
+#: ../../source/usage.rst:244
 msgid "**This command will completely remove**:"
 msgstr "**此命令将完全移除**："
 
-#: ../../source/usage.rst:191
+#: ../../source/usage.rst:246
 msgid "Docker client proxy configuration"
 msgstr "Docker 客户端代理配置"
 
-#: ../../source/usage.rst:192
+#: ../../source/usage.rst:247
 msgid "Docker daemon proxy configuration"
 msgstr "Docker 守护进程代理配置"
 
-#: ../../source/usage.rst:195
+#: ../../source/usage.rst:250
 msgid "Permission Requirements"
 msgstr "权限要求"
 
-#: ../../source/usage.rst:198
+#: ../../source/usage.rst:253
 msgid "clash_serve"
 msgstr "clash_serve"
 
-#: ../../source/usage.rst:200
+#: ../../source/usage.rst:255
 msgid "Requires ``sudo`` privileges to run the Clash service."
 msgstr "需要 ``sudo`` 权限来运行 Clash 服务。"
 
-#: ../../source/usage.rst:203
+#: ../../source/usage.rst:258
 msgid "clash_proxy"
 msgstr "clash_proxy"
 
-#: ../../source/usage.rst:205
+#: ../../source/usage.rst:260
 msgid "No special permissions required. Can be run by any user."
 msgstr "不需要特殊权限。任何用户都可以运行。"
 
-#: ../../source/usage.rst:208
+#: ../../source/usage.rst:263
 msgid "clash_docker"
 msgstr "clash_docker"
 
-#: ../../source/usage.rst:210
+#: ../../source/usage.rst:265
 msgid ""
-"**Client Proxy**: Docker client proxy configuration doesn't require special "
-"permissions and can be operated by regular users."
+"**Client Proxy**: Docker client proxy configuration doesn't require "
+"special permissions and can be operated by regular users."
 msgstr ""
 "**客户端代理**：Docker 客户端代理配置不需要特殊权限，普通用户即可操作。"
 
-#: ../../source/usage.rst:213
-msgid "**Daemon Proxy**: Docker daemon proxy configuration requires root privileges because it needs to:"
+#: ../../source/usage.rst:267
+msgid ""
+"**Daemon Proxy**: Docker daemon proxy configuration requires root "
+"privileges because it needs to:"
 msgstr "**守护进程代理**：Docker 守护进程代理配置需要 root 权限，因为需要："
 
-#: ../../source/usage.rst:215
+#: ../../source/usage.rst:269
 msgid "Modify systemd service configuration files"
 msgstr "修改 systemd 服务配置文件"
 
-#: ../../source/usage.rst:216
+#: ../../source/usage.rst:270
 msgid "Restart Docker service"
 msgstr "重启 Docker 服务"
 
-#: ../../source/usage.rst:218
+#: ../../source/usage.rst:272
 msgid ""
-"If you don't have root privileges, the tool will display a warning message "
-"but will still configure the client proxy."
+"If you don't have root privileges, the tool will display a warning "
+"message but will still configure the client proxy."
 msgstr ""
 "如果没有 root 权限，工具会显示警告信息，但仍会配置客户端代理。"
 
-#: ../../source/usage.rst:221
+#: ../../source/usage.rst:275
 msgid "Workflow Examples"
 msgstr "工作流示例"
 
-#: ../../source/usage.rst:224
+#: ../../source/usage.rst:278
 msgid "Complete Setup Workflow"
 msgstr "完整设置工作流"
 
-#: ../../source/usage.rst:226
+#: ../../source/usage.rst:280
 msgid "Here's a complete workflow for setting up Clash with all tools::"
 msgstr "以下是使用所有工具设置 Clash 的完整工作流::"
 
-#: ../../source/usage.rst:246
+#: ../../source/usage.rst:301
 msgid "Development Workflow"
 msgstr "开发工作流"
 
-#: ../../source/usage.rst:248
+#: ../../source/usage.rst:303
 msgid "For development environments::"
 msgstr "用于开发环境::"
 
-#: ../../source/usage.rst:261
+#: ../../source/usage.rst:317
 msgid "Docker-Only Workflow"
 msgstr "仅 Docker 工作流"
 
-#: ../../source/usage.rst:263
+#: ../../source/usage.rst:319
 msgid "If you only need Docker proxy support::"
 msgstr "如果您只需要 Docker 代理支持::"
 
-#: ../../source/usage.rst:278
+#: ../../source/usage.rst:335
 msgid "Troubleshooting"
 msgstr "故障排除"
 
-#: ../../source/usage.rst:281
+#: ../../source/usage.rst:338
 msgid "Common Issues"
 msgstr "常见问题"
 
-#: ../../source/usage.rst:283
+#: ../../source/usage.rst:340
 msgid "**Issue 1: clash_serve Permission Denied**"
 msgstr "**问题 1：clash_serve 权限拒绝**"
 
-#: ../../source/usage.rst:285
+#: ../../source/usage.rst:342
 msgid "If you get permission errors when running ``clash_serve``, ensure:"
 msgstr "如果运行 ``clash_serve`` 时出现权限错误，请确保："
 
-#: ../../source/usage.rst:287
+#: ../../source/usage.rst:344
 msgid "The ``clash`` binary is executable: ``chmod +x clash``"
 msgstr "``clash`` 二进制文件可执行：``chmod +x clash``"
 
-#: ../../source/usage.rst:288
+#: ../../source/usage.rst:345
 msgid "You have sudo privileges"
 msgstr "您有 sudo 权限"
 
-#: ../../source/usage.rst:289
+#: ../../source/usage.rst:346
 msgid "The config file exists in the same directory"
 msgstr "配置文件存在于同一目录中"
 
-#: ../../source/usage.rst:291
+#: ../../source/usage.rst:348
 msgid "**Issue 2: clash_proxy Variables Not Set**"
 msgstr "**问题 2：clash_proxy 变量未设置**"
 
-#: ../../source/usage.rst:293
+#: ../../source/usage.rst:350
 msgid "If environment variables aren't being set:"
 msgstr "如果环境变量未被设置："
 
-#: ../../source/usage.rst:295
+#: ../../source/usage.rst:352
 msgid "Make sure to use ``source clash_proxy`` (not just ``./clash_proxy``)"
 msgstr "确保使用 ``source clash_proxy``（而不是 ``./clash_proxy``）"
 
-#: ../../source/usage.rst:296
+#: ../../source/usage.rst:353
 msgid "Check that ``config.yaml`` exists and contains valid port numbers"
 msgstr "检查 ``config.yaml`` 是否存在并包含有效的端口号"
 
-#: ../../source/usage.rst:297
+#: ../../source/usage.rst:354
 msgid "Verify the script has read permissions"
 msgstr "验证脚本具有读取权限"
 
-#: ../../source/usage.rst:299
+#: ../../source/usage.rst:356
 msgid "**Issue 3: Docker Proxy Issues**"
 msgstr "**问题 3：Docker 代理问题**"
 
-#: ../../source/usage.rst:301
-msgid "For Docker proxy problems, see the detailed troubleshooting in the clash_docker section above."
+#: ../../source/usage.rst:358
+msgid ""
+"For Docker proxy problems, see the detailed troubleshooting in the "
+"clash_docker section above."
 msgstr "对于 Docker 代理问题，请参见上面 clash_docker 部分的详细故障排除。"
 
-#: ../../source/usage.rst:303
+#: ../../source/usage.rst:360
 msgid "**Issue 4: Config File Not Found**"
 msgstr "**问题 4：配置文件未找到**"
 
-#: ../../source/usage.rst:305
+#: ../../source/usage.rst:362
 msgid "If any tool reports config file not found:"
 msgstr "如果任何工具报告配置文件未找到："
 
-#: ../../source/usage.rst:307
+#: ../../source/usage.rst:364
 msgid "Ensure ``config.yaml`` exists in the same directory as the scripts"
 msgstr "确保 ``config.yaml`` 存在于与脚本相同的目录中"
 
-#: ../../source/usage.rst:308
+#: ../../source/usage.rst:365
 msgid "Check file permissions (should be readable)"
 msgstr "检查文件权限（应该可读）"
 
-#: ../../source/usage.rst:309
+#: ../../source/usage.rst:366
 msgid "Verify the YAML syntax is correct"
 msgstr "验证 YAML 语法是否正确"
 
-#: ../../source/usage.rst:312
+#: ../../source/usage.rst:369
 msgid "Debug Information"
 msgstr "调试信息"
 
-#: ../../source/usage.rst:314
+#: ../../source/usage.rst:371
 msgid "Check Clash service status::"
 msgstr "检查 Clash 服务状态::"
 
-#: ../../source/usage.rst:318
+#: ../../source/usage.rst:375
 msgid "Check if ports are listening::"
 msgstr "检查端口是否正在监听::"
 
-#: ../../source/usage.rst:323
+#: ../../source/usage.rst:380
 msgid "View environment variables::"
 msgstr "查看环境变量::"
 
-#: ../../source/usage.rst:328
+#: ../../source/usage.rst:385
 msgid "Best Practices"
 msgstr "最佳实践"
 
-#: ../../source/usage.rst:330
-msgid "**Start Clash First**: Always start the Clash service before using other tools"
+#: ../../source/usage.rst:387
+msgid ""
+"**Start Clash First**: Always start the Clash service before using other "
+"tools"
 msgstr "**先启动 Clash**：在使用其他工具之前始终先启动 Clash 服务"
 
-#: ../../source/usage.rst:331
-msgid "**Use Absolute Paths**: When running scripts from different directories, use absolute paths"
+#: ../../source/usage.rst:388
+msgid ""
+"**Use Absolute Paths**: When running scripts from different directories, "
+"use absolute paths"
 msgstr "**使用绝对路径**：从不同目录运行脚本时，使用绝对路径"
 
-#: ../../source/usage.rst:332
-msgid "**Check Service Status**: Verify Clash is running before configuring proxies"
+#: ../../source/usage.rst:389
+msgid ""
+"**Check Service Status**: Verify Clash is running before configuring "
+"proxies"
 msgstr "**检查服务状态**：在配置代理之前验证 Clash 正在运行"
 
-#: ../../source/usage.rst:333
-msgid "**Terminal Sessions**: Remember that ``clash_proxy`` only affects the current terminal session"
+#: ../../source/usage.rst:390
+msgid ""
+"**Terminal Sessions**: Remember that ``clash_proxy`` only affects the "
+"current terminal session"
 msgstr "**终端会话**：记住 ``clash_proxy`` 只影响当前终端会话"
 
-#: ../../source/usage.rst:334
+#: ../../source/usage.rst:391
 msgid "**Backup Configs**: Keep backups of your ``config.yaml`` file"
 msgstr "**备份配置**：保留您的 ``config.yaml`` 文件的备份"
 
-#: ../../source/usage.rst:335
+#: ../../source/usage.rst:392
 msgid "**Test Connectivity**: Always test proxy connectivity after configuration"
 msgstr "**测试连接**：配置后始终测试代理连接"
 
-#: ../../source/usage.rst:338
+#: ../../source/usage.rst:395
 msgid "Advanced Usage"
 msgstr "高级用法"
 
-#: ../../source/usage.rst:341
+#: ../../source/usage.rst:398
 msgid "Custom Configuration Directory"
 msgstr "自定义配置目录"
 
-#: ../../source/usage.rst:343
-msgid "You can modify ``clash_serve`` to use a custom configuration directory by editing the script."
+#: ../../source/usage.rst:400
+msgid ""
+"You can modify ``clash_serve`` to use a custom configuration directory by"
+" editing the script."
 msgstr "您可以通过编辑脚本来修改 ``clash_serve`` 以使用自定义配置目录。"
 
-#: ../../source/usage.rst:346
+#: ../../source/usage.rst:403
 msgid "Automated Scripts"
 msgstr "自动化脚本"
 
-#: ../../source/usage.rst:348
+#: ../../source/usage.rst:405
 msgid "Create shell scripts to automate common workflows::"
 msgstr "创建 shell 脚本来自动化常见工作流::"
 
-#: ../../source/usage.rst:368
+#: ../../source/usage.rst:427
 msgid "Environment-Specific Configurations"
 msgstr "环境特定配置"
 
-#: ../../source/usage.rst:370
+#: ../../source/usage.rst:429
 msgid "You can maintain different config files for different environments::"
 msgstr "您可以为不同环境维护不同的配置文件::"
 
-#: ../../source/usage.rst:380
+#: ../../source/usage.rst:440
 msgid "Integration with Other Tools"
 msgstr "与其他工具集成"
 
-#: ../../source/usage.rst:382
+#: ../../source/usage.rst:442
 msgid "The tools can be integrated with other development tools::"
 msgstr "这些工具可以与其他开发工具集成::"

@@ -15,7 +15,7 @@ The toolkit includes three main utilities:
   Shell script for setting up proxy environment variables in the current session
 
 **clash_serve**
-  Simple utility for starting the Clash service with proper configuration
+  Service management tool for starting the Clash service and managing configuration files
 
 Features
 --------
