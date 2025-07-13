@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/sleeping-in-bed/clash_tools/compare/v1.0.0...v1.0.1) (2025-07-13)
+
+### Bug Fixes
+
+* fix .readthedocs.yaml ([3d07f9a](https://github.com/sleeping-in-bed/clash_tools/commit/3d07f9ac0eb2196a5de121d2a9afd299f9fe5bd1))
+
 ## 1.0.0 (2025-07-13)
 
 ### Features
