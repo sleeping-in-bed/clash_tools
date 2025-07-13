@@ -1,3 +1,9 @@
+## [1.2.0](https://github.com/sleeping-in-bed/clash_tools/compare/v1.1.1...v1.2.0) (2025-07-13)
+
+### Features
+
+* add config feature for clash_serve, update the docs ([202ccae](https://github.com/sleeping-in-bed/clash_tools/commit/202ccaeb272fd6afcfb210b68d67f5abb35ab73a))
+
 ## [1.1.1](https://github.com/sleeping-in-bed/clash_tools/compare/v1.1.0...v1.1.1) (2025-07-13)
 
 ### Bug Fixes
