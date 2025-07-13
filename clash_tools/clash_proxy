@@ -1,56 +1,57 @@
-#!/bin/bash
-# Simple Shell Proxy Export Script with strict error handling
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+clash_tools package initialization
+"""
 
-# Exit on any error
-set -e
+import os
+import sys
+from pathlib import Path
+import yaml
+import click
 
-# Get script directory
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_FILE="$SCRIPT_DIR/config.yaml"
 
-# Check if config file exists
-if [ ! -f "$CONFIG_FILE" ]; then
-    echo "❌ Error: Config file not found: $CONFIG_FILE" >&2
-    exit 1
-fi
+@click.command()
+def main():
+    """
+    Set up proxy environment variables based on config.yaml
 
-# Extract ports from config
-HTTP_PORT=$(grep "^port:" "$CONFIG_FILE" | awk '{print $2}' | tr -d ' ')
-SOCKS_PORT=$(grep "^socks-port:" "$CONFIG_FILE" | awk '{print $2}' | tr -d ' ')
+    This tool reads the Clash configuration and sets up proxy environment variables.
+    """
+    # Output export commands for shell sourcing
+    script_dir = Path(__file__).parent.absolute()
+    config_file = script_dir / "config.yaml"
 
-# Check if HTTP_PORT was found
-if [ -z "$HTTP_PORT" ]; then
-    echo "❌ Error: 'port' not found in config file" >&2
-    exit 1
-fi
+    if not config_file.exists():
+        click.echo(f"echo '❌ Error: Config file not found: {config_file}' >&2", err=True)
+        sys.exit(1)
 
-# Check if SOCKS_PORT was found
-if [ -z "$SOCKS_PORT" ]; then
-    echo "❌ Error: 'socks-port' not found in config file" >&2
-    exit 1
-fi
+    try:
+        with open(config_file, 'r') as f:
+            config = yaml.safe_load(f)
 
-# Validate ports are numbers
-if ! [[ "$HTTP_PORT" =~ ^[0-9]+$ ]]; then
-    echo "❌ Error: Invalid HTTP port: $HTTP_PORT" >&2
-    exit 1
-fi
+        http_port = config.get('port')
+        socks_port = config.get('socks-port')
 
-if ! [[ "$SOCKS_PORT" =~ ^[0-9]+$ ]]; then
-    echo "❌ Error: Invalid SOCKS port: $SOCKS_PORT" >&2
-    exit 1
-fi
+        if not http_port or not socks_port:
+            click.echo("echo '❌ Error: Invalid ports in config file' >&2", err=True)
+            sys.exit(1)
 
-# Export proxy variables
-export http_proxy=http://127.0.0.1:$HTTP_PORT
-export https_proxy=http://127.0.0.1:$HTTP_PORT
-export HTTP_PROXY=http://127.0.0.1:$HTTP_PORT
-export HTTPS_PROXY=http://127.0.0.1:$HTTP_PORT
-export all_proxy=socks5://127.0.0.1:$SOCKS_PORT
-export ALL_PROXY=socks5://127.0.0.1:$SOCKS_PORT
-export no_proxy=localhost,127.0.0.1,::1
-export NO_PROXY=localhost,127.0.0.1,::1
+        # Output export commands
+        click.echo(f"export http_proxy='http://127.0.0.1:{http_port}'")
+        click.echo(f"export https_proxy='http://127.0.0.1:{http_port}'")
+        click.echo(f"export HTTP_PROXY='http://127.0.0.1:{http_port}'")
+        click.echo(f"export HTTPS_PROXY='http://127.0.0.1:{http_port}'")
+        click.echo(f"export all_proxy='socks5://127.0.0.1:{socks_port}'")
+        click.echo(f"export ALL_PROXY='socks5://127.0.0.1:{socks_port}'")
+        click.echo("export no_proxy='localhost,127.0.0.1,::1'")
+        click.echo("export NO_PROXY='localhost,127.0.0.1,::1'")
+        click.echo(f"echo '✅ Proxy environment variables set: HTTP/HTTPS: http://127.0.0.1:{http_port}, SOCKS: socks5://127.0.0.1:{socks_port}'")
 
-echo "✅ Proxy environment variables set:"
-echo "   HTTP/HTTPS: http://127.0.0.1:$HTTP_PORT"
-echo "   SOCKS: socks5://127.0.0.1:$SOCKS_PORT"
+    except Exception as e:
+        click.echo(f"echo '❌ Error: {e}' >&2", err=True)
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()

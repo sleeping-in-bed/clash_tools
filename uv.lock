@@ -221,6 +221,7 @@ version = "1.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
+    { name = "pyyaml" },
 ]
 
 [package.dev-dependencies]
@@ -247,7 +248,10 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "click", specifier = ">=8.2.0" }]
+requires-dist = [
+    { name = "click", specifier = ">=8.2.0" },
+    { name = "pyyaml", specifier = ">=6.0" },
+]
 
 [package.metadata.requires-dev]
 dev = [
