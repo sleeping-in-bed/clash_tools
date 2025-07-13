@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/sleeping-in-bed/clash_tools/compare/v1.0.1...v1.1.0) (2025-07-13)
+
+### Features
+
+* rewrite clash_proxy, add scripts to path ([0057a64](https://github.com/sleeping-in-bed/clash_tools/commit/0057a646708228c48627ececc4c6629d07a47f5d))
+
 ## [1.0.1](https://github.com/sleeping-in-bed/clash_tools/compare/v1.0.0...v1.0.1) (2025-07-13)
 
 ### Bug Fixes
