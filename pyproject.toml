@@ -23,6 +23,7 @@ classifiers = [
 dependencies = [
     "click>=8.2.0",
     "PyYAML>=6.0",
+    "types-pyyaml>=6.0.12.20250516",
 ]
 
 [dependency-groups]
@@ -103,4 +104,6 @@ exclude = [
     "tests/resources",
     "tests/tmp",
     "containerdata",
+    "build",
+    "dist",
 ]

@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 clash_tools package initialization
 """
 
-import os
 import sys
 from pathlib import Path
-import yaml
+
 import click
+import yaml
 
 
 @click.command()
@@ -23,15 +22,17 @@ def main():
     config_file = script_dir / "config.yaml"
 
     if not config_file.exists():
-        click.echo(f"echo '❌ Error: Config file not found: {config_file}' >&2", err=True)
+        click.echo(
+            f"echo '❌ Error: Config file not found: {config_file}' >&2", err=True
+        )
         sys.exit(1)
 
     try:
-        with open(config_file, 'r') as f:
+        with open(config_file) as f:
             config = yaml.safe_load(f)
 
-        http_port = config.get('port')
-        socks_port = config.get('socks-port')
+        http_port = config.get("port")
+        socks_port = config.get("socks-port")
 
         if not http_port or not socks_port:
             click.echo("echo '❌ Error: Invalid ports in config file' >&2", err=True)
@@ -46,12 +47,16 @@ def main():
         click.echo(f"export ALL_PROXY='socks5://127.0.0.1:{socks_port}'")
         click.echo("export no_proxy='localhost,127.0.0.1,::1'")
         click.echo("export NO_PROXY='localhost,127.0.0.1,::1'")
-        click.echo(f"echo '✅ Proxy environment variables set: HTTP/HTTPS: http://127.0.0.1:{http_port}, SOCKS: socks5://127.0.0.1:{socks_port}'")
+        click.echo(
+            f"echo '✅ Proxy environment variables set: "
+            f"HTTP/HTTPS: http://127.0.0.1:{http_port}, "
+            f"SOCKS: socks5://127.0.0.1:{socks_port}'"
+        )
 
     except Exception as e:
         click.echo(f"echo '❌ Error: {e}' >&2", err=True)
         sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
