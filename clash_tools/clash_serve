@@ -1,0 +1,34 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Simple Clash Runner Script
+Run 'sudo ./clash -d ./' in script directory
+"""
+
+import os
+import subprocess
+from pathlib import Path
+import click
+
+
+@click.command()
+def run():
+    """Run 'sudo ./clash -d ./' in script directory"""
+    # Get script directory
+    script_dir = Path(__file__).parent.absolute()
+
+    # Change to script directory
+    original_cwd = os.getcwd()
+    os.chdir(script_dir)
+
+    click.echo(f"Running: sudo ./clash -d ./ in {script_dir}")
+
+    # Run the command
+    subprocess.run(['sudo', './clash', '-d', './'])
+
+    # Restore original directory
+    os.chdir(original_cwd)
+
+
+if __name__ == '__main__':
+    run()

@@ -1,0 +1,131 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, the clash_tools developers
+# This file is distributed under the same license as the clash_tools
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: clash_tools 0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-07-13 22:42+0800\n"
+"PO-Revision-Date: 2025-07-13 22:42+0800\n"
+"Last-Translator: clash_tools developers <nyanyanyaworld@gmail.com>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/index.rst:2
+msgid "clash_tools documentation"
+msgstr "clash_tools 文档"
+
+#: ../../source/index.rst:4
+msgid ""
+"clash_tools is a comprehensive collection of utilities for managing Clash "
+"proxy configurations and services. It provides multiple command-line tools "
+"for different purposes, making it easy to work with Clash in various "
+"environments."
+msgstr ""
+"clash_tools 是一个用于管理 Clash 代理配置和服务的综合工具集。"
+"它提供多种命令行工具用于不同用途，使得在各种环境中使用 Clash 变得简单。"
+
+#: ../../source/index.rst:9
+msgid "Tools Overview"
+msgstr "工具概览"
+
+#: ../../source/index.rst:11
+msgid "The toolkit includes three main utilities:"
+msgstr "该工具包包含三个主要工具："
+
+#: ../../source/index.rst:13
+msgid "**clash_docker**"
+msgstr "**clash_docker**"
+
+#: ../../source/index.rst:14
+msgid "Docker proxy management tool for enabling/disabling Docker proxy settings"
+msgstr "用于启用/禁用 Docker 代理设置的 Docker 代理管理工具"
+
+#: ../../source/index.rst:16
+msgid "**clash_proxy**"
+msgstr "**clash_proxy**"
+
+#: ../../source/index.rst:17
+msgid "Shell script for setting up proxy environment variables in the current session"
+msgstr "用于在当前会话中设置代理环境变量的 shell 脚本"
+
+#: ../../source/index.rst:19
+msgid "**clash_serve**"
+msgstr "**clash_serve**"
+
+#: ../../source/index.rst:20
+msgid "Simple utility for starting the Clash service with proper configuration"
+msgstr "用于启动 Clash 服务的简单工具，使用正确的配置"
+
+#: ../../source/index.rst:22
+msgid "Features"
+msgstr "特性"
+
+#: ../../source/index.rst:24
+msgid "🚀 **Docker Integration**: One-click enable/disable Docker client and daemon proxy"
+msgstr "🚀 **Docker 集成**：一键启用/禁用 Docker 客户端和守护进程代理"
+
+#: ../../source/index.rst:25
+msgid "🔧 **Environment Setup**: Easy proxy environment variable configuration"
+msgstr "🔧 **环境设置**：简单的代理环境变量配置"
+
+#: ../../source/index.rst:26
+msgid "🎯 **Service Management**: Simple Clash service startup and management"
+msgstr "🎯 **服务管理**：简单的 Clash 服务启动和管理"
+
+#: ../../source/index.rst:27
+msgid "📊 **Status Monitoring**: Real-time proxy status checking"
+msgstr "📊 **状态监控**：实时代理状态检查"
+
+#: ../../source/index.rst:28
+msgid "🔄 **Configuration Reset**: Convenient reset functionality"
+msgstr "🔄 **配置重置**：便捷的重置功能"
+
+#: ../../source/index.rst:29
+msgid "💻 **Multi-platform**: Works on Linux systems with systemd support"
+msgstr "💻 **多平台**：适用于支持 systemd 的 Linux 系统"
+
+#: ../../source/index.rst:31
+msgid "Quick Start"
+msgstr "快速开始"
+
+#: ../../source/index.rst:33
+msgid "Installation::"
+msgstr "安装::"
+
+#: ../../source/index.rst:37
+msgid "Basic Usage::"
+msgstr "基本用法::"
+
+#: ../../source/index.rst:54
+msgid "Documentation"
+msgstr "文档目录"
+
+#: ../../source/index.rst:61
+msgid "Contents:"
+msgstr "目录："
+
+#: ../../source/index.rst:65
+msgid "Indices and tables"
+msgstr "索引和表格"
+
+#: ../../source/index.rst:67
+msgid ":ref:`genindex`"
+msgstr ":ref:`genindex`"
+
+#: ../../source/index.rst:68
+msgid ":ref:`modindex`"
+msgstr ":ref:`modindex`"
+
+#: ../../source/index.rst:69
+msgid ":ref:`search`"
+msgstr ":ref:`search`"

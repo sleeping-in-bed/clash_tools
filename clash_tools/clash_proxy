@@ -1,0 +1,56 @@
+#!/bin/bash
+# Simple Shell Proxy Export Script with strict error handling
+
+# Exit on any error
+set -e
+
+# Get script directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/config.yaml"
+
+# Check if config file exists
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "❌ Error: Config file not found: $CONFIG_FILE" >&2
+    exit 1
+fi
+
+# Extract ports from config
+HTTP_PORT=$(grep "^port:" "$CONFIG_FILE" | awk '{print $2}' | tr -d ' ')
+SOCKS_PORT=$(grep "^socks-port:" "$CONFIG_FILE" | awk '{print $2}' | tr -d ' ')
+
+# Check if HTTP_PORT was found
+if [ -z "$HTTP_PORT" ]; then
+    echo "❌ Error: 'port' not found in config file" >&2
+    exit 1
+fi
+
+# Check if SOCKS_PORT was found
+if [ -z "$SOCKS_PORT" ]; then
+    echo "❌ Error: 'socks-port' not found in config file" >&2
+    exit 1
+fi
+
+# Validate ports are numbers
+if ! [[ "$HTTP_PORT" =~ ^[0-9]+$ ]]; then
+    echo "❌ Error: Invalid HTTP port: $HTTP_PORT" >&2
+    exit 1
+fi
+
+if ! [[ "$SOCKS_PORT" =~ ^[0-9]+$ ]]; then
+    echo "❌ Error: Invalid SOCKS port: $SOCKS_PORT" >&2
+    exit 1
+fi
+
+# Export proxy variables
+export http_proxy=http://127.0.0.1:$HTTP_PORT
+export https_proxy=http://127.0.0.1:$HTTP_PORT
+export HTTP_PROXY=http://127.0.0.1:$HTTP_PORT
+export HTTPS_PROXY=http://127.0.0.1:$HTTP_PORT
+export all_proxy=socks5://127.0.0.1:$SOCKS_PORT
+export ALL_PROXY=socks5://127.0.0.1:$SOCKS_PORT
+export no_proxy=localhost,127.0.0.1,::1
+export NO_PROXY=localhost,127.0.0.1,::1
+
+echo "✅ Proxy environment variables set:"
+echo "   HTTP/HTTPS: http://127.0.0.1:$HTTP_PORT"
+echo "   SOCKS: socks5://127.0.0.1:$SOCKS_PORT"

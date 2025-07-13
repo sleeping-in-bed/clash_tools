@@ -20,7 +20,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 
-dependencies = []
+dependencies = [
+    "click>=8.2.0",
+]
 
 [dependency-groups]
 dev = [
