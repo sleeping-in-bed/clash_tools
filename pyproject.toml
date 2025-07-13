@@ -7,7 +7,7 @@ version = "0.0.1"
 authors = [
     { name = "sleeping-in-bed", email = "nyanyanyaworld@gmail.com" },
 ]
-description = ""
+description = "clash_tools is a comprehensive collection of utilities for managing Clash proxy configurations and services."
 readme = "README.rst"
 requires-python = ">=3.10"
 classifiers = [
