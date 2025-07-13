@@ -53,7 +53,7 @@ dev = [
 
 [project.scripts]
 clash_docker = "clash_tools.clash_docker:cli"
-clash_proxy = "clash_tools:clash_proxy:main"
+clash_proxy = "clash_tools.clash_proxy:main"
 clash_serve = "clash_tools.clash_serve:run"
 
 [tool.pypjt]
