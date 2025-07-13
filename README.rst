@@ -1,5 +1,5 @@
 clash_tools - Clash Proxy Management Toolkit
-===========================================
+============================================
 
 clash_tools is a comprehensive collection of utilities for managing Clash proxy configurations and services. It provides multiple command-line tools for different purposes, making it easy to work with Clash in various environments.
 
