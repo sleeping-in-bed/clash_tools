@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/sleeping-in-bed/clash_tools/compare/v1.2.0...v1.2.1) (2025-07-13)
+
+### Bug Fixes
+
+* fix the import problem ([13c423b](https://github.com/sleeping-in-bed/clash_tools/commit/13c423bfe0409be0c518d34e63b13d481799d985))
+
 ## [1.2.0](https://github.com/sleeping-in-bed/clash_tools/compare/v1.1.1...v1.2.0) (2025-07-13)
 
 ### Features
