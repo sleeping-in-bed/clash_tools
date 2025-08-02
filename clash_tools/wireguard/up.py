@@ -202,6 +202,77 @@ def client_down():
     run_compose_command("down", "client_compose.yml")
 
 
+@client.command(name="check-ip", help="Check the host's public IP to verify the VPN connection.")
+def check_ip():
+    """Checks the host's public IP to see if it matches the VPN server."""
+    click.echo(click.style("🔎 Checking host's public IP...", fg="cyan", bold=True))
+
+    # 1. Get server IP from settings
+    server_ip = None
+    try:
+        from clash_tools.wireguard.client_settings import CLIENT_CONFIG
+        endpoint = CLIENT_CONFIG.get("PEER", {}).get("endpoint")
+        if not endpoint or ":" not in endpoint:
+            click.echo(
+                click.style(f"❌ Invalid or missing endpoint in client_settings.py: '{endpoint}'", fg="red"),
+                err=True,
+            )
+            return
+        server_ip = endpoint.split(':')[0]
+        click.echo(f"ℹ️  VPN Server IP (from settings): {click.style(server_ip, fg='blue')}")
+    except ImportError:
+        click.echo(click.style("❌ Could not import client_settings.py.", fg="red"), err=True)
+        return
+    except Exception as e:
+        click.echo(click.style(f"❌ Error reading server IP from settings: {e}", fg="red"), err=True)
+        return
+
+    # 2. Get public IP from external services
+    ip_services = ["ifconfig.me", "ip.sb"]
+    public_ip = None
+    click.echo(click.style("⏳ Querying external services to find public IP...", fg="cyan"))
+    for service in ip_services:
+        try:
+            result = subprocess.run(
+                ["curl", "-s", "-4", service],
+                capture_output=True, text=True, check=True, timeout=10
+            )
+            fetched_ip = result.stdout.strip()
+            # A simple sanity check for an IP address format
+            if len(fetched_ip.split('.')) == 4:
+                public_ip = fetched_ip
+                click.echo(f"   ✓ Found host public IP via {service}: {click.style(public_ip, fg='blue')}")
+                break
+            else:
+                click.echo(click.style(f"   ⚠️ Got invalid response from {service}", fg="yellow"), err=True)
+        except FileNotFoundError:
+            click.echo(
+                click.style("❌ Command `curl` not found. Please install curl to use this feature.", fg="red"),
+                err=True,
+            )
+            return
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+            click.echo(click.style(f"   ⚠️ Failed to get IP from {service}, trying next...", fg="yellow"))
+            continue
+
+    if not public_ip:
+        click.echo(click.style("\n❌ Failed to determine public IP after trying all available services.", fg="red"), err=True)
+        return
+
+    # 3. Compare and report
+    click.echo("-" * 40)
+    if public_ip == server_ip:
+        click.echo(click.style("✅ SUCCESS!", fg="green", bold=True))
+        click.echo(click.style(f"   Your public IP ({public_ip}) matches the VPN server IP.", fg="green"))
+        click.echo(click.style("   Host traffic appears to be correctly routed through the VPN.", fg="green"))
+    else:
+        click.echo(click.style("❌ MISMATCH!", fg="red", bold=True))
+        click.echo(click.style(f"   Your public IP is {public_ip}.", fg="red"))
+        click.echo(click.style(f"   The VPN server IP is {server_ip}.", fg="red"))
+        click.echo(click.style("   Host traffic is NOT being routed through the VPN.", fg="red"))
+    click.echo("-" * 40)
+
+
 # --- Config and Utility Command Group ---
 @cli.group(help="View or edit configuration files.")
 def config():
