@@ -1,3 +1,9 @@
+## [2.3.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.2.0...v2.3.0) (2025-08-02)
+
+### Features
+
+* **wireguard:** add ip check function ([6c63c85](https://github.com/sleeping-in-bed/clash_tools/commit/6c63c85a89d8587eb1a047b30266d1b1eaf08226))
+
 ## [2.2.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.1.0...v2.2.0) (2025-08-02)
 
 ### Features
