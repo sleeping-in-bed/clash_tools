@@ -3,7 +3,7 @@ requires = ["setuptools>=60.0"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "clash_tools"
-version = "2.0.0"
+version = "1.2.1"
 authors = [
     { name = "sleeping-in-bed", email = "nyanyanyaworld@gmail.com" },
 ]
@@ -56,6 +56,7 @@ dev = [
 clash_docker = "clash_tools.clash_docker:cli"
 clash_proxy = "clash_tools.clash_proxy:main"
 clash_serve = "clash_tools.clash_serve:cli"
+wireguard = "clash_tools.wireguard.up:cli"
 
 [tool.pypjt]
 created-by = "1.12.0"
