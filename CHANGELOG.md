@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/sleeping-in-bed/clash_tools/compare/v2.0.0...v2.0.1) (2025-08-02)
+
+### Bug Fixes
+
+* add command to pyproject.toml ([4e2312a](https://github.com/sleeping-in-bed/clash_tools/commit/4e2312a71cedf9335e7b91d4fbaecc4180fc0e6e))
+
 ## [2.0.0](https://github.com/sleeping-in-bed/clash_tools/compare/v1.2.1...v2.0.0) (2025-08-02)
 
 ### ⚠ BREAKING CHANGES
