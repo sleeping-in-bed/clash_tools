@@ -1,0 +1,13 @@
+[Interface]
+Address = {{ interface.address }}
+PrivateKey = {{ interface.private_key }}
+ListenPort = {{ interface.listen_port }}
+PostUp = {{ post_up_rules | join('; ') }}
+PostDown = {{ post_down_rules | join('; ') }}
+{% for peer in peers %}
+
+# Peer: {{ peer.allowed_ips }}
+[Peer]
+PublicKey = {{ peer.public_key }}
+AllowedIPs = {{ peer.allowed_ips }}
+{% endfor %}
