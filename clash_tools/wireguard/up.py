@@ -148,6 +148,24 @@ def client_up():
     )
     render_template("client_compose.yml.j2", {}, BASE_DIR / "client_compose.yml")
 
+    click.echo("\n🔧 Applying required kernel setting 'net.ipv4.conf.all.src_valid_mark=1' (requires sudo)...")
+    try:
+        sysctl_command = ["sudo", "sysctl", "-w", "net.ipv4.conf.all.src_valid_mark=1"]
+        subprocess.run(sysctl_command, check=True, capture_output=True, text=True)
+        click.echo("✓ Kernel setting applied successfully.")
+    except subprocess.CalledProcessError as e:
+        click.echo(
+            f"⚠️  Warning: Could not set sysctl property. This might not be a "
+            f"problem if it's already set.\n   Error: {e.stderr.strip()}",
+            err=True,
+        )
+    except FileNotFoundError:
+        click.echo(
+            "❌ Command 'sudo' or 'sysctl' not found. Cannot apply kernel settings. "
+            "Please set 'net.ipv4.conf.all.src_valid_mark=1' manually.",
+            err=True,
+        )
+
     click.echo("\n🚀 Starting client...")
     run_compose_command("up", "client_compose.yml")
 
