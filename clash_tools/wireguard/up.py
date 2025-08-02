@@ -198,6 +198,33 @@ def config_client(edit: bool):
     _config_handler(CLIENT_SETTINGS_PATH, edit)
 
 
+@cli.command(name="install-wg", help="Install WireGuard using apt (requires sudo).")
+def install_wg():
+    """Installs the 'wireguard' package using apt."""
+    click.echo("🚀 This command will attempt to install WireGuard using apt.")
+    click.echo("   You may be prompted for your sudo password.")
+    try:
+        click.echo("\n--> Running 'sudo apt-get update'...")
+        update_command = ["sudo", "apt-get", "update"]
+        subprocess.run(update_command, check=True)
+
+        click.echo("\n--> Installing 'wireguard' package...")
+        install_command = ["sudo", "apt-get", "install", "-y", "wireguard"]
+        subprocess.run(install_command, check=True)
+
+        click.echo("\n🎉 WireGuard installed successfully!")
+        click.echo("   You can now use commands like 'wireguard genkey'.")
+
+    except subprocess.CalledProcessError as e:
+        click.echo(f"\n❌ An error occurred during installation: {e}", err=True)
+        click.echo("   Please try running the installation manually: 'sudo apt-get install -y wireguard'", err=True)
+    except FileNotFoundError:
+        click.echo(
+            "\n❌ Command 'sudo' or 'apt-get' not found. This command only works on Debian-based systems (like Ubuntu) with sudo.",
+            err=True,
+        )
+
+
 @cli.command(name="genkey", help="Generate a new WireGuard key pair.")
 def genkey():
     """Generates and displays a new WireGuard private and public key pair."""

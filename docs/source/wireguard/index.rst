@@ -16,9 +16,10 @@ Core Features
 Workflow
 --------
 
-1.  **Generate Keys**: Use ``wireguard genkey`` to create private/public key pairs for the server and each client.
-2.  **Configure**: Fill in the ``server_settings.py`` and ``client_settings.py`` files with the generated keys and your desired network settings.
-3.  **Deploy**: Run ``wireguard server up`` on your server machine and ``wireguard client up`` on your client machine.
+1.  **Install WireGuard (if needed)**: If the ``wg`` command-line tool is not installed, run ``wireguard install-wg`` to install it on Debian-based systems (like Ubuntu).
+2.  **Generate Keys**: Use ``wireguard genkey`` to create private/public key pairs for the server and each client.
+3.  **Configure**: Fill in the ``server_settings.py`` and ``client_settings.py`` files with the generated keys and your desired network settings.
+4.  **Deploy**: Run ``wireguard server up`` on your server machine and ``wireguard client up`` on your client machine.
 
 Documentation Contents
 ----------------------
@@ -31,6 +32,15 @@ Documentation Contents
 
 Utility Commands
 ----------------
+
+install-wg
+~~~~~~~~~~
+
+Installs the `wireguard` command-line tools on Debian-based systems (like Ubuntu) using `apt`. This command requires `sudo` privileges.
+
+**Usage**::
+
+    wireguard install-wg
 
 genkey
 ~~~~~~
