@@ -42,7 +42,9 @@ def run_compose_command(command: str, compose_file_name: str):
         status = "started" if command == "up" else "stopped"
         click.echo(click.style(f"\n🎉 Service {status} successfully!", fg="green"))
     except subprocess.CalledProcessError as e:
-        click.echo(click.style(f"\n❌ Failed to {command} service: {e}", fg="red"), err=True)
+        click.echo(
+            click.style(f"\n❌ Failed to {command} service: {e}", fg="red"), err=True
+        )
     except FileNotFoundError:
         click.echo(
             click.style(
@@ -99,7 +101,9 @@ def server_up():
     """Generates server config files and starts the service."""
     from clash_tools.wireguard.server_settings import SERVER_CONFIG
 
-    click.echo(click.style("🚀 Generating server configuration files...", fg="cyan", bold=True))
+    click.echo(
+        click.style("🚀 Generating server configuration files...", fg="cyan", bold=True)
+    )
     post_up_rules, post_down_rules = generate_server_iptables_rules(SERVER_CONFIG)
 
     render_template(
@@ -144,7 +148,9 @@ def client_up():
     """Generates client config files and starts the service."""
     from clash_tools.wireguard.client_settings import CLIENT_CONFIG
 
-    click.echo(click.style("🚀 Generating client configuration files...", fg="cyan", bold=True))
+    click.echo(
+        click.style("🚀 Generating client configuration files...", fg="cyan", bold=True)
+    )
     render_template(
         "client_wg0.conf.j2",
         {
@@ -205,7 +211,9 @@ def config():
 
 def _config_handler(config_file_path: Path, edit: bool):
     """Generic handler for config commands."""
-    click.echo(f"Config file path: {click.style(str(config_file_path.absolute()), fg='blue')}")
+    click.echo(
+        f"Config file path: {click.style(str(config_file_path.absolute()), fg='blue')}"
+    )
     if not config_file_path.exists():
         click.echo(click.style("❌ Config file not found!", fg="red"), err=True)
         return
@@ -218,14 +226,18 @@ def _config_handler(config_file_path: Path, edit: bool):
 
 
 @config.command(name="server", help="Manage the server configuration file.")
-@click.option("--edit", "-e", is_flag=True, help="Open the server config file in an editor.")
+@click.option(
+    "--edit", "-e", is_flag=True, help="Open the server config file in an editor."
+)
 def config_server(edit: bool):
     """Displays or edits the server configuration file."""
     _config_handler(SERVER_SETTINGS_PATH, edit)
 
 
 @config.command(name="client", help="Manage the client configuration file.")
-@click.option("--edit", "-e", is_flag=True, help="Open the client config file in an editor.")
+@click.option(
+    "--edit", "-e", is_flag=True, help="Open the client config file in an editor."
+)
 def config_client(edit: bool):
     """Displays or edits the client configuration file."""
     _config_handler(CLIENT_SETTINGS_PATH, edit)
@@ -234,8 +246,14 @@ def config_client(edit: bool):
 @cli.command(name="install-wg", help="Install WireGuard using apt (requires sudo).")
 def install_wg():
     """Installs the 'wireguard' package using apt."""
-    click.echo(click.style("🚀 This command will attempt to install WireGuard using apt.", fg="cyan"))
-    click.echo(click.style("   You may be prompted for your sudo password.", fg="yellow"))
+    click.echo(
+        click.style(
+            "🚀 This command will attempt to install WireGuard using apt.", fg="cyan"
+        )
+    )
+    click.echo(
+        click.style("   You may be prompted for your sudo password.", fg="yellow")
+    )
     try:
         click.echo(click.style("\n--> Running 'sudo apt-get update'...", fg="cyan"))
         update_command = ["sudo", "apt-get", "update"]
@@ -246,12 +264,22 @@ def install_wg():
         subprocess.run(install_command, check=True)
 
         click.echo(click.style("\n🎉 WireGuard installed successfully!", fg="green"))
-        click.echo(click.style("   You can now use commands like 'wireguard genkey'.", fg="green"))
+        click.echo(
+            click.style(
+                "   You can now use commands like 'wireguard genkey'.", fg="green"
+            )
+        )
 
     except subprocess.CalledProcessError as e:
-        click.echo(click.style(f"\n❌ An error occurred during installation: {e}", fg="red"), err=True)
         click.echo(
-            click.style("   Please try running the installation manually: 'sudo apt-get install -y wireguard'", fg="red"),
+            click.style(f"\n❌ An error occurred during installation: {e}", fg="red"),
+            err=True,
+        )
+        click.echo(
+            click.style(
+                "   Please try running the installation manually: 'sudo apt-get install -y wireguard'",
+                fg="red",
+            ),
             err=True,
         )
     except FileNotFoundError:
@@ -268,7 +296,9 @@ def install_wg():
 def genkey():
     """Generates and displays a new WireGuard private and public key pair."""
     try:
-        private_key_process = subprocess.run(["wg", "genkey"], capture_output=True, text=True, check=True)
+        private_key_process = subprocess.run(
+            ["wg", "genkey"], capture_output=True, text=True, check=True
+        )
         private_key = private_key_process.stdout.strip()
         public_key_process = subprocess.run(
             ["wg", "pubkey"],
@@ -284,7 +314,10 @@ def genkey():
         click.echo(f"{click.style('PublicKey: ', fg='green')} {public_key}")
     except FileNotFoundError:
         click.echo(
-            click.style("\n❌ Command failed. Please ensure WireGuard tools (`wg`) are installed.", fg="red"),
+            click.style(
+                "\n❌ Command failed. Please ensure WireGuard tools (`wg`) are installed.",
+                fg="red",
+            ),
             err=True,
         )
     except subprocess.CalledProcessError as e:
