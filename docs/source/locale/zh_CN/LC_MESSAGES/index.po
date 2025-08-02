@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: clash_tools 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-13 22:42+0800\n"
+"POT-Creation-Date: 2025-08-03 00:08+0800\n"
 "PO-Revision-Date: 2025-07-13 22:42+0800\n"
 "Last-Translator: clash_tools developers <nyanyanyaworld@gmail.com>\n"
 "Language: zh_CN\n"
@@ -20,112 +20,147 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
+#: ../../source/index.rst:75
+msgid "Contents:"
+msgstr "目录："
+
 #: ../../source/index.rst:2
 msgid "clash_tools documentation"
 msgstr "clash_tools 文档"
 
 #: ../../source/index.rst:4
 msgid ""
-"clash_tools is a comprehensive collection of utilities for managing Clash "
-"proxy configurations and services. It provides multiple command-line tools "
-"for different purposes, making it easy to work with Clash in various "
-"environments."
-msgstr ""
-"clash_tools 是一个用于管理 Clash 代理配置和服务的综合工具集。"
-"它提供多种命令行工具用于不同用途，使得在各种环境中使用 Clash 变得简单。"
+"**GitHub Repository**: `sleeping-in-bed/clash_tools <https://github.com"
+"/sleeping-in-bed/clash_tools>`_"
+msgstr "**GitHub 仓库**: `sleeping-in-bed/clash_tools <https://github.com/sleeping-in-bed/clash_tools>`_"
+
+#: ../../source/index.rst:6
+msgid "PyPI version"
+msgstr "PyPI 版本"
 
 #: ../../source/index.rst:9
+msgid "PyPI downloads"
+msgstr "PyPI 下载量"
+
+#: ../../source/index.rst:12
+msgid "Test status"
+msgstr "测试状态"
+
+#: ../../source/index.rst:15
+msgid "Codecov"
+msgstr "代码覆盖率"
+
+#: ../../source/index.rst:19
+msgid ""
+"clash_tools is a comprehensive collection of utilities for managing Clash"
+" proxy configurations and services. It provides multiple command-line "
+"tools for different purposes, making it easy to work with Clash in "
+"various environments."
+msgstr "clash_tools 是一个用于管理 Clash 代理配置和服务的综合工具集。它提供多种命令行工具用于不同用途，使得在各种环境中使用 Clash 变得简单。"
+
+#: ../../source/index.rst:22
 msgid "Tools Overview"
 msgstr "工具概览"
 
-#: ../../source/index.rst:11
-msgid "The toolkit includes three main utilities:"
-msgstr "该工具包包含三个主要工具："
+#: ../../source/index.rst:24
+#, fuzzy
+msgid "The toolkit includes four main utilities:"
+msgstr "该工具包包含四个主要工具："
 
-#: ../../source/index.rst:13
+#: ../../source/index.rst:26
+msgid "**wireguard**"
+msgstr "**wireguard**"
+
+#: ../../source/index.rst:27
+msgid "A tool to manage WireGuard server and client configurations."
+msgstr "一个用于管理 WireGuard 服务端和客户端配置的工具。"
+
+#: ../../source/index.rst:29
 msgid "**clash_docker**"
 msgstr "**clash_docker**"
 
-#: ../../source/index.rst:14
+#: ../../source/index.rst:30
 msgid "Docker proxy management tool for enabling/disabling Docker proxy settings"
 msgstr "用于启用/禁用 Docker 代理设置的 Docker 代理管理工具"
 
-#: ../../source/index.rst:16
+#: ../../source/index.rst:32
 msgid "**clash_proxy**"
 msgstr "**clash_proxy**"
 
-#: ../../source/index.rst:17
-msgid "Shell script for setting up proxy environment variables in the current session"
+#: ../../source/index.rst:33
+msgid ""
+"Shell script for setting up proxy environment variables in the current "
+"session"
 msgstr "用于在当前会话中设置代理环境变量的 shell 脚本"
 
-#: ../../source/index.rst:19
+#: ../../source/index.rst:35
 msgid "**clash_serve**"
 msgstr "**clash_serve**"
 
-#: ../../source/index.rst:20
-msgid "Service management tool for starting the Clash service and managing configuration files"
+#: ../../source/index.rst:36
+msgid ""
+"Service management tool for starting the Clash service and managing "
+"configuration files"
 msgstr "用于启动 Clash 服务和管理配置文件的服务管理工具"
 
-#: ../../source/index.rst:22
+#: ../../source/index.rst:39
 msgid "Features"
 msgstr "特性"
 
-#: ../../source/index.rst:24
-msgid "🚀 **Docker Integration**: One-click enable/disable Docker client and daemon proxy"
+#: ../../source/index.rst:41
+msgid ""
+"🚀 **Docker Integration**: One-click enable/disable Docker client and "
+"daemon proxy"
 msgstr "🚀 **Docker 集成**：一键启用/禁用 Docker 客户端和守护进程代理"
 
-#: ../../source/index.rst:25
+#: ../../source/index.rst:42
 msgid "🔧 **Environment Setup**: Easy proxy environment variable configuration"
 msgstr "🔧 **环境设置**：简单的代理环境变量配置"
 
-#: ../../source/index.rst:26
+#: ../../source/index.rst:43
 msgid "🎯 **Service Management**: Simple Clash service startup and management"
 msgstr "🎯 **服务管理**：简单的 Clash 服务启动和管理"
 
-#: ../../source/index.rst:27
+#: ../../source/index.rst:44
 msgid "📊 **Status Monitoring**: Real-time proxy status checking"
 msgstr "📊 **状态监控**：实时代理状态检查"
 
-#: ../../source/index.rst:28
+#: ../../source/index.rst:45
 msgid "🔄 **Configuration Reset**: Convenient reset functionality"
 msgstr "🔄 **配置重置**：便捷的重置功能"
 
-#: ../../source/index.rst:29
+#: ../../source/index.rst:46
 msgid "💻 **Multi-platform**: Works on Linux systems with systemd support"
 msgstr "💻 **多平台**：适用于支持 systemd 的 Linux 系统"
 
-#: ../../source/index.rst:31
+#: ../../source/index.rst:49
 msgid "Quick Start"
 msgstr "快速开始"
 
-#: ../../source/index.rst:33
+#: ../../source/index.rst:51
 msgid "Installation::"
 msgstr "安装::"
 
-#: ../../source/index.rst:37
+#: ../../source/index.rst:55
 msgid "Basic Usage::"
 msgstr "基本用法::"
 
-#: ../../source/index.rst:54
+#: ../../source/index.rst:73
 msgid "Documentation"
 msgstr "文档目录"
 
-#: ../../source/index.rst:61
-msgid "Contents:"
-msgstr "目录："
-
-#: ../../source/index.rst:65
+#: ../../source/index.rst:83
 msgid "Indices and tables"
 msgstr "索引和表格"
 
-#: ../../source/index.rst:67
+#: ../../source/index.rst:85
 msgid ":ref:`genindex`"
 msgstr ":ref:`genindex`"
 
-#: ../../source/index.rst:68
+#: ../../source/index.rst:86
 msgid ":ref:`modindex`"
 msgstr ":ref:`modindex`"
 
-#: ../../source/index.rst:69
+#: ../../source/index.rst:87
 msgid ":ref:`search`"
 msgstr ":ref:`search`"

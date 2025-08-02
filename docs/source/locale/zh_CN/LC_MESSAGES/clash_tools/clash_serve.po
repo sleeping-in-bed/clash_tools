@@ -1,0 +1,183 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, the clash_tools developers
+# This file is distributed under the same license as the clash_tools
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: clash_tools 1.2.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-03 00:07+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/clash_tools/clash_serve.rst:2
+msgid "`clash_serve` - Service Management"
+msgstr "`clash_serve` - 服务管理"
+
+#: ../../source/clash_tools/clash_serve.rst:4
+msgid "A comprehensive utility for Clash service management and configuration."
+msgstr "用于 Clash 服务管理和配置的综合工具。"
+
+#: ../../source/clash_tools/clash_serve.rst:6
+msgid "**Usage**::"
+msgstr "**用法**::"
+
+#: ../../source/clash_tools/clash_serve.rst:10
+msgid "**Available Commands**:"
+msgstr "**可用命令**："
+
+#: ../../source/clash_tools/clash_serve.rst:11
+msgid "``run`` - Start the Clash service"
+msgstr "``run`` - 启动 Clash 服务"
+
+#: ../../source/clash_tools/clash_serve.rst:12
+msgid "``config`` - Manage config.yaml file"
+msgstr "``config`` - 管理 config.yaml 文件"
+
+#: ../../source/clash_tools/clash_serve.rst:14
+#: ../../source/clash_tools/clash_serve.rst:33
+#: ../../source/clash_tools/clash_serve.rst:64
+msgid "**Description**:"
+msgstr "**说明**："
+
+#: ../../source/clash_tools/clash_serve.rst:15
+msgid ""
+"This tool provides two main functions: starting the Clash service and "
+"managing the configuration file. The ``run`` command starts the Clash "
+"service by running ``sudo ./clash -d ./`` in the script directory, while "
+"the ``config`` command helps manage the ``config.yaml`` file."
+msgstr "此工具提供两个主要功能：启动 Clash 服务和管理配置文件。``run`` 命令通过在脚本目录中运行 ``sudo ./clash -d ./`` 来启动 Clash 服务，而 ``config`` 命令帮助管理 ``config.yaml`` 文件。"
+
+#: ../../source/clash_tools/clash_serve.rst:17
+#: ../../source/clash_tools/clash_serve.rst:36
+#: ../../source/clash_tools/clash_serve.rst:67
+msgid "**Features**:"
+msgstr "**特性**："
+
+#: ../../source/clash_tools/clash_serve.rst:18
+msgid "Service management with proper directory handling"
+msgstr "带有适当目录处理的服务管理"
+
+#: ../../source/clash_tools/clash_serve.rst:19
+msgid "Configuration file management"
+msgstr "配置文件管理"
+
+#: ../../source/clash_tools/clash_serve.rst:20
+msgid "Built-in editor integration"
+msgstr "内置编辑器集成"
+
+#: ../../source/clash_tools/clash_serve.rst:21
+msgid "Configuration file path display"
+msgstr "配置文件路径显示"
+
+#: ../../source/clash_tools/clash_serve.rst:24
+msgid "Detailed Commands"
+msgstr "详细命令"
+
+#: ../../source/clash_tools/clash_serve.rst:27
+msgid "run - Start Clash Service"
+msgstr "run - 启动 Clash 服务"
+
+#: ../../source/clash_tools/clash_serve.rst:29
+msgid "Start the Clash service with proper configuration::"
+msgstr "使用正确的配置启动 Clash 服务::"
+
+#: ../../source/clash_tools/clash_serve.rst:34
+msgid ""
+"This command starts the Clash service by running ``sudo ./clash -d ./`` "
+"in the script directory. It automatically changes to the correct "
+"directory and ensures Clash runs with the proper configuration."
+msgstr "此命令通过在脚本目录中运行 ``sudo ./clash -d ./`` 来启动 Clash 服务。它自动切换到正确的目录并确保 Clash 使用正确的配置运行。"
+
+#: ../../source/clash_tools/clash_serve.rst:37
+msgid "Automatically changes to the correct directory"
+msgstr "自动切换到正确的目录"
+
+#: ../../source/clash_tools/clash_serve.rst:38
+msgid "Runs Clash with sudo privileges"
+msgstr "使用 sudo 权限运行 Clash"
+
+#: ../../source/clash_tools/clash_serve.rst:39
+msgid "Uses the current directory as the configuration directory"
+msgstr "使用当前目录作为配置目录"
+
+#: ../../source/clash_tools/clash_serve.rst:42
+msgid "config - Manage Configuration File"
+msgstr "config - 管理配置文件"
+
+#: ../../source/clash_tools/clash_serve.rst:44
+msgid "Manage the config.yaml file::"
+msgstr "管理 config.yaml 文件::"
+
+#: ../../source/clash_tools/clash_serve.rst:48
+msgid "**Options**::"
+msgstr "**选项**::"
+
+#: ../../source/clash_tools/clash_serve.rst:53
+msgid "**Examples**::"
+msgstr "**示例**::"
+
+#: ../../source/clash_tools/clash_serve.rst:65
+msgid ""
+"This command helps manage the ``config.yaml`` file. By default, it "
+"displays the absolute path of the configuration file. With the ``--edit``"
+" option, it opens the file in your default editor."
+msgstr "此命令帮助管理 ``config.yaml`` 文件。默认情况下，它显示配置文件的绝对路径。使用 ``--edit`` 选项，它会在您的默认编辑器中打开文件。"
+
+#: ../../source/clash_tools/clash_serve.rst:68
+msgid "Display configuration file absolute path"
+msgstr "显示配置文件绝对路径"
+
+#: ../../source/clash_tools/clash_serve.rst:69
+msgid "Open configuration file in editor"
+msgstr "在编辑器中打开配置文件"
+
+#: ../../source/clash_tools/clash_serve.rst:70
+msgid "Respects ``EDITOR`` environment variable"
+msgstr "遵循 ``EDITOR`` 环境变量"
+
+#: ../../source/clash_tools/clash_serve.rst:71
+msgid "Fallback to ``nano`` if no editor is set"
+msgstr "如果没有设置编辑器，则默认使用 ``nano``"
+
+#: ../../source/clash_tools/clash_serve.rst:74
+msgid "Permission Requirements"
+msgstr "权限要求"
+
+#: ../../source/clash_tools/clash_serve.rst:76
+msgid "Requires ``sudo`` privileges to run the Clash service."
+msgstr "需要 ``sudo`` 权限来运行 Clash 服务。"
+
+#: ../../source/clash_tools/clash_serve.rst:79
+msgid "Troubleshooting"
+msgstr "故障排除"
+
+#: ../../source/clash_tools/clash_serve.rst:81
+msgid "**Issue: clash_serve Permission Denied**"
+msgstr "**问题：clash_serve 权限被拒绝**"
+
+#: ../../source/clash_tools/clash_serve.rst:83
+msgid "If you get permission errors when running ``clash_serve``, ensure:"
+msgstr "如果运行 ``clash_serve`` 时遇到权限错误，请确保："
+
+#: ../../source/clash_tools/clash_serve.rst:85
+msgid "The ``clash`` binary is executable: ``chmod +x clash``"
+msgstr "``clash`` 二进制文件是可执行的：``chmod +x clash``"
+
+#: ../../source/clash_tools/clash_serve.rst:86
+msgid "You have sudo privileges"
+msgstr "您拥有 sudo 权限"
+
+#: ../../source/clash_tools/clash_serve.rst:87
+msgid "The config file exists in the same directory"
+msgstr "配置文件与脚本在同一目录中"

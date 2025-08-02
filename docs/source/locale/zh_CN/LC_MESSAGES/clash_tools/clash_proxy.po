@@ -1,0 +1,119 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, the clash_tools developers
+# This file is distributed under the same license as the clash_tools
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: clash_tools 1.2.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-03 00:07+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/clash_tools/clash_proxy.rst:2
+msgid "`clash_proxy` - Environment Variables"
+msgstr "`clash_proxy` - 环境变量"
+
+#: ../../source/clash_tools/clash_proxy.rst:4
+msgid ""
+"A shell script for setting up proxy environment variables in the current "
+"session."
+msgstr "用于在当前会话中设置代理环境变量的 shell 脚本。"
+
+#: ../../source/clash_tools/clash_proxy.rst:6
+msgid "**Usage**::"
+msgstr "**用法**::"
+
+#: ../../source/clash_tools/clash_proxy.rst:10
+msgid "**Description**:"
+msgstr "**说明**："
+
+#: ../../source/clash_tools/clash_proxy.rst:11
+msgid ""
+"This script reads the configuration from ``config.yaml`` and sets up all "
+"necessary proxy environment variables for the current shell session."
+msgstr "此脚本从 ``config.yaml`` 读取配置，并为当前 shell 会话设置所有必要的代理环境变量。"
+
+#: ../../source/clash_tools/clash_proxy.rst:13
+msgid "**Environment Variables Set**:"
+msgstr "**设置的环境变量**："
+
+#: ../../source/clash_tools/clash_proxy.rst:14
+msgid "``http_proxy`` / ``HTTP_PROXY``"
+msgstr "``http_proxy`` / ``HTTP_PROXY``"
+
+#: ../../source/clash_tools/clash_proxy.rst:15
+msgid "``https_proxy`` / ``HTTPS_PROXY``"
+msgstr "``https_proxy`` / ``HTTPS_PROXY``"
+
+#: ../../source/clash_tools/clash_proxy.rst:16
+msgid "``all_proxy`` / ``ALL_PROXY`` (SOCKS5)"
+msgstr "``all_proxy`` / ``ALL_PROXY`` (SOCKS5)"
+
+#: ../../source/clash_tools/clash_proxy.rst:17
+msgid "``no_proxy`` / ``NO_PROXY``"
+msgstr "``no_proxy`` / ``NO_PROXY``"
+
+#: ../../source/clash_tools/clash_proxy.rst:19
+msgid "**Features**:"
+msgstr "**特性**："
+
+#: ../../source/clash_tools/clash_proxy.rst:20
+msgid "Automatic port detection from config file"
+msgstr "从配置文件自动检测端口"
+
+#: ../../source/clash_tools/clash_proxy.rst:21
+msgid "Error handling and validation"
+msgstr "错误处理和验证"
+
+#: ../../source/clash_tools/clash_proxy.rst:22
+msgid "Both lowercase and uppercase variable formats"
+msgstr "支持小写和大写变量格式"
+
+#: ../../source/clash_tools/clash_proxy.rst:23
+msgid "Support for HTTP and SOCKS5 proxies"
+msgstr "支持 HTTP 和 SOCKS5 代理"
+
+#: ../../source/clash_tools/clash_proxy.rst:26
+msgid "Permission Requirements"
+msgstr "权限要求"
+
+#: ../../source/clash_tools/clash_proxy.rst:28
+msgid "No special permissions required. Can be run by any user."
+msgstr "不需要特殊权限。任何用户都可以运行。"
+
+#: ../../source/clash_tools/clash_proxy.rst:31
+msgid "Troubleshooting"
+msgstr "故障排除"
+
+#: ../../source/clash_tools/clash_proxy.rst:33
+msgid "**Issue: clash_proxy Variables Not Set**"
+msgstr "**问题：clash_proxy 变量未设置**"
+
+#: ../../source/clash_tools/clash_proxy.rst:35
+msgid "If environment variables aren't being set:"
+msgstr "如果环境变量未被设置："
+
+#: ../../source/clash_tools/clash_proxy.rst:37
+msgid ""
+"Make sure to use ``eval \"$(clash_proxy)\"`` or ``source clash_proxy`` "
+"(not just ``./clash_proxy``)"
+msgstr "确保使用 ``eval \"$(clash_proxy)\"`` 或 ``source clash_proxy``（而不仅仅是 ``./clash_proxy``）"
+
+#: ../../source/clash_tools/clash_proxy.rst:38
+msgid "Check that ``config.yaml`` exists and contains valid port numbers"
+msgstr "检查 ``config.yaml`` 是否存在并包含有效的端口号"
+
+#: ../../source/clash_tools/clash_proxy.rst:39
+msgid "Verify the script has read permissions"
+msgstr "验证脚本具有读取权限"

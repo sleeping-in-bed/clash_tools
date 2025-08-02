@@ -1,12 +1,30 @@
 clash_tools documentation
 =========================
 
+**GitHub Repository**: `sleeping-in-bed/clash_tools <https://github.com/sleeping-in-bed/clash_tools>`_
+
+.. image:: https://img.shields.io/pypi/v/clash-tools.svg
+   :target: https://pypi.org/project/clash-tools/
+   :alt: PyPI version
+.. image:: https://static.pepy.tech/badge/clash-tools
+   :target: https://pepy.tech/projects/clash-tools
+   :alt: PyPI downloads
+.. image:: https://github.com/sleeping-in-bed/clash_tools/actions/workflows/test.yml/badge.svg?branch=main
+   :target: https://github.com/sleeping-in-bed/clash_tools/actions/workflows/test.yml
+   :alt: Test status
+.. image:: https://codecov.io/github/sleeping-in-bed/clash_tools/graph/badge.svg?token=HEIMHMX0PK
+   :target: https://codecov.io/github/sleeping-in-bed/clash_tools
+   :alt: Codecov
+
 clash_tools is a comprehensive collection of utilities for managing Clash proxy configurations and services. It provides multiple command-line tools for different purposes, making it easy to work with Clash in various environments.
 
 Tools Overview
 --------------
 
-The toolkit includes three main utilities:
+The toolkit includes four main utilities:
+
+**wireguard**
+  A tool to manage WireGuard server and client configurations.
 
 **clash_docker**
   Docker proxy management tool for enabling/disabling Docker proxy settings
@@ -58,7 +76,8 @@ Documentation
    :maxdepth: 2
    :caption: Contents:
 
-   usage
+   clash_tools/index
+   wireguard/index
 
 Indices and tables
 ------------------
