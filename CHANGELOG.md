@@ -1,3 +1,9 @@
+## [2.1.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.0.1...v2.1.0) (2025-08-02)
+
+### Features
+
+* add install-wg func ([70ce50d](https://github.com/sleeping-in-bed/clash_tools/commit/70ce50d28bd3d1fbdbead08213432952a9b64d80))
+
 ## [2.0.1](https://github.com/sleeping-in-bed/clash_tools/compare/v2.0.0...v2.0.1) (2025-08-02)
 
 ### Bug Fixes
