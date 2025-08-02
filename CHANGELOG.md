@@ -1,3 +1,10 @@
+## [2.2.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.1.0...v2.2.0) (2025-08-02)
+
+### Features
+
+* add kernal setting before client up ([e5fbe38](https://github.com/sleeping-in-bed/clash_tools/commit/e5fbe383fd5dc02dc87532aef86b1bb66936a2d7))
+* **wireguard:** enhance CLI output and add helper commands ([b8a4a8f](https://github.com/sleeping-in-bed/clash_tools/commit/b8a4a8f5db3a229d005652b8cfb428df738687b9))
+
 ## [2.1.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.0.1...v2.1.0) (2025-08-02)
 
 ### Features
