@@ -1,3 +1,14 @@
+## [2.0.0](https://github.com/sleeping-in-bed/clash_tools/compare/v1.2.1...v2.0.0) (2025-08-02)
+
+### ⚠ BREAKING CHANGES
+
+* **wireguard:** Introduces a new WireGuard management system.
+This alters core capabilities and warrants a major version bump.
+
+### Features
+
+* **wireguard:** add WireGuard management module ([1725a8b](https://github.com/sleeping-in-bed/clash_tools/commit/1725a8b20dc750dec2cb2320c39de557ad62e712))
+
 ## [1.2.1](https://github.com/sleeping-in-bed/clash_tools/compare/v1.2.0...v1.2.1) (2025-07-13)
 
 ### Bug Fixes
