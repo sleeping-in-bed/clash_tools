@@ -1,3 +1,13 @@
+## [2.4.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.3.0...v2.4.0) (2025-08-04)
+
+### Features
+
+* add clash serve ([d498a2b](https://github.com/sleeping-in-bed/clash_tools/commit/d498a2b8d4d5ae4aaaf1f0e153c1370fee1cedfc))
+
+### Bug Fixes
+
+* fix the privileged ([6cee465](https://github.com/sleeping-in-bed/clash_tools/commit/6cee4657b70c0bdd250cde114636f81bea0a7fd5))
+
 ## [2.3.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.2.0...v2.3.0) (2025-08-02)
 
 ### Features
