@@ -5,6 +5,7 @@ services:
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
+    privileged: true
     environment:
       - PUID=1000
       - PGID=1000
