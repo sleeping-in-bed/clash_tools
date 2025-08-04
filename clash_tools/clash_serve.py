@@ -116,7 +116,6 @@ After=network.target
 
 [Service]
 Type=simple
-User={os.getlogin()}
 WorkingDirectory={SCRIPT_DIR}
 ExecStart={clash_executable} -d "{SCRIPT_DIR}"
 Restart=always
@@ -189,12 +188,8 @@ def remove_service():
 def status():
     """Check the status of the clash service."""
     click.echo(f"Checking status for {SERVICE_NAME}...")
-    # Does not need sudo to run
-    run_sudo_command(
-        ["systemctl", "status", SERVICE_NAME],
-        "Service status checked.",
-        "Failed to check service status.",
-    )
+    # Does not need sudo to run, and we want to see the output directly.
+    subprocess.run(["sudo", "systemctl", "status", SERVICE_NAME])
 
 
 if __name__ == "__main__":
