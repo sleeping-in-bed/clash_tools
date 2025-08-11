@@ -3,6 +3,11 @@ Client Management
 
 The ``wireguard client`` command group manages the WireGuard client instance, which connects to the server.
 
+Configuration files are stored under the user's config directory following the XDG Base Directory rules:
+
+- If ``XDG_CONFIG_HOME`` is set: ``$XDG_CONFIG_HOME/clash_tools/wireguard/client_settings.py``
+- Otherwise: ``~/.config/clash_tools/wireguard/client_settings.py``
+
 Commands
 --------
 
@@ -24,10 +29,28 @@ Stops and removes the client's Docker Compose service.
 
     wireguard client down
 
+client restart
+~~~~~~~~~~~~~~
+
+Stops the client if running and then starts it again (equivalent to ``down`` followed by ``up``).
+
+**Usage**::
+
+    wireguard client restart
+
+client check-ip
+~~~~~~~~~~~~~~~~
+
+Checks the host's public IP and compares it with the VPN server IP from your client settings. This helps verify whether traffic is routed through the VPN.
+
+**Usage**::
+
+    wireguard client check-ip
+
 Configuration (`client_settings.py`)
 ------------------------------------
 
-This file contains the settings needed to connect to the WireGuard server.
+This file contains the settings needed to connect to the WireGuard server. On first use, the tool will bootstrap this file from an example into your user config directory if it does not exist.
 
 .. code-block:: python
 

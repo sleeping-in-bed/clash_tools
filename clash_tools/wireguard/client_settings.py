@@ -1,5 +1,4 @@
-"""
-WireGuard Client Configuration
+"""WireGuard Client Configuration
 """
 
 CLIENT_CONFIG = {

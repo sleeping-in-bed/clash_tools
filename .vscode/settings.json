@@ -1,0 +1,29 @@
+{
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/__pycache__": true,
+      "**/.pytest_cache": true,
+      "**/.ruff_cache": true,
+      "**/.mypy_cache": true,
+      "**/.tox": true,
+      "**/.coverage": true,
+      "**/.venv": true,
+      "**/venv": true,
+      "**/node_modules": true,
+      "**/.idea": true
+    },
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+    "ruff.lint.select": [
+      "F",
+      "PLE",
+      "B",
+      "S",
+      "RET",
+      "RUF",
+      "DTZ",
+      "TRY"
+    ],
+    "ruff.lint.ignore": []
+  }

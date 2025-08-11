@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-clash_tools package initialization
+"""clash_tools package initialization
 """
 
 import sys
@@ -12,8 +11,7 @@ import yaml
 
 @click.command()
 def main():
-    """
-    Set up proxy environment variables based on config.yaml
+    """Set up proxy environment variables based on config.yaml
 
     This tool reads the Clash configuration and sets up proxy environment variables.
     """
@@ -23,7 +21,7 @@ def main():
 
     if not config_file.exists():
         click.echo(
-            f"echo '❌ Error: Config file not found: {config_file}' >&2", err=True
+            f"echo '❌ Error: Config file not found: {config_file}' >&2", err=True,
         )
         sys.exit(1)
 
@@ -50,7 +48,7 @@ def main():
         click.echo(
             f"echo '✅ Proxy environment variables set: "
             f"HTTP/HTTPS: http://127.0.0.1:{http_port}, "
-            f"SOCKS: socks5://127.0.0.1:{socks_port}'"
+            f"SOCKS: socks5://127.0.0.1:{socks_port}'",
         )
 
     except Exception as e:

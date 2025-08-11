@@ -1,5 +1,4 @@
-"""
-WireGuard Server Configuration
+"""WireGuard Server Configuration
 """
 
 SERVER_CONFIG = {

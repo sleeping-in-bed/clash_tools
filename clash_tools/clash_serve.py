@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Simple Clash Runner Script
+"""Simple Clash Runner Script
 Run 'sudo ./clash -d ./' in script directory
 """
 
@@ -10,14 +9,12 @@ from pathlib import Path
 
 import click
 
-
 SCRIPT_DIR = Path(__file__).parent.absolute()
 
 
 @click.group()
 def cli():
     """Clash service management tool"""
-    pass
 
 
 @cli.command()
@@ -30,7 +27,7 @@ def run():
     click.echo(f"Running: sudo ./clash -d ./ in {SCRIPT_DIR}")
 
     # Run the command
-    subprocess.run(["sudo", "./clash", "-d", "./"])
+    subprocess.run(["sudo", "./clash", "-d", "./"], check=False)
 
     # Restore original directory
     os.chdir(original_cwd)
@@ -41,8 +38,7 @@ def run():
 def config(edit):
     """Manage config.yaml file"""
     # Get config file path
-    script_dir = Path(__file__).parent.absolute()
-    config_file = script_dir / "config.yaml"
+    config_file = SCRIPT_DIR / "config.yaml"
 
     # Always print config file path
     click.echo(f"Config file: {config_file.absolute()}")
@@ -55,7 +51,7 @@ def config(edit):
     if edit:
         editor = os.environ.get("EDITOR", "nano")
         try:
-            subprocess.run([editor, str(config_file)])
+            subprocess.run([editor, str(config_file)], check=False)
         except Exception as e:
             click.echo(f"❌ Error opening editor: {e}", err=True)
 
@@ -107,7 +103,9 @@ def add_service():
     service_file = get_service_file_path()
 
     if not clash_executable.is_file():
-        click.secho(f"Clash executable not found at: {clash_executable}", fg="red", err=True)
+        click.secho(
+            f"Clash executable not found at: {clash_executable}", fg="red", err=True,
+        )
         return
 
     service_content = f"""[Unit]
@@ -159,7 +157,10 @@ def remove_service():
     """Stop, disable, and remove the clash systemd service."""
     service_file = get_service_file_path()
     if not service_file.exists():
-        click.secho(f"Service file not found at {service_file}. Is the service added?", fg="yellow")
+        click.secho(
+            f"Service file not found at {service_file}. Is the service added?",
+            fg="yellow",
+        )
         return
 
     run_sudo_command(
@@ -189,7 +190,7 @@ def status():
     """Check the status of the clash service."""
     click.echo(f"Checking status for {SERVICE_NAME}...")
     # Does not need sudo to run, and we want to see the output directly.
-    subprocess.run(["sudo", "systemctl", "status", SERVICE_NAME])
+    subprocess.run(["sudo", "systemctl", "status", SERVICE_NAME], check=False)
 
 
 if __name__ == "__main__":

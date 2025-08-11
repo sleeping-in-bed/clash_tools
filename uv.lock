@@ -221,6 +221,7 @@ version = "2.4.1"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
+    { name = "jinja2" },
     { name = "pyyaml" },
     { name = "types-pyyaml" },
 ]
@@ -232,7 +233,6 @@ dev = [
     { name = "click" },
     { name = "coverage" },
     { name = "furo" },
-    { name = "jinja2" },
     { name = "mypy" },
     { name = "pre-commit" },
     { name = "pytest" },
@@ -250,9 +250,10 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "click", specifier = ">=8.2.0" },
-    { name = "pyyaml", specifier = ">=6.0" },
-    { name = "types-pyyaml", specifier = ">=6.0.12.20250516" },
+    { name = "click" },
+    { name = "jinja2" },
+    { name = "pyyaml" },
+    { name = "types-pyyaml" },
 ]
 
 [package.metadata.requires-dev]
@@ -262,7 +263,6 @@ dev = [
     { name = "click" },
     { name = "coverage" },
     { name = "furo" },
-    { name = "jinja2" },
     { name = "mypy" },
     { name = "pre-commit" },
     { name = "pytest" },

@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 @click.command()
 @click.option(
-    "--dir", "htmlcov_dir", default="htmlcov", help="Coverage HTML output directory."
+    "--dir", "htmlcov_dir", default="htmlcov", help="Coverage HTML output directory.",
 )
 def main(htmlcov_dir):
     """Generate an index.html that links to sub coverage reports."""
@@ -22,7 +22,7 @@ def main(htmlcov_dir):
         index_file = os.path.join(path, "index.html")
         if os.path.isdir(path) and os.path.exists(index_file):
             soup = BeautifulSoup(
-                Path(index_file).read_text(encoding="utf-8"), "html.parser"
+                Path(index_file).read_text(encoding="utf-8"), "html.parser",
             )
             coverage_span = soup.find("span", class_="pc_cov")
             content = (

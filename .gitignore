@@ -25,7 +25,5 @@ docs/build/
 docs/**/*.mo
 # JetBrains
 .idea/
-# vscode
-.vscode/
 # macOS
 .DS_Store

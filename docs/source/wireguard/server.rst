@@ -3,6 +3,11 @@ Server Management
 
 The ``wireguard server`` command group is used to manage the WireGuard server instance. It handles configuration generation and service lifecycle.
 
+Configuration files are stored under the user's config directory following the XDG Base Directory rules:
+
+- If ``XDG_CONFIG_HOME`` is set: ``$XDG_CONFIG_HOME/clash_tools/wireguard/server_settings.py``
+- Otherwise: ``~/.config/clash_tools/wireguard/server_settings.py``
+
 Commands
 --------
 
@@ -24,10 +29,19 @@ Stops and removes the containers defined in ``server_compose.yml``.
 
     wireguard server down
 
+server restart
+~~~~~~~~~~~~~~
+
+Stops the server if running and then starts it again (equivalent to ``down`` followed by ``up``).
+
+**Usage**::
+
+    wireguard server restart
+
 Configuration (`server_settings.py`)
 ------------------------------------
 
-This file contains all the necessary settings for the WireGuard server. You must fill in the required values before starting the service.
+This file contains all the necessary settings for the WireGuard server. You must fill in the required values before starting the service. On first use, the tool will bootstrap this file from an example into your user config directory if it does not exist.
 
 .. code-block:: python
 

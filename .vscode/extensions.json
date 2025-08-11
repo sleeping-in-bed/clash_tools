@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+      "ms-python.python",
+      "ms-python.debugpy",
+      "charliermarsh.ruff",
+      "Vue.volar",
+      "redhat.vscode-yaml",
+      "DavidAnson.vscode-markdownlint"
+    ]
+  }

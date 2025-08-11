@@ -26,6 +26,11 @@ The toolkit includes four main utilities:
 **wireguard**
   A tool to manage WireGuard server and client configurations.
 
+  Key highlights:
+  - User config directory: ``$XDG_CONFIG_HOME/clash_tools/wireguard/`` or ``~/.config/clash_tools/wireguard/``
+  - Config commands support ``--path``/``--edit``/``--cat``
+  - Service lifecycle: ``up``/``down``/``restart`` and client ``check-ip``
+
 **clash_docker**
   Docker proxy management tool for enabling/disabling Docker proxy settings
 
