@@ -1,3 +1,9 @@
+## [2.4.1](https://github.com/sleeping-in-bed/clash_tools/compare/v2.4.0...v2.4.1) (2025-08-11)
+
+### Bug Fixes
+
+* add deps jinja2 ([328280d](https://github.com/sleeping-in-bed/clash_tools/commit/328280de8fb9c28080aa729ab826a473af32eedd))
+
 ## [2.4.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.3.0...v2.4.0) (2025-08-04)
 
 ### Features
