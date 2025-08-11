@@ -1,3 +1,13 @@
+## [2.5.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.4.1...v2.5.0) (2025-08-11)
+
+### Features
+
+* add some commands ([63cf01f](https://github.com/sleeping-in-bed/clash_tools/commit/63cf01f712f20d71b6b9f5404a0ba6053f1997dc))
+
+### Bug Fixes
+
+* fix clash serve ([a73a3b2](https://github.com/sleeping-in-bed/clash_tools/commit/a73a3b2c9bab87ea05294dc23f3c9809972fe2fa))
+
 ## [2.4.1](https://github.com/sleeping-in-bed/clash_tools/compare/v2.4.0...v2.4.1) (2025-08-11)
 
 ### Bug Fixes
