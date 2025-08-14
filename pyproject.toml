@@ -60,6 +60,7 @@ clash_docker = "clash_tools.clash_docker:cli"
 clash_proxy = "clash_tools.clash_proxy:main"
 clash_serve = "clash_tools.clash_serve:cli"
 wireguard = "clash_tools.wireguard.up:cli"
+wg_docker = "clash_tools.wg_docker.cli:app"
 
 [tool.pypjt]
 created-by = "1.12.0"

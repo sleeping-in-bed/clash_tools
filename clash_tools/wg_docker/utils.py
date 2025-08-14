@@ -188,11 +188,18 @@ class WGConfRenderer:
         """Render full wg0.conf with PostUp/PostDown from the template."""
         server_private_key: str = ""
         peers: list[WGPeer] = []
-        for peer_id, pair in sorted(self.store.pairs.items()):
+        # Server private key from id=1
+        if 1 in self.store.pairs:
+            server_private_key = self.store.pairs[1].private_key
+
+        # Render peers only for clients defined in server_cfg
+        for peer_id in sorted(self.server_cfg.clients.keys()):
             if peer_id == 1:
-                server_private_key = pair.private_key
                 continue
-            candidate_ip = IPv4Address(int(self.base_ip) + peer_id)
+            pair = self.store.pairs.get(peer_id)
+            if pair is None:
+                continue
+            candidate_ip = IPv4Address(int(self.base_ip) + int(peer_id))
             if candidate_ip not in self.network:
                 continue
             peers.append(WGPeer(public_key=pair.public_key, ip=str(candidate_ip)))
