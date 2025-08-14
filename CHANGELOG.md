@@ -1,3 +1,9 @@
+## [2.6.2](https://github.com/sleeping-in-bed/clash_tools/compare/v2.6.1...v2.6.2) (2025-08-14)
+
+### Bug Fixes
+
+* fix wg_docker ([fa772be](https://github.com/sleeping-in-bed/clash_tools/commit/fa772be71023d886dc6d021a6a383da48678b410))
+
 ## [2.6.1](https://github.com/sleeping-in-bed/clash_tools/compare/v2.6.0...v2.6.1) (2025-08-14)
 
 ### Bug Fixes
