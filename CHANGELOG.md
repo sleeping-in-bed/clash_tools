@@ -1,3 +1,9 @@
+## [2.6.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.5.0...v2.6.0) (2025-08-14)
+
+### Features
+
+* add wg_docker command ([d5e34af](https://github.com/sleeping-in-bed/clash_tools/commit/d5e34af26255069664ef9dee2f8deb0af3f07b46))
+
 ## [2.5.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.4.1...v2.5.0) (2025-08-11)
 
 ### Features
