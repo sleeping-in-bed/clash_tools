@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Clash Docker Proxy Management Script
-Support one-click enable and disable Docker proxy settings for Clash
+Support one-click enable and disable Docker proxy settings for Clash.
 """
 
 import json
@@ -19,7 +19,7 @@ DEFAULT_PROXY = {
 
 
 class DockerProxyManager:
-    def __init__(self):
+    def __init__(self) -> None:
         # Docker config file paths
         self.docker_config_dir = Path.home() / ".docker"
         self.docker_config_file = self.docker_config_dir / "config.json"
@@ -32,11 +32,11 @@ class DockerProxyManager:
         self.proxy_settings = DEFAULT_PROXY.copy()
 
     def check_root(self):
-        """Check if running with root privileges"""
+        """Check if running with root privileges."""
         return os.geteuid() == 0
 
-    def restart_docker(self):
-        """Restart Docker service"""
+    def restart_docker(self) -> bool | None:
+        """Restart Docker service."""
         try:
             click.echo("Restarting Docker service...")
             subprocess.run(["systemctl", "daemon-reload"], check=True)
@@ -51,8 +51,8 @@ class DockerProxyManager:
             )
             return False
 
-    def enable_docker_client_proxy(self):
-        """Enable Docker client proxy"""
+    def enable_docker_client_proxy(self) -> bool | None:
+        """Enable Docker client proxy."""
         try:
             # Create config directory
             self.docker_config_dir.mkdir(exist_ok=True)
@@ -84,8 +84,8 @@ class DockerProxyManager:
             )
             return False
 
-    def disable_docker_client_proxy(self):
-        """Disable Docker client proxy"""
+    def disable_docker_client_proxy(self) -> bool | None:
+        """Disable Docker client proxy."""
         try:
             if not self.docker_config_file.exists():
                 click.echo(
@@ -116,8 +116,8 @@ class DockerProxyManager:
             )
             return False
 
-    def enable_docker_daemon_proxy(self):
-        """Enable Docker daemon proxy"""
+    def enable_docker_daemon_proxy(self) -> bool | None:
+        """Enable Docker daemon proxy."""
         try:
             # Create systemd config directory
             self.systemd_dir.mkdir(parents=True, exist_ok=True)
@@ -140,8 +140,8 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
             )
             return False
 
-    def disable_docker_daemon_proxy(self):
-        """Disable Docker daemon proxy"""
+    def disable_docker_daemon_proxy(self) -> bool | None:
+        """Disable Docker daemon proxy."""
         try:
             if self.systemd_proxy_file.exists():
                 self.systemd_proxy_file.unlink()
@@ -160,8 +160,8 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
             )
             return False
 
-    def check_proxy_status(self):
-        """Check proxy status"""
+    def check_proxy_status(self) -> None:
+        """Check proxy status."""
         click.echo(click.style("=== Docker Proxy Status ===", fg="blue", bold=True))
 
         # Check client proxy
@@ -191,8 +191,8 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
         else:
             click.echo(click.style("🔴 Docker daemon proxy: Disabled", fg="red"))
 
-    def enable_proxy(self, proxy_url=None):
-        """Enable proxy"""
+    def enable_proxy(self, proxy_url=None) -> None:
+        """Enable proxy."""
         if proxy_url:
             self.proxy_settings["http"] = proxy_url
             self.proxy_settings["https"] = proxy_url
@@ -211,7 +211,8 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
         else:
             click.echo(
                 click.style(
-                    "⚠️  Root privileges required for Docker daemon proxy", fg="yellow",
+                    "⚠️  Root privileges required for Docker daemon proxy",
+                    fg="yellow",
                 ),
             )
             click.echo("   Please run with sudo or configure daemon proxy manually")
@@ -219,7 +220,9 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
         if client_success:
             click.echo(
                 click.style(
-                    "🎉 Docker proxy enabled successfully!", fg="green", bold=True,
+                    "🎉 Docker proxy enabled successfully!",
+                    fg="green",
+                    bold=True,
                 ),
             )
         else:
@@ -227,8 +230,8 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
                 click.style("❌ Failed to enable Docker proxy", fg="red", bold=True),
             )
 
-    def disable_proxy(self):
-        """Disable proxy"""
+    def disable_proxy(self) -> None:
+        """Disable proxy."""
         click.echo(click.style("=== Disabling Docker Proxy ===", fg="blue", bold=True))
 
         # Disable client proxy
@@ -243,7 +246,8 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
         else:
             click.echo(
                 click.style(
-                    "⚠️  Root privileges required for Docker daemon proxy", fg="yellow",
+                    "⚠️  Root privileges required for Docker daemon proxy",
+                    fg="yellow",
                 ),
             )
             click.echo("   Please run with sudo or configure daemon proxy manually")
@@ -251,7 +255,9 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
         if client_success:
             click.echo(
                 click.style(
-                    "🎉 Docker proxy disabled successfully!", fg="green", bold=True,
+                    "🎉 Docker proxy disabled successfully!",
+                    fg="green",
+                    bold=True,
                 ),
             )
         else:
@@ -264,8 +270,8 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
 @click.group()
 @click.version_option(version="1.0.0", prog_name="Clash Docker Proxy Manager")
 @click.pass_context
-def cli(ctx):
-    """Clash Docker Proxy Management Tool
+def cli(ctx) -> None:
+    """Clash Docker Proxy Management Tool.
 
     Support one-click enable and disable Docker proxy settings for Clash,
     including client proxy and daemon proxy.
@@ -285,8 +291,8 @@ def cli(ctx):
     show_default=True,
 )
 @click.pass_context
-def enable(ctx, proxy):
-    """Enable Docker proxy
+def enable(ctx, proxy) -> None:
+    r"""Enable Docker proxy.
 
     \b
     Examples:
@@ -300,8 +306,8 @@ def enable(ctx, proxy):
 
 @cli.command()
 @click.pass_context
-def disable(ctx):
-    """Disable Docker proxy
+def disable(ctx) -> None:
+    r"""Disable Docker proxy.
 
     \b
     Examples:
@@ -313,8 +319,8 @@ def disable(ctx):
 
 @cli.command()
 @click.pass_context
-def status(ctx):
-    """Check Docker proxy status
+def status(ctx) -> None:
+    r"""Check Docker proxy status.
 
     \b
     Examples:
@@ -326,8 +332,8 @@ def status(ctx):
 
 @cli.command()
 @click.pass_context
-def reset(ctx):
-    """Reset all Docker proxy configurations
+def reset(ctx) -> None:
+    r"""Reset all Docker proxy configurations.
 
     This will completely remove all Docker proxy settings including:
     - Docker client proxy configuration
@@ -341,7 +347,9 @@ def reset(ctx):
 
     click.echo(
         click.style(
-            "=== Resetting Docker Proxy Configurations ===", fg="blue", bold=True,
+            "=== Resetting Docker Proxy Configurations ===",
+            fg="blue",
+            bold=True,
         ),
     )
     click.echo("This will remove:")

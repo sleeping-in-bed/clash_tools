@@ -1,0 +1,11 @@
+nic: eth0
+client_ip: {{ client_ip }}
+privatekey: {{ privatekey }}
+publickey: {{ publickey }}
+endpoint: {{ endpoint }}
+allowedips:
+  - 0.0.0.0/0
+excludedips:
+  - 10.0.0.0/8
+  - 172.16.0.0/12
+  - 192.168.0.0/16

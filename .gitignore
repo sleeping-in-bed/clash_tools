@@ -1,4 +1,6 @@
 /containerdata/
+/.cursor/
+/.cursorignore
 # py
 __pycache__/
 .venv/

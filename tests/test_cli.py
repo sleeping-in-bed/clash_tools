@@ -1,0 +1,241 @@
+"""Tests for clash_tools.wg_docker.cli.
+
+Use Typer's CliRunner to invoke subcommands, isolate filesystem via
+XDG_CONFIG_HOME, and monkeypatch subprocess/rendering to avoid side effects.
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+from types import SimpleNamespace
+from typing import Any
+
+import importlib
+import os
+
+import pytest
+from typer.testing import CliRunner
+
+
+@pytest.fixture()
+def tmp_config_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    """Provide isolated XDG config directory for tests.
+
+    Returns:
+        Path: The resolved config directory base for XDG (not the app subdir).
+    """
+    xdg_dir: Path = tmp_path / "xdg"
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(xdg_dir))
+    return xdg_dir
+
+
+@pytest.fixture()
+def cli_module(tmp_config_dir: Path) -> Any:
+    """Import the CLI module with isolated environment.
+
+    Returns:
+        The imported module object `clash_tools.wg_docker.cli`.
+    """
+    # Ensure a fresh import in case other tests import it first.
+    module = importlib.import_module("clash_tools.wg_docker.cli")
+    importlib.reload(module)
+    return module
+
+
+@pytest.fixture()
+def runner() -> CliRunner:
+    """Return Typer's CliRunner instance."""
+    return CliRunner()
+
+
+@pytest.fixture()
+def capture_subprocess(monkeypatch: pytest.MonkeyPatch) -> list[list[str]]:
+    """Capture subprocess.run invocations as a list of command lists.
+
+    Returns:
+        A mutable list that accumulates each command passed to subprocess.run.
+    """
+    calls: list[list[str]] = []
+
+    def _fake_run(cmd: list[str], check: bool = False) -> None:  # type: ignore[unused-argument]
+        calls.append(list(cmd))
+
+    monkeypatch.setenv("VISUAL", "true")
+    monkeypatch.setenv("EDITOR", "true")
+    monkeypatch.setattr("subprocess.run", _fake_run, raising=True)
+    return calls
+
+
+def _app_config_path(base_xdg: Path) -> Path:
+    """Resolve app server_config.yml under the test XDG config tree."""
+    return base_xdg / "clash_tools" / "wireguard" / "server_config.yml"
+
+
+def _compose_path(base_xdg: Path, name: str) -> Path:
+    """Resolve a compose file under the test XDG config tree."""
+    return base_xdg / "clash_tools" / "wireguard" / name
+
+
+def test_server_get_client_config_uses_renderer(
+    cli_module: Any, runner: CliRunner
+) -> None:
+    """Ensure server get-client-config prints renderer output."""
+    cli_module.renderer = SimpleNamespace(get_client_conf=lambda client_id: "ok: 2\n")
+    result = runner.invoke(cli_module.app, ["server", "get-client-config", "2"])  # type: ignore[arg-type]
+    assert result.exit_code == 0
+    assert result.stdout.strip() == "ok: 2"
+
+
+def test_server_up_invokes_compose_up(
+    tmp_config_dir: Path, cli_module: Any, runner: CliRunner, capture_subprocess: list[list[str]]
+) -> None:
+    """server up should render and call docker compose up -d with file."""
+    compose_path = _compose_path(tmp_config_dir, "server_compose.yml")
+    cli_module.renderer = SimpleNamespace(
+        render_server_conf=lambda: ("", Path("ignored")),
+        render_server_compose=lambda: ("", compose_path),
+    )
+    result = runner.invoke(cli_module.app, ["server", "up"])  # type: ignore[arg-type]
+    assert result.exit_code == 0
+    assert capture_subprocess == [["docker", "compose", "-f", str(compose_path), "up", "-d"]]
+
+
+def test_server_down_invokes_compose_down(
+    tmp_config_dir: Path, cli_module: Any, runner: CliRunner, capture_subprocess: list[list[str]]
+) -> None:
+    """server down should call docker compose down -v with file."""
+    compose_path = _compose_path(tmp_config_dir, "server_compose.yml")
+    cli_module.renderer = SimpleNamespace(
+        render_server_compose=lambda: ("", compose_path),
+    )
+    result = runner.invoke(cli_module.app, ["server", "down"])  # type: ignore[arg-type]
+    assert result.exit_code == 0
+    assert capture_subprocess == [["docker", "compose", "-f", str(compose_path), "down", "-v"]]
+
+
+def test_server_restart_invokes_down_then_up(
+    tmp_config_dir: Path, cli_module: Any, runner: CliRunner, capture_subprocess: list[list[str]]
+) -> None:
+    """server restart should call down then up with same compose file."""
+    compose_path = _compose_path(tmp_config_dir, "server_compose.yml")
+    cli_module.renderer = SimpleNamespace(
+        render_server_conf=lambda: ("", Path("ignored")),
+        render_server_compose=lambda: ("", compose_path),
+    )
+    result = runner.invoke(cli_module.app, ["server", "restart"])  # type: ignore[arg-type]
+    assert result.exit_code == 0
+    assert capture_subprocess == [
+        ["docker", "compose", "-f", str(compose_path), "down", "-v"],
+        ["docker", "compose", "-f", str(compose_path), "up", "-d"],
+    ]
+
+
+def test_server_config_reset_and_cat_and_path(
+    tmp_config_dir: Path, cli_module: Any, runner: CliRunner
+) -> None:
+    """server config --reset should write template; --cat prints it; --path prints path."""
+    cfg_path = _app_config_path(tmp_config_dir)
+
+    # Reset writes the template content
+    result_reset = runner.invoke(cli_module.app, ["server", "config", "--reset"])  # type: ignore[arg-type]
+    assert result_reset.exit_code == 0
+    assert cfg_path.exists()
+
+    template_path = cli_module._server_template()  # type: ignore[attr-defined]
+    assert cfg_path.read_text(encoding="utf-8") == template_path.read_text(encoding="utf-8")
+
+    # Cat prints the content
+    result_cat = runner.invoke(cli_module.app, ["server", "config", "--cat"])  # type: ignore[arg-type]
+    assert result_cat.exit_code == 0
+    assert result_cat.stdout == cfg_path.read_text(encoding="utf-8") + "\n"
+
+    # Path prints the resolved path
+    result_path = runner.invoke(cli_module.app, ["server", "config", "--path"])  # type: ignore[arg-type]
+    assert result_path.exit_code == 0
+    assert result_path.stdout.strip() == str(cfg_path.resolve())
+
+
+def test_server_config_cat_missing_file_exits_with_error(
+    tmp_config_dir: Path, runner: CliRunner
+) -> None:
+    """server config --cat when config file is missing should exit 1."""
+    module = importlib.import_module("clash_tools.wg_docker.cli")
+    importlib.reload(module)
+    cfg_path = _app_config_path(tmp_config_dir)
+    if cfg_path.exists():
+        cfg_path.unlink()
+    result = runner.invoke(module.app, ["server", "config", "--cat"])  # type: ignore[arg-type]
+    assert result.exit_code == 1
+    assert "not found" in result.stdout.lower()
+
+
+def test_client_up_down_restart(
+    tmp_config_dir: Path, cli_module: Any, runner: CliRunner, capture_subprocess: list[list[str]]
+) -> None:
+    """client up/down/restart should use compose file and invoke docker compose."""
+    compose_path = _compose_path(tmp_config_dir, "client_compose.yml")
+    cli_module.renderer = SimpleNamespace(
+        render_client_conf=lambda: ("", Path("ignored")),
+        render_client_compose=lambda: ("", compose_path),
+    )
+
+    r1 = runner.invoke(cli_module.app, ["client", "up"])  # type: ignore[arg-type]
+    r2 = runner.invoke(cli_module.app, ["client", "down"])  # type: ignore[arg-type]
+    # restart
+    r3 = runner.invoke(cli_module.app, ["client", "restart"])  # type: ignore[arg-type]
+
+    assert r1.exit_code == 0 and r2.exit_code == 0 and r3.exit_code == 0
+
+    expected = [
+        ["docker", "compose", "-f", str(compose_path), "up", "-d"],
+        ["docker", "compose", "-f", str(compose_path), "down", "-v"],
+        ["docker", "compose", "-f", str(compose_path), "down", "-v"],
+        ["docker", "compose", "-f", str(compose_path), "up", "-d"],
+    ]
+    assert capture_subprocess == expected
+
+
+def test_client_config_mirrors_server_config_path(
+    tmp_config_dir: Path, cli_module: Any, runner: CliRunner
+) -> None:
+    """client config --path should print same path as server config --path."""
+    # First call via server to get expected path
+    res_server = runner.invoke(cli_module.app, ["server", "config", "--path"])  # type: ignore[arg-type]
+    assert res_server.exit_code == 0
+    expected_path = res_server.stdout.strip()
+
+    res_client = runner.invoke(cli_module.app, ["client", "config", "--path"])  # type: ignore[arg-type]
+    assert res_client.exit_code == 0
+    assert res_client.stdout.strip() == expected_path
+
+
+def test_server_config_edit_bootstrap_opens_editor(
+    tmp_config_dir: Path, cli_module: Any, runner: CliRunner, capture_subprocess: list[list[str]]
+) -> None:
+    """server config --edit should create file if missing and open editor."""
+    cfg_path = _app_config_path(tmp_config_dir)
+    if cfg_path.exists():
+        cfg_path.unlink()
+
+    result = runner.invoke(cli_module.app, ["server", "config", "--edit"])  # type: ignore[arg-type]
+    assert result.exit_code == 0
+    assert cfg_path.exists()
+    # The first captured subprocess call should be opening the editor
+    assert capture_subprocess == [["true", str(cfg_path)]]
+
+
+def test_client_config_reset_and_cat_proxy(
+    tmp_config_dir: Path, cli_module: Any, runner: CliRunner
+) -> None:
+    """client config subcommand should proxy reset and cat to server config file."""
+    cfg_path = _app_config_path(tmp_config_dir)
+
+    # Reset via client should create the same server_config.yml
+    res_reset = runner.invoke(cli_module.app, ["client", "config", "--reset"])  # type: ignore[arg-type]
+    assert res_reset.exit_code == 0
+    assert cfg_path.exists()
+
+    # Cat via client should print the same content
+    res_cat = runner.invoke(cli_module.app, ["client", "config", "--cat"])  # type: ignore[arg-type]
+    assert res_cat.exit_code == 0
+    assert res_cat.stdout == cfg_path.read_text(encoding="utf-8") + "\n"

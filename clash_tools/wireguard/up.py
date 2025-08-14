@@ -34,7 +34,7 @@ USER_CLIENT_SETTINGS_PATH = USER_CONFIG_DIR / "client_settings.py"
 env = Environment(loader=FileSystemLoader(TEMPLATE_DIR), autoescape=True)
 
 
-def render_template(template_name: str, context: dict, output_path: Path):
+def render_template(template_name: str, context: dict, output_path: Path) -> None:
     """Renders a Jinja2 template and writes it to a file."""
     template = env.get_template(template_name)
     rendered_content = template.render(context)
@@ -48,22 +48,26 @@ def load_config_var(py_path: Path, var_name: str) -> dict:
     Comments: Use importlib to execute the file as a module-like object and fetch the variable.
     """
     if not py_path.exists():
-        raise FileNotFoundError(f"Config file not found: {py_path}")
+        msg = f"Config file not found: {py_path}"
+        raise FileNotFoundError(msg)
     spec = importlib.util.spec_from_file_location(py_path.stem, py_path)
     if spec is None or spec.loader is None:
-        raise ImportError(f"Unable to load spec for {py_path}")
+        msg = f"Unable to load spec for {py_path}"
+        raise ImportError(msg)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)  # type: ignore[attr-defined]
     try:
         value = getattr(module, var_name)
     except AttributeError as exc:
-        raise AttributeError(f"Variable '{var_name}' not found in {py_path}") from exc
+        msg = f"Variable '{var_name}' not found in {py_path}"
+        raise AttributeError(msg) from exc
     if not isinstance(value, dict):
-        raise TypeError(f"Variable '{var_name}' in {py_path} must be a dict")
+        msg = f"Variable '{var_name}' in {py_path} must be a dict"
+        raise TypeError(msg)
     return value
 
 
-def run_compose_command(command: str, compose_file_name: str):
+def run_compose_command(command: str, compose_file_name: str) -> None:
     """Runs a docker-compose command using a specific compose file."""
     compose_file_path = BASE_DIR / compose_file_name
     if not compose_file_path.exists():
@@ -82,7 +86,8 @@ def run_compose_command(command: str, compose_file_name: str):
         click.echo(click.style(f"\n🎉 Service {status} successfully!", fg="green"))
     except subprocess.CalledProcessError as e:
         click.echo(
-            click.style(f"\n❌ Failed to {command} service: {e}", fg="red"), err=True,
+            click.style(f"\n❌ Failed to {command} service: {e}", fg="red"),
+            err=True,
         )
     except FileNotFoundError:
         click.echo(
@@ -123,20 +128,20 @@ def generate_server_iptables_rules(server_config: dict) -> tuple[list[str], list
 
 
 @click.group()
-def cli():
+def cli() -> None:
     """A tool to manage WireGuard server and client configurations."""
     return
 
 
 # --- Server Command Group ---
 @cli.group()
-def server():
+def server() -> None:
     """Manage server configuration and services."""
     return
 
 
 @server.command(name="up", help="Generate server config files and start the service.")
-def server_up():
+def server_up() -> None:
     """Generates server config files and starts the service."""
     try:
         SERVER_CONFIG = load_config_var(USER_SERVER_SETTINGS_PATH, "SERVER_CONFIG")
@@ -150,7 +155,11 @@ def server_up():
         return
 
     click.echo(
-        click.style("🚀 Generating server configuration files...", fg="cyan", bold=True),
+        click.style(
+            "🚀 Generating server configuration files...",
+            fg="cyan",
+            bold=True,
+        ),
     )
     post_up_rules, post_down_rules = generate_server_iptables_rules(SERVER_CONFIG)
 
@@ -178,7 +187,7 @@ def server_up():
 
 
 @server.command(name="down", help="Stop and remove the server service.")
-def server_down():
+def server_down() -> None:
     """Stops and removes the server service."""
     click.echo(click.style("🚀 Stopping server...", fg="cyan", bold=True))
     run_compose_command("down", "server_compose.yml")
@@ -186,13 +195,13 @@ def server_down():
 
 # --- Client Command Group ---
 @cli.group()
-def client():
+def client() -> None:
     """Manage client configuration and services."""
     return
 
 
 @client.command(name="up", help="Generate client config files and start the service.")
-def client_up():
+def client_up() -> None:
     """Generates client config files and starts the service."""
     try:
         CLIENT_CONFIG = load_config_var(USER_CLIENT_SETTINGS_PATH, "CLIENT_CONFIG")
@@ -206,7 +215,11 @@ def client_up():
         return
 
     click.echo(
-        click.style("🚀 Generating client configuration files...", fg="cyan", bold=True),
+        click.style(
+            "🚀 Generating client configuration files...",
+            fg="cyan",
+            bold=True,
+        ),
     )
     render_template(
         "client_wg0.conf.j2",
@@ -253,16 +266,17 @@ def client_up():
 
 
 @client.command(name="down", help="Stop and remove the client service.")
-def client_down():
+def client_down() -> None:
     """Stops and removes the client service."""
     click.echo(click.style("🚀 Stopping client...", fg="cyan", bold=True))
     run_compose_command("down", "client_compose.yml")
 
 
 @client.command(
-    name="check-ip", help="Check the host's public IP to verify the VPN connection.",
+    name="check-ip",
+    help="Check the host's public IP to verify the VPN connection.",
 )
-def check_ip():
+def check_ip() -> None:
     """Checks the host's public IP to see if it matches the VPN server."""
     click.echo(click.style("🔎 Checking host's public IP...", fg="cyan", bold=True))
 
@@ -316,7 +330,8 @@ def check_ip():
                 break
             click.echo(
                 click.style(
-                    f"   ⚠️ Got invalid response from {service}", fg="yellow",
+                    f"   ⚠️ Got invalid response from {service}",
+                    fg="yellow",
                 ),
                 err=True,
             )
@@ -332,7 +347,8 @@ def check_ip():
         except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
             click.echo(
                 click.style(
-                    f"   ⚠️ Failed to get IP from {service}, trying next...", fg="yellow",
+                    f"   ⚠️ Failed to get IP from {service}, trying next...",
+                    fg="yellow",
                 ),
             )
             continue
@@ -369,7 +385,8 @@ def check_ip():
         click.echo(click.style(f"   The VPN server IP is {server_ip}.", fg="red"))
         click.echo(
             click.style(
-                "   Host traffic is NOT being routed through the VPN.", fg="red",
+                "   Host traffic is NOT being routed through the VPN.",
+                fg="red",
             ),
         )
     click.echo("-" * 40)
@@ -379,7 +396,7 @@ def check_ip():
 @cli.group(
     help="View or edit configuration files. Default location: ~/.config/clash_tools/wireguard/",
 )
-def config():
+def config() -> None:
     """Manages configuration files."""
     return
 
@@ -390,7 +407,7 @@ def _config_handler(
     show_path: bool,
     open_editor: bool,
     print_content: bool,
-):
+) -> None:
     """Generic handler for config commands.
 
     Comments: Provide three modes:
@@ -452,10 +469,16 @@ def _config_handler(
 
 @config.command(name="server", help="Manage the server configuration file.")
 @click.option(
-    "--path", "show_path", is_flag=True, help="Only print the config file path.",
+    "--path",
+    "show_path",
+    is_flag=True,
+    help="Only print the config file path.",
 )
 @click.option(
-    "--edit", "open_editor", is_flag=True, help="Open the server config in your editor.",
+    "--edit",
+    "open_editor",
+    is_flag=True,
+    help="Open the server config in your editor.",
 )
 @click.option(
     "--cat",
@@ -463,13 +486,14 @@ def _config_handler(
     is_flag=True,
     help="Print the server config content to stdout.",
 )
-def config_server(show_path: bool, open_editor: bool, print_content: bool):
+def config_server(show_path: bool, open_editor: bool, print_content: bool) -> None:
     """Operate on the server configuration file."""
     # Reject multiple action flags
     if sum([show_path, open_editor, print_content]) > 1:
         click.echo(
             click.style(
-                "❌ Please choose only one of --path / --edit / --cat.", fg="red",
+                "❌ Please choose only one of --path / --edit / --cat.",
+                fg="red",
             ),
             err=True,
         )
@@ -485,10 +509,16 @@ def config_server(show_path: bool, open_editor: bool, print_content: bool):
 
 @config.command(name="client", help="Manage the client configuration file.")
 @click.option(
-    "--path", "show_path", is_flag=True, help="Only print the config file path.",
+    "--path",
+    "show_path",
+    is_flag=True,
+    help="Only print the config file path.",
 )
 @click.option(
-    "--edit", "open_editor", is_flag=True, help="Open the client config in your editor.",
+    "--edit",
+    "open_editor",
+    is_flag=True,
+    help="Open the client config in your editor.",
 )
 @click.option(
     "--cat",
@@ -496,12 +526,13 @@ def config_server(show_path: bool, open_editor: bool, print_content: bool):
     is_flag=True,
     help="Print the client config content to stdout.",
 )
-def config_client(show_path: bool, open_editor: bool, print_content: bool):
+def config_client(show_path: bool, open_editor: bool, print_content: bool) -> None:
     """Operate on the client configuration file."""
     if sum([show_path, open_editor, print_content]) > 1:
         click.echo(
             click.style(
-                "❌ Please choose only one of --path / --edit / --cat.", fg="red",
+                "❌ Please choose only one of --path / --edit / --cat.",
+                fg="red",
             ),
             err=True,
         )
@@ -517,7 +548,7 @@ def config_client(show_path: bool, open_editor: bool, print_content: bool):
 
 # --- Restart Commands ---
 @server.command(name="restart", help="Restart the server service (down then up).")
-def server_restart():
+def server_restart() -> None:
     """Restarts the server service by stopping and then starting it."""
     click.echo(click.style("🔁 Restarting server...", fg="cyan", bold=True))
     run_compose_command("down", "server_compose.yml")
@@ -525,7 +556,7 @@ def server_restart():
 
 
 @client.command(name="restart", help="Restart the client service (down then up).")
-def client_restart():
+def client_restart() -> None:
     """Restarts the client service by stopping and then starting it."""
     click.echo(click.style("🔁 Restarting client...", fg="cyan", bold=True))
     run_compose_command("down", "client_compose.yml")
@@ -533,11 +564,12 @@ def client_restart():
 
 
 @cli.command(name="install-wg", help="Install WireGuard using apt (requires sudo).")
-def install_wg():
+def install_wg() -> None:
     """Installs the 'wireguard' package using apt."""
     click.echo(
         click.style(
-            "🚀 This command will attempt to install WireGuard using apt.", fg="cyan",
+            "🚀 This command will attempt to install WireGuard using apt.",
+            fg="cyan",
         ),
     )
     click.echo(
@@ -555,7 +587,8 @@ def install_wg():
         click.echo(click.style("\n🎉 WireGuard installed successfully!", fg="green"))
         click.echo(
             click.style(
-                "   You can now use commands like 'wireguard genkey'.", fg="green",
+                "   You can now use commands like 'wireguard genkey'.",
+                fg="green",
             ),
         )
 
@@ -582,11 +615,14 @@ def install_wg():
 
 
 @cli.command(name="genkey", help="Generate a new WireGuard key pair.")
-def genkey():
+def genkey() -> None:
     """Generates and displays a new WireGuard private and public key pair."""
     try:
         private_key_process = subprocess.run(
-            ["wg", "genkey"], capture_output=True, text=True, check=True,
+            ["wg", "genkey"],
+            capture_output=True,
+            text=True,
+            check=True,
         )
         private_key = private_key_process.stdout.strip()
         public_key_process = subprocess.run(

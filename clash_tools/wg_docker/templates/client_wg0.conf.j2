@@ -1,0 +1,17 @@
+# Client configuration generated from template
+[Interface]
+Address = {{ client_ip }}/32
+PrivateKey = {{ client_private_key }}
+DNS = 8.8.8.8, 223.5.5.5
+{% if post_up %}
+PostUp = {{ post_up }}
+{% endif %}
+{% if pre_down %}
+PreDown = {{ pre_down }}
+{% endif %}
+
+[Peer]
+PublicKey = {{ server_public_key }}
+AllowedIPs = {{ allowed_ips }}
+Endpoint = {{ endpoint }}
+PersistentKeepalive = 25

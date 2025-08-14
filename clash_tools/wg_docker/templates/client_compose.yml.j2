@@ -1,0 +1,16 @@
+services:
+  wireguard:
+    image: linuxserver/wireguard
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    privileged: true
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./client_wg0.conf:/config/wg_confs/wg0.conf
+      - /lib/modules:/lib/modules
+    network_mode: "host"

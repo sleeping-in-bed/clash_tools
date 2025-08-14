@@ -4,7 +4,6 @@ import sys
 
 version = os.environ.get("NEW_VERSION")
 if not version:
-    print("Error: NEW_VERSION environment variable not set.", file=sys.stderr)
     sys.exit(1)
 
 files_to_update = [
@@ -35,7 +34,6 @@ files_to_update = [
     },
 ]
 
-print(f"Updating version to: {version}\n")
 
 for entry in files_to_update:
     filename = entry["file"]
@@ -43,10 +41,7 @@ for entry in files_to_update:
     replacement_func = entry["replacement"]
     updated = False
 
-    print(f"Processing: {filename}")
-
     if not os.path.exists(filename):
-        print("File not found, skipping.")
         continue
 
     try:
@@ -59,7 +54,6 @@ for entry in files_to_update:
             if old_line.strip() != new_line.strip():
                 global updated
                 updated = True
-                print(f"Matched:\n{old_line}\nReplaced with:\n{new_line}")
             return new_line
 
         new_content, num_replacements = pattern.subn(replacement_with_log, content)
@@ -68,10 +62,10 @@ for entry in files_to_update:
             with open(filename, "w", encoding="utf-8") as f:
                 f.write(new_content)
             if updated:
-                print(f"Successfully updated version in {filename}\n")
+                pass
             else:
-                print("Already up-to-date\n")
+                pass
         else:
-            print("No matching version found, please check your regex or file.\n")
-    except Exception as e:
-        print(f"Error updating {filename}: {e}", file=sys.stderr)
+            pass
+    except Exception:
+        pass

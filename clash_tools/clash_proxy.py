@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""clash_tools package initialization
-"""
+"""clash_tools package initialization."""
 
 import sys
 from pathlib import Path
@@ -10,8 +9,8 @@ import yaml
 
 
 @click.command()
-def main():
-    """Set up proxy environment variables based on config.yaml
+def main() -> None:
+    """Set up proxy environment variables based on config.yaml.
 
     This tool reads the Clash configuration and sets up proxy environment variables.
     """
@@ -21,7 +20,8 @@ def main():
 
     if not config_file.exists():
         click.echo(
-            f"echo '❌ Error: Config file not found: {config_file}' >&2", err=True,
+            f"echo '❌ Error: Config file not found: {config_file}' >&2",
+            err=True,
         )
         sys.exit(1)
 

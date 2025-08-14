@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Simple Clash Runner Script
-Run 'sudo ./clash -d ./' in script directory
+Run 'sudo ./clash -d ./' in script directory.
 """
 
 import os
@@ -13,13 +13,13 @@ SCRIPT_DIR = Path(__file__).parent.absolute()
 
 
 @click.group()
-def cli():
-    """Clash service management tool"""
+def cli() -> None:
+    """Clash service management tool."""
 
 
 @cli.command()
-def run():
-    """Run 'sudo ./clash -d ./' in script directory"""
+def run() -> None:
+    """Run 'sudo ./clash -d ./' in script directory."""
     # Change to script directory
     original_cwd = os.getcwd()
     os.chdir(SCRIPT_DIR)
@@ -35,8 +35,8 @@ def run():
 
 @cli.command()
 @click.option("--edit", "-e", is_flag=True, help="Open config file in default editor")
-def config(edit):
-    """Manage config.yaml file"""
+def config(edit) -> None:
+    """Manage config.yaml file."""
     # Get config file path
     config_file = SCRIPT_DIR / "config.yaml"
 
@@ -65,10 +65,10 @@ def get_service_file_path():
     return SYSTEMD_PATH / SERVICE_NAME
 
 
-def run_sudo_command(command, success_msg, failure_msg, input_data=None):
+def run_sudo_command(command, success_msg, failure_msg, input_data=None) -> bool | None:
     """Helper to run a command with sudo and handle errors."""
     try:
-        full_command = ["sudo"] + command
+        full_command = ["sudo", *command]
         subprocess.run(
             full_command,
             check=True,
@@ -86,7 +86,7 @@ def run_sudo_command(command, success_msg, failure_msg, input_data=None):
 
 
 @click.group()
-def service():
+def service() -> None:
     """Manage clash as a systemd service."""
     # This check is a hint, actual sudo is enforced in run_sudo_command
     if os.geteuid() != 0:
@@ -97,14 +97,16 @@ cli.add_command(service)
 
 
 @service.command("add")
-def add_service():
+def add_service() -> None:
     """Install, enable, and start the clash systemd service."""
     clash_executable = SCRIPT_DIR / "clash"
     service_file = get_service_file_path()
 
     if not clash_executable.is_file():
         click.secho(
-            f"Clash executable not found at: {clash_executable}", fg="red", err=True,
+            f"Clash executable not found at: {clash_executable}",
+            fg="red",
+            err=True,
         )
         return
 
@@ -153,7 +155,7 @@ WantedBy=multi-user.target
 
 
 @service.command("remove")
-def remove_service():
+def remove_service() -> None:
     """Stop, disable, and remove the clash systemd service."""
     service_file = get_service_file_path()
     if not service_file.exists():
@@ -186,7 +188,7 @@ def remove_service():
 
 
 @service.command()
-def status():
+def status() -> None:
     """Check the status of the clash service."""
     click.echo(f"Checking status for {SERVICE_NAME}...")
     # Does not need sudo to run, and we want to see the output directly.
