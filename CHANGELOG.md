@@ -1,3 +1,9 @@
+## [2.6.3](https://github.com/sleeping-in-bed/clash_tools/compare/v2.6.2...v2.6.3) (2025-08-14)
+
+### Bug Fixes
+
+* fix client config path ([bca190c](https://github.com/sleeping-in-bed/clash_tools/commit/bca190c467f97fcbba96defdbc1528bc698a0b4a))
+
 ## [2.6.2](https://github.com/sleeping-in-bed/clash_tools/compare/v2.6.1...v2.6.2) (2025-08-14)
 
 ### Bug Fixes
