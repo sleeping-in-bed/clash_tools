@@ -109,6 +109,12 @@ class ClientConfig(BaseModel):
     snat: bool = False
     c_to_s_ports: list[PortMapping] = Field(default_factory=list)
 
+    @field_validator("c_to_s_ports", mode="before")
+    @classmethod
+    def _accept_none_c_to_s_ports(cls, v):
+        """Allow null/None c_to_s_ports by coercing to an empty list."""
+        return [] if v is None else v
+
 
 class ServerConfig(BaseModel):
     """Server configuration settings.

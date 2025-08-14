@@ -20,13 +20,28 @@ from pathlib import Path
 import typer
 
 from .config import get_user_config_dir
-from .utils import WGConfRenderer
+from .utils import WGConfRenderer, WGKeyStoreManager
 
-app = typer.Typer(help="WireGuard docker manager")
-server_app = typer.Typer(help="Server operations")
-client_app = typer.Typer(help="Client operations")
+app = typer.Typer(help="WireGuard docker manager", no_args_is_help=True)
+server_app = typer.Typer(help="Server operations", no_args_is_help=True)
+client_app = typer.Typer(help="Client operations", no_args_is_help=True)
 app.add_typer(server_app, name="server")
 app.add_typer(client_app, name="client")
+
+def _ensure_keystore() -> None:
+    """Ensure wg_keys.json exists; generate 1..254 if missing.
+
+    This avoids runtime failures when rendering configs on fresh hosts.
+    """
+    mgr = WGKeyStoreManager()
+    if mgr.json_path.exists():
+        return
+    store = mgr.generate_pairs_for_range()
+    mgr.write_store(store)
+
+
+# Ensure keystore before creating renderer singleton
+_ensure_keystore()
 
 # Unified renderer instance
 renderer = WGConfRenderer()
