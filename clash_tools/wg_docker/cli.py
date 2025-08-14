@@ -28,6 +28,7 @@ client_app = typer.Typer(help="Client operations", no_args_is_help=True)
 app.add_typer(server_app, name="server")
 app.add_typer(client_app, name="client")
 
+
 def _ensure_keystore() -> None:
     """Ensure wg_keys.json exists; generate 1..254 if missing.
 
@@ -75,6 +76,11 @@ def _server_config_path() -> Path:
     return get_user_config_dir() / "server_config.yml"
 
 
+def _client_config_path() -> Path:
+    """Return absolute path to client_config.yml in user config dir."""
+    return get_user_config_dir() / "client_config.yml"
+
+
 def _server_template() -> Path:
     """Return absolute path to the server_config.yml template in package."""
     return Path(__file__).parent / "templates" / "server_config.yml"
@@ -115,8 +121,57 @@ def server_restart() -> None:
     server_up()
 
 
+def _do_config_yml(
+    *,
+    cfg_path: Path,
+    template: Path | None,
+    edit: bool,
+    cat: bool,
+    show_path: bool,
+    reset: bool,
+) -> None:
+    """Generic config file manager for YAML files in user config dir."""
+    if reset:
+        if template is not None:
+            cfg_path.write_text(template.read_text(encoding="utf-8"), encoding="utf-8")
+        else:
+            # Create empty file if no template provided
+            cfg_path.write_text("", encoding="utf-8")
+        typer.secho(f"Reset: {cfg_path}", fg=typer.colors.GREEN)
+        return
+
+    if show_path:
+        typer.echo(str(cfg_path.resolve()))
+        return
+
+    if cat:
+        if not cfg_path.exists():
+            typer.secho(
+                f"{cfg_path.name} not found. Use --reset to create.",
+                fg=typer.colors.YELLOW,
+            )
+            raise typer.Exit(code=1)
+        typer.echo(cfg_path.read_text(encoding="utf-8"))
+        return
+
+    if edit:
+        if not cfg_path.exists():
+            if template is not None:
+                cfg_path.write_text(
+                    template.read_text(encoding="utf-8"),
+                    encoding="utf-8",
+                )
+            else:
+                cfg_path.write_text("", encoding="utf-8")
+        _open_in_editor(cfg_path)
+        return
+
+    # default action: show help
+    raise typer.Exit(code=0)
+
+
 @server_app.command("config")
-def server_config(
+def config_yml(
     edit: bool = typer.Option(
         False,
         "--edit",
@@ -131,38 +186,14 @@ def server_config(
     reset: bool = typer.Option(False, "--reset", help="Overwrite with template"),
 ) -> None:
     """Manage server_config.yml in the user config directory."""
-    cfg_path = _server_config_path()
-
-    if reset:
-        template = _server_template()
-        cfg_path.write_text(template.read_text(encoding="utf-8"), encoding="utf-8")
-        typer.secho(f"Reset from template: {cfg_path}", fg=typer.colors.GREEN)
-        return
-
-    if path:
-        typer.echo(str(cfg_path.resolve()))
-        return
-
-    if cat:
-        if not cfg_path.exists():
-            typer.secho(
-                "server_config.yml not found. Use --reset to create from template.",
-                fg=typer.colors.YELLOW,
-            )
-            raise typer.Exit(code=1)
-        typer.echo(cfg_path.read_text(encoding="utf-8"))
-        return
-
-    if edit:
-        if not cfg_path.exists():
-            # bootstrap from template if missing
-            template = _server_template()
-            cfg_path.write_text(template.read_text(encoding="utf-8"), encoding="utf-8")
-        _open_in_editor(cfg_path)
-        return
-
-    # default action: show help
-    raise typer.Exit(code=0)
+    _do_config_yml(
+        cfg_path=_server_config_path(),
+        template=_server_template(),
+        edit=edit,
+        cat=cat,
+        show_path=path,
+        reset=reset,
+    )
 
 
 # ---------- Client commands ----------
@@ -196,18 +227,25 @@ def client_config(
     edit: bool = typer.Option(
         False,
         "--edit",
-        help="Edit server_config.yml in $EDITOR",
+        help="Edit client_config.yml in $EDITOR",
     ),
-    cat: bool = typer.Option(False, "--cat", help="Print server_config.yml contents"),
+    cat: bool = typer.Option(False, "--cat", help="Print client_config.yml contents"),
     path: bool = typer.Option(
         False,
         "--path",
-        help="Print server_config.yml absolute path",
+        help="Print client_config.yml absolute path",
     ),
-    reset: bool = typer.Option(False, "--reset", help="Overwrite with template"),
+    reset: bool = typer.Option(False, "--reset", help="Create empty file if missing"),
 ) -> None:
-    """Mirror of server config command operating on the same server_config.yml."""
-    server_config(edit=edit, cat=cat, path=path, reset=reset)
+    """Manage client_config.yml in the user config directory."""
+    _do_config_yml(
+        cfg_path=_client_config_path(),
+        template=None,
+        edit=edit,
+        cat=cat,
+        show_path=path,
+        reset=reset,
+    )
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ from __future__ import annotations
 from pathlib import Path
 from unittest.mock import patch
 
-from clash_tools.wg_docker.config import get_user_config_dir, load_server_config
+from clash_tools.wg_docker.config import load_server_config
 from clash_tools.wg_docker.utils import WGConfRenderer, WGKeyStoreManager
 
 
