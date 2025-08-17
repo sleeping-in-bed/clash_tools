@@ -34,10 +34,9 @@ def _template_config_path() -> Path:
     return SCRIPT_DIR / "config.yml"
 
 
-app = typer.Typer(help="Clash service management tool", no_args_is_help=True)
+app = typer.Typer(help="Clash service management tool")
 service_app = typer.Typer(
     help="Manage clash as a systemd service",
-    no_args_is_help=True,
 )
 app.add_typer(service_app, name="service")
 
@@ -49,12 +48,13 @@ def run() -> None:
     typer.echo(f"Running: sudo ./clash -d {cfg_dir}")
     # Execute from script dir where binary resides, but point -d to user cfg dir
     subprocess.run(["sudo", str(SCRIPT_DIR / "clash"), "-d", str(cfg_dir)], check=False)
+
+
 @app.callback(invoke_without_command=True)
 def _root(ctx: typer.Context) -> None:
     """Show help when no subcommand is provided, without error panel."""
     if ctx.invoked_subcommand is None:
         typer.echo(ctx.get_help())
-
 
 
 @app.command()

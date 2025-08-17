@@ -223,7 +223,8 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
 
 
 # Create Typer command group
-app = typer.Typer(help="Clash Docker Proxy Management Tool", no_args_is_help=True)
+app = typer.Typer(help="Clash Docker Proxy Management Tool")
+
 
 @app.callback(invoke_without_command=True)
 def _root(ctx: typer.Context) -> None:
