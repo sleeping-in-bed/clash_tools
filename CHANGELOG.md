@@ -1,3 +1,9 @@
+## [3.2.0](https://github.com/sleeping-in-bed/clash_tools/compare/v3.1.4...v3.2.0) (2025-08-17)
+
+### Features
+
+* add sudo and change echo styles ([47a3789](https://github.com/sleeping-in-bed/clash_tools/commit/47a3789874670d3ee298bc63ff0fa0f7cd44a95e))
+
 ## [3.1.4](https://github.com/sleeping-in-bed/clash_tools/compare/v3.1.3...v3.1.4) (2025-08-17)
 
 ### Bug Fixes
