@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: clash_tools 1.2.1\n"
+"Project-Id-Version: clash_tools 3.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-03 00:07+0800\n"
+"POT-Creation-Date: 2025-08-17 14:26+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -26,86 +26,86 @@ msgstr "`clash_serve` - 服务管理"
 
 #: ../../source/clash_tools/clash_serve.rst:4
 msgid "A comprehensive utility for Clash service management and configuration."
-msgstr "用于 Clash 服务管理和配置的综合工具。"
+msgstr "用于 Clash 服务管理与配置的完整工具。"
 
 #: ../../source/clash_tools/clash_serve.rst:6
+#: ../../source/clash_tools/clash_serve.rst:74
 msgid "**Usage**::"
-msgstr "**用法**::"
+msgstr "使用方法::"
 
 #: ../../source/clash_tools/clash_serve.rst:10
+#: ../../source/clash_tools/clash_serve.rst:78
 msgid "**Available Commands**:"
-msgstr "**可用命令**："
+msgstr "可用命令："
 
 #: ../../source/clash_tools/clash_serve.rst:11
-msgid "``run`` - Start the Clash service"
-msgstr "``run`` - 启动 Clash 服务"
+msgid "``run`` - Start the Clash service manually"
+msgstr "``run`` - 手动启动 Clash 服务"
 
 #: ../../source/clash_tools/clash_serve.rst:12
 msgid "``config`` - Manage config.yaml file"
 msgstr "``config`` - 管理 config.yaml 文件"
 
-#: ../../source/clash_tools/clash_serve.rst:14
-#: ../../source/clash_tools/clash_serve.rst:33
-#: ../../source/clash_tools/clash_serve.rst:64
-msgid "**Description**:"
-msgstr "**说明**："
+#: ../../source/clash_tools/clash_serve.rst:13
+msgid "``service`` - Manage Clash as a systemd service"
+msgstr "``service`` - 以 systemd 服务方式管理 Clash"
 
 #: ../../source/clash_tools/clash_serve.rst:15
-msgid ""
-"This tool provides two main functions: starting the Clash service and "
-"managing the configuration file. The ``run`` command starts the Clash "
-"service by running ``sudo ./clash -d ./`` in the script directory, while "
-"the ``config`` command helps manage the ``config.yaml`` file."
-msgstr "此工具提供两个主要功能：启动 Clash 服务和管理配置文件。``run`` 命令通过在脚本目录中运行 ``sudo ./clash -d ./`` 来启动 Clash 服务，而 ``config`` 命令帮助管理 ``config.yaml`` 文件。"
+#: ../../source/clash_tools/clash_serve.rst:33
+#: ../../source/clash_tools/clash_serve.rst:61
+msgid "**Description**:"
+msgstr "说明："
 
-#: ../../source/clash_tools/clash_serve.rst:17
-#: ../../source/clash_tools/clash_serve.rst:36
-#: ../../source/clash_tools/clash_serve.rst:67
-msgid "**Features**:"
-msgstr "**特性**："
+#: ../../source/clash_tools/clash_serve.rst:16
+msgid ""
+"This tool provides functions for running Clash manually, managing its "
+"configuration, and controlling it as a systemd service."
+msgstr "该工具提供手动运行 Clash、管理其配置，并以 systemd 服务方式控制的能力。"
 
 #: ../../source/clash_tools/clash_serve.rst:18
-msgid "Service management with proper directory handling"
-msgstr "带有适当目录处理的服务管理"
+#: ../../source/clash_tools/clash_serve.rst:36
+#: ../../source/clash_tools/clash_serve.rst:64
+msgid "**Features**:"
+msgstr "特性："
 
 #: ../../source/clash_tools/clash_serve.rst:19
-msgid "Configuration file management"
-msgstr "配置文件管理"
+msgid "Manual service execution"
+msgstr "手动运行服务"
 
 #: ../../source/clash_tools/clash_serve.rst:20
-msgid "Built-in editor integration"
-msgstr "内置编辑器集成"
+msgid "Systemd service management (add, remove, status)"
+msgstr "Systemd 服务管理（添加、移除、状态）"
 
 #: ../../source/clash_tools/clash_serve.rst:21
-msgid "Configuration file path display"
-msgstr "配置文件路径显示"
+msgid "Configuration file management with editor integration"
+msgstr "集成编辑器的配置文件管理"
 
 #: ../../source/clash_tools/clash_serve.rst:24
 msgid "Detailed Commands"
 msgstr "详细命令"
 
 #: ../../source/clash_tools/clash_serve.rst:27
-msgid "run - Start Clash Service"
-msgstr "run - 启动 Clash 服务"
+msgid "run - Start Clash Service Manually"
+msgstr "run - 手动启动 Clash 服务"
 
 #: ../../source/clash_tools/clash_serve.rst:29
 msgid "Start the Clash service with proper configuration::"
-msgstr "使用正确的配置启动 Clash 服务::"
+msgstr "以正确配置启动 Clash 服务::"
 
 #: ../../source/clash_tools/clash_serve.rst:34
 msgid ""
 "This command starts the Clash service by running ``sudo ./clash -d ./`` "
-"in the script directory. It automatically changes to the correct "
-"directory and ensures Clash runs with the proper configuration."
-msgstr "此命令通过在脚本目录中运行 ``sudo ./clash -d ./`` 来启动 Clash 服务。它自动切换到正确的目录并确保 Clash 使用正确的配置运行。"
+"in the script directory. It is intended for manual, one-off execution. "
+"For a persistent background service, use the ``service`` command."
+msgstr "该命令通过在脚本目录执行 ``sudo ./clash -d ./`` 启动 Clash，适用于一次性的手动执行。若需常驻后台，请使用 ``service`` 子命令。"
 
 #: ../../source/clash_tools/clash_serve.rst:37
 msgid "Automatically changes to the correct directory"
-msgstr "自动切换到正确的目录"
+msgstr "自动切换到正确目录"
 
 #: ../../source/clash_tools/clash_serve.rst:38
 msgid "Runs Clash with sudo privileges"
-msgstr "使用 sudo 权限运行 Clash"
+msgstr "以 sudo 权限运行 Clash"
 
 #: ../../source/clash_tools/clash_serve.rst:39
 msgid "Uses the current directory as the configuration directory"
@@ -121,63 +121,139 @@ msgstr "管理 config.yaml 文件::"
 
 #: ../../source/clash_tools/clash_serve.rst:48
 msgid "**Options**::"
-msgstr "**选项**::"
+msgstr "选项::"
 
 #: ../../source/clash_tools/clash_serve.rst:53
 msgid "**Examples**::"
-msgstr "**示例**::"
+msgstr "示例::"
 
-#: ../../source/clash_tools/clash_serve.rst:65
+#: ../../source/clash_tools/clash_serve.rst:62
 msgid ""
 "This command helps manage the ``config.yaml`` file. By default, it "
 "displays the absolute path of the configuration file. With the ``--edit``"
 " option, it opens the file in your default editor."
-msgstr "此命令帮助管理 ``config.yaml`` 文件。默认情况下，它显示配置文件的绝对路径。使用 ``--edit`` 选项，它会在您的默认编辑器中打开文件。"
+msgstr "该命令用于管理 ``config.yaml`` 文件。默认显示配置文件的绝对路径，使用 ``--edit`` 选项将用默认编辑器打开。"
 
-#: ../../source/clash_tools/clash_serve.rst:68
+#: ../../source/clash_tools/clash_serve.rst:65
 msgid "Display configuration file absolute path"
 msgstr "显示配置文件绝对路径"
 
-#: ../../source/clash_tools/clash_serve.rst:69
+#: ../../source/clash_tools/clash_serve.rst:66
 msgid "Open configuration file in editor"
 msgstr "在编辑器中打开配置文件"
 
-#: ../../source/clash_tools/clash_serve.rst:70
+#: ../../source/clash_tools/clash_serve.rst:67
 msgid "Respects ``EDITOR`` environment variable"
 msgstr "遵循 ``EDITOR`` 环境变量"
 
-#: ../../source/clash_tools/clash_serve.rst:71
-msgid "Fallback to ``nano`` if no editor is set"
-msgstr "如果没有设置编辑器，则默认使用 ``nano``"
+#: ../../source/clash_tools/clash_serve.rst:70
+msgid "service - Manage as a Systemd Service"
+msgstr "service - 以 Systemd 服务方式管理"
 
-#: ../../source/clash_tools/clash_serve.rst:74
+#: ../../source/clash_tools/clash_serve.rst:72
+msgid ""
+"Manage the clash systemd service for running it in the background "
+"persistently. All service commands require ``sudo`` privileges."
+msgstr "以 systemd 方式常驻运行 Clash。所有服务相关命令需要 ``sudo`` 权限。"
+
+#: ../../source/clash_tools/clash_serve.rst:79
+msgid "``add`` - Install, enable, and start the service"
+msgstr "``add`` - 安装、启用并启动服务"
+
+#: ../../source/clash_tools/clash_serve.rst:80
+msgid "``remove`` - Stop, disable, and remove the service"
+msgstr "``remove`` - 停止、禁用并移除服务"
+
+#: ../../source/clash_tools/clash_serve.rst:81
+msgid "``status`` - Check the service status"
+msgstr "``status`` - 查看服务状态"
+
+#: ../../source/clash_tools/clash_serve.rst:83
+msgid "**service add**"
+msgstr "**service add**"
+
+#: ../../source/clash_tools/clash_serve.rst:84
+msgid "Installs and starts the Clash service."
+msgstr "安装并启动 Clash 服务。"
+
+#: ../../source/clash_tools/clash_serve.rst:90
+msgid ""
+"This command will: 1. Create a systemd service file at "
+"``/etc/systemd/system/clash.service``. 2. Configure the service to run as"
+" the current user. 3. Reload the systemd daemon. 4. Enable the service to"
+" start on boot. 5. Start the service immediately."
+msgstr "该命令将：1）在 ``/etc/systemd/system/clash.service`` 创建服务文件；2）配置服务以当前用户运行；3）重载 systemd；4）设置开机自启；5）立即启动服务。"
+
+#: ../../source/clash_tools/clash_serve.rst:97
+msgid "**service remove**"
+msgstr "**service remove**"
+
+#: ../../source/clash_tools/clash_serve.rst:98
+msgid "Stops and completely removes the Clash service."
+msgstr "停止并彻底移除 Clash 服务。"
+
+#: ../../source/clash_tools/clash_serve.rst:104
+msgid ""
+"This command will: 1. Stop the running Clash service. 2. Disable the "
+"service from starting on boot. 3. Remove the systemd service file. 4. "
+"Reload the systemd daemon."
+msgstr "该命令将：1）停止正在运行的服务；2）禁用开机自启；3）移除 systemd 服务文件；4）重载 systemd。"
+
+#: ../../source/clash_tools/clash_serve.rst:110
+msgid "**service status**"
+msgstr "**service status**"
+
+#: ../../source/clash_tools/clash_serve.rst:111
+msgid "Checks the current status of the Clash service."
+msgstr "查看 Clash 服务当前状态。"
+
+#: ../../source/clash_tools/clash_serve.rst:117
+msgid ""
+"This will display detailed information from ``systemctl``, including "
+"whether the service is active, its PID, and recent log entries."
+msgstr "将显示来自 ``systemctl`` 的详细信息，包括服务是否活跃、其 PID 与最近日志。"
+
+#: ../../source/clash_tools/clash_serve.rst:120
 msgid "Permission Requirements"
 msgstr "权限要求"
 
-#: ../../source/clash_tools/clash_serve.rst:76
-msgid "Requires ``sudo`` privileges to run the Clash service."
-msgstr "需要 ``sudo`` 权限来运行 Clash 服务。"
+#: ../../source/clash_tools/clash_serve.rst:122
+msgid "``run`` command requires ``sudo`` to start Clash."
+msgstr "``run`` 命令需要 ``sudo`` 来启动 Clash。"
 
-#: ../../source/clash_tools/clash_serve.rst:79
+#: ../../source/clash_tools/clash_serve.rst:123
+msgid ""
+"``service`` subcommands (``add``, ``remove``) require ``sudo`` to "
+"interact with systemd. The ``status`` command may also require it "
+"depending on system configuration."
+msgstr "``service`` 子命令（``add``、``remove``）需要 ``sudo`` 与 systemd 交互。``status`` 视系统配置可能也需要。"
+
+#: ../../source/clash_tools/clash_serve.rst:124
+msgid ""
+"``config`` command does not require special permissions unless the file "
+"itself requires it."
+msgstr "``config`` 命令无需特殊权限，除非文件本身需要。"
+
+#: ../../source/clash_tools/clash_serve.rst:127
 msgid "Troubleshooting"
-msgstr "故障排除"
+msgstr "故障排查"
 
-#: ../../source/clash_tools/clash_serve.rst:81
-msgid "**Issue: clash_serve Permission Denied**"
-msgstr "**问题：clash_serve 权限被拒绝**"
+#: ../../source/clash_tools/clash_serve.rst:129
+msgid "**Issue: Permission Denied**"
+msgstr "问题：权限不足"
 
-#: ../../source/clash_tools/clash_serve.rst:83
+#: ../../source/clash_tools/clash_serve.rst:131
 msgid "If you get permission errors when running ``clash_serve``, ensure:"
-msgstr "如果运行 ``clash_serve`` 时遇到权限错误，请确保："
+msgstr "若运行 ``clash_serve`` 报权限错误，请确认："
 
-#: ../../source/clash_tools/clash_serve.rst:85
+#: ../../source/clash_tools/clash_serve.rst:133
+msgid "You are using ``sudo`` for ``run`` and ``service`` commands."
+msgstr "使用 ``sudo`` 运行 ``run`` 与 ``service`` 命令。"
+
+#: ../../source/clash_tools/clash_serve.rst:134
 msgid "The ``clash`` binary is executable: ``chmod +x clash``"
-msgstr "``clash`` 二进制文件是可执行的：``chmod +x clash``"
+msgstr "``clash`` 可执行：``chmod +x clash``"
 
-#: ../../source/clash_tools/clash_serve.rst:86
-msgid "You have sudo privileges"
-msgstr "您拥有 sudo 权限"
-
-#: ../../source/clash_tools/clash_serve.rst:87
-msgid "The config file exists in the same directory"
-msgstr "配置文件与脚本在同一目录中"
+#: ../../source/clash_tools/clash_serve.rst:135
+msgid "The config file exists in the same directory."
+msgstr "配置文件存在于同一目录。"

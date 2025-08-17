@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: clash_tools 1.2.1\n"
+"Project-Id-Version: clash_tools 3.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-03 00:07+0800\n"
+"POT-Creation-Date: 2025-08-17 14:26+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -32,21 +32,21 @@ msgstr "用于在当前会话中设置代理环境变量的 shell 脚本。"
 
 #: ../../source/clash_tools/clash_proxy.rst:6
 msgid "**Usage**::"
-msgstr "**用法**::"
+msgstr "使用方法::"
 
 #: ../../source/clash_tools/clash_proxy.rst:10
 msgid "**Description**:"
-msgstr "**说明**："
+msgstr "说明："
 
 #: ../../source/clash_tools/clash_proxy.rst:11
 msgid ""
 "This script reads the configuration from ``config.yaml`` and sets up all "
 "necessary proxy environment variables for the current shell session."
-msgstr "此脚本从 ``config.yaml`` 读取配置，并为当前 shell 会话设置所有必要的代理环境变量。"
+msgstr "该脚本读取 ``config.yaml`` 中的配置，并为当前 shell 会话设置所有必要的代理环境变量。"
 
 #: ../../source/clash_tools/clash_proxy.rst:13
 msgid "**Environment Variables Set**:"
-msgstr "**设置的环境变量**："
+msgstr "设置的环境变量："
 
 #: ../../source/clash_tools/clash_proxy.rst:14
 msgid "``http_proxy`` / ``HTTP_PROXY``"
@@ -58,7 +58,7 @@ msgstr "``https_proxy`` / ``HTTPS_PROXY``"
 
 #: ../../source/clash_tools/clash_proxy.rst:16
 msgid "``all_proxy`` / ``ALL_PROXY`` (SOCKS5)"
-msgstr "``all_proxy`` / ``ALL_PROXY`` (SOCKS5)"
+msgstr "``all_proxy`` / ``ALL_PROXY``（SOCKS5）"
 
 #: ../../source/clash_tools/clash_proxy.rst:17
 msgid "``no_proxy`` / ``NO_PROXY``"
@@ -66,7 +66,7 @@ msgstr "``no_proxy`` / ``NO_PROXY``"
 
 #: ../../source/clash_tools/clash_proxy.rst:19
 msgid "**Features**:"
-msgstr "**特性**："
+msgstr "特性："
 
 #: ../../source/clash_tools/clash_proxy.rst:20
 msgid "Automatic port detection from config file"
@@ -74,15 +74,15 @@ msgstr "从配置文件自动检测端口"
 
 #: ../../source/clash_tools/clash_proxy.rst:21
 msgid "Error handling and validation"
-msgstr "错误处理和验证"
+msgstr "错误处理与校验"
 
 #: ../../source/clash_tools/clash_proxy.rst:22
 msgid "Both lowercase and uppercase variable formats"
-msgstr "支持小写和大写变量格式"
+msgstr "同时支持小写与大写变量名"
 
 #: ../../source/clash_tools/clash_proxy.rst:23
 msgid "Support for HTTP and SOCKS5 proxies"
-msgstr "支持 HTTP 和 SOCKS5 代理"
+msgstr "支持 HTTP 与 SOCKS5 代理"
 
 #: ../../source/clash_tools/clash_proxy.rst:26
 msgid "Permission Requirements"
@@ -90,25 +90,25 @@ msgstr "权限要求"
 
 #: ../../source/clash_tools/clash_proxy.rst:28
 msgid "No special permissions required. Can be run by any user."
-msgstr "不需要特殊权限。任何用户都可以运行。"
+msgstr "无需特殊权限，任意用户均可运行。"
 
 #: ../../source/clash_tools/clash_proxy.rst:31
 msgid "Troubleshooting"
-msgstr "故障排除"
+msgstr "故障排查"
 
 #: ../../source/clash_tools/clash_proxy.rst:33
 msgid "**Issue: clash_proxy Variables Not Set**"
-msgstr "**问题：clash_proxy 变量未设置**"
+msgstr "问题：clash_proxy 环境变量未设置"
 
 #: ../../source/clash_tools/clash_proxy.rst:35
 msgid "If environment variables aren't being set:"
-msgstr "如果环境变量未被设置："
+msgstr "若环境变量未被设置："
 
 #: ../../source/clash_tools/clash_proxy.rst:37
 msgid ""
 "Make sure to use ``eval \"$(clash_proxy)\"`` or ``source clash_proxy`` "
 "(not just ``./clash_proxy``)"
-msgstr "确保使用 ``eval \"$(clash_proxy)\"`` 或 ``source clash_proxy``（而不仅仅是 ``./clash_proxy``）"
+msgstr "请确保使用 ``eval \"$(clash_proxy)\"`` 或 ``source clash_proxy``（而非仅执行 ``./clash_proxy``）"
 
 #: ../../source/clash_tools/clash_proxy.rst:38
 msgid "Check that ``config.yaml`` exists and contains valid port numbers"
@@ -116,4 +116,4 @@ msgstr "检查 ``config.yaml`` 是否存在并包含有效的端口号"
 
 #: ../../source/clash_tools/clash_proxy.rst:39
 msgid "Verify the script has read permissions"
-msgstr "验证脚本具有读取权限"
+msgstr "确认脚本具有读取权限"

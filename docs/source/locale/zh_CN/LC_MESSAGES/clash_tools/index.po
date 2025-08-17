@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: clash_tools 1.2.1\n"
+"Project-Id-Version: clash_tools 3.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-03 00:07+0800\n"
+"POT-Creation-Date: 2025-08-17 14:26+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -33,7 +33,7 @@ msgid ""
 "clash_tools is a comprehensive toolkit that provides multiple command-"
 "line utilities for managing Clash proxy configurations and services. This"
 " guide covers all the main tools included in the package."
-msgstr "clash_tools 是一个综合工具包，提供多种命令行工具用于管理 Clash 代理配置和服务。本指南涵盖了该包中包含的所有主要工具。"
+msgstr "clash_tools 是一个完整工具集，提供多种命令行工具以管理 Clash 代理配置与服务。本文档覆盖所有主要工具。"
 
 #: ../../source/clash_tools/index.rst:15
 msgid "Installation"
@@ -59,7 +59,7 @@ msgstr "Clash 配置文件"
 msgid ""
 "All tools use a ``config.yaml`` file to configure the Clash proxy server."
 " Default configuration::"
-msgstr "所有工具都使用 ``config.yaml`` 文件来配置 Clash 代理服务器。默认配置::"
+msgstr "所有工具使用 ``config.yaml`` 配置 Clash 代理服务。默认配置::"
 
 #: ../../source/clash_tools/index.rst:64
 msgid "Workflow Examples"
@@ -67,19 +67,19 @@ msgstr "工作流示例"
 
 #: ../../source/clash_tools/index.rst:67
 msgid "Complete Setup Workflow"
-msgstr "完整设置工作流"
+msgstr "完整搭建流程"
 
 #: ../../source/clash_tools/index.rst:69
 msgid "Here's a complete workflow for setting up Clash with all tools::"
-msgstr "以下是使用所有工具设置 Clash 的完整工作流::"
+msgstr "以下是结合所有工具的完整搭建流程::"
 
 #: ../../source/clash_tools/index.rst:90
 msgid "Development Workflow"
-msgstr "开发工作流"
+msgstr "开发环境工作流"
 
 #: ../../source/clash_tools/index.rst:92
 msgid "For development environments::"
-msgstr "用于开发环境::"
+msgstr "适用于开发环境::"
 
 #: ../../source/clash_tools/index.rst:106
 msgid "Docker-Only Workflow"
@@ -87,7 +87,7 @@ msgstr "仅 Docker 工作流"
 
 #: ../../source/clash_tools/index.rst:108
 msgid "If you only need Docker proxy support::"
-msgstr "如果您只需要 Docker 代理支持::"
+msgstr "如果你只需要 Docker 代理支持::"
 
 #: ../../source/clash_tools/index.rst:124
 msgid "Best Practices"
@@ -97,37 +97,37 @@ msgstr "最佳实践"
 msgid ""
 "**Start Clash First**: Always start the Clash service before using other "
 "tools"
-msgstr "**先启动 Clash**：在使用其他工具之前始终先启动 Clash 服务"
+msgstr "**先启动 Clash**：使用其他工具前先启动 Clash 服务"
 
 #: ../../source/clash_tools/index.rst:127
 msgid ""
 "**Use Absolute Paths**: When running scripts from different directories, "
 "use absolute paths"
-msgstr "**使用绝对路径**：从不同目录运行脚本时，使用绝对路径"
+msgstr "**使用绝对路径**：跨目录运行脚本时请使用绝对路径"
 
 #: ../../source/clash_tools/index.rst:128
 msgid ""
 "**Check Service Status**: Verify Clash is running before configuring "
 "proxies"
-msgstr "**检查服务状态**：在配置代理之前验证 Clash 正在运行"
+msgstr "**检查服务状态**：配置代理前确认 Clash 已运行"
 
 #: ../../source/clash_tools/index.rst:129
 msgid ""
 "**Terminal Sessions**: Remember that ``clash_proxy`` only affects the "
 "current terminal session"
-msgstr "**终端会话**：记住 ``clash_proxy`` 只影响当前终端会话"
+msgstr "**终端会话**：``clash_proxy`` 仅作用于当前终端会话"
 
 #: ../../source/clash_tools/index.rst:130
 msgid "**Backup Configs**: Keep backups of your ``config.yaml`` file"
-msgstr "**备份配置**：保留您的 ``config.yaml`` 文件的备份"
+msgstr "**备份配置**：请备份你的 ``config.yaml`` 文件"
 
 #: ../../source/clash_tools/index.rst:131
 msgid "**Test Connectivity**: Always test proxy connectivity after configuration"
-msgstr "**测试连接**：配置后始终测试代理连接"
+msgstr "**连通性测试**：配置完成后务必测试代理连通性"
 
 #: ../../source/clash_tools/index.rst:134
 msgid "Advanced Usage"
-msgstr "高级用法"
+msgstr "进阶用法"
 
 #: ../../source/clash_tools/index.rst:137
 msgid "Custom Configuration Directory"
@@ -137,7 +137,7 @@ msgstr "自定义配置目录"
 msgid ""
 "You can modify ``clash_serve`` to use a custom configuration directory by"
 " editing the script."
-msgstr "您可以通过编辑脚本来修改 ``clash_serve`` 以使用自定义配置目录。"
+msgstr "可通过修改脚本让 ``clash_serve`` 使用自定义配置目录。"
 
 #: ../../source/clash_tools/index.rst:142
 msgid "Automated Scripts"
@@ -145,19 +145,19 @@ msgstr "自动化脚本"
 
 #: ../../source/clash_tools/index.rst:144
 msgid "Create shell scripts to automate common workflows::"
-msgstr "创建 shell 脚本来自动化常见工作流::"
+msgstr "创建 Shell 脚本以自动化常见流程::"
 
 #: ../../source/clash_tools/index.rst:166
 msgid "Environment-Specific Configurations"
-msgstr "环境特定配置"
+msgstr "环境区分的配置"
 
 #: ../../source/clash_tools/index.rst:168
 msgid "You can maintain different config files for different environments::"
-msgstr "您可以为不同环境维护不同的配置文件::"
+msgstr "可为不同环境维护不同的配置文件::"
 
 #: ../../source/clash_tools/index.rst:179
 msgid "Integration with Other Tools"
-msgstr "与其他工具集成"
+msgstr "与其他工具的集成"
 
 #: ../../source/clash_tools/index.rst:181
 msgid "The tools can be integrated with other development tools::"
@@ -165,7 +165,7 @@ msgstr "这些工具可以与其他开发工具集成::"
 
 #: ../../source/clash_tools/index.rst:188
 msgid "Troubleshooting"
-msgstr "故障排除"
+msgstr "故障排查"
 
 #: ../../source/clash_tools/index.rst:191
 msgid "General Issues"
@@ -173,23 +173,23 @@ msgstr "常见问题"
 
 #: ../../source/clash_tools/index.rst:193
 msgid "**Issue: Config File Not Found**"
-msgstr "**问题：配置文件未找到**"
+msgstr "问题：找不到配置文件"
 
 #: ../../source/clash_tools/index.rst:195
 msgid "If any tool reports config file not found:"
-msgstr "如果任何工具报告配置文件未找到："
+msgstr "如果任一工具提示找不到配置文件："
 
 #: ../../source/clash_tools/index.rst:197
 msgid "Ensure ``config.yaml`` exists in the same directory as the scripts"
-msgstr "确保 ``config.yaml`` 存在于与脚本相同的目录中"
+msgstr "确保 ``config.yaml`` 与脚本位于同一目录"
 
 #: ../../source/clash_tools/index.rst:198
 msgid "Check file permissions (should be readable)"
-msgstr "检查文件权限（应该可读）"
+msgstr "检查文件权限（应可读）"
 
 #: ../../source/clash_tools/index.rst:199
 msgid "Verify the YAML syntax is correct"
-msgstr "验证 YAML 语法是否正确"
+msgstr "确认 YAML 语法正确"
 
 #: ../../source/clash_tools/index.rst:202
 msgid "Debug Information"
@@ -201,7 +201,7 @@ msgstr "检查 Clash 服务状态::"
 
 #: ../../source/clash_tools/index.rst:208
 msgid "Check if ports are listening::"
-msgstr "检查端口是否正在监听::"
+msgstr "检查端口监听::"
 
 #: ../../source/clash_tools/index.rst:213
 msgid "View environment variables::"

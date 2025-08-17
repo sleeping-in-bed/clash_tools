@@ -7,9 +7,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: clash_tools 1.2.1\n"
+"Project-Id-Version: clash_tools 3.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-03 00:07+0800\n"
+"POT-Creation-Date: 2025-08-17 14:26+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
@@ -24,167 +24,167 @@ msgstr ""
 msgid "`clash_docker` - Docker Proxy Management"
 msgstr "`clash_docker` - Docker 代理管理"
 
-#: ../../source/clash_tools/clash_docker.rst:4
+#: ../../source/clash_tools/clash_docker.rst:5
 msgid ""
 "A comprehensive Docker proxy management tool for enabling/disabling "
 "Docker proxy settings."
-msgstr "用于启用/禁用 Docker 代理设置的综合 Docker 代理管理工具。"
+msgstr "一个用于启用/禁用 Docker 代理配置的完整管理工具。"
 
-#: ../../source/clash_tools/clash_docker.rst:6
+#: ../../source/clash_tools/clash_docker.rst:7
 msgid "**Usage**::"
-msgstr "**用法**::"
-
-#: ../../source/clash_tools/clash_docker.rst:10
-msgid "**Available Commands**:"
-msgstr "**可用命令**："
+msgstr "使用方法::"
 
 #: ../../source/clash_tools/clash_docker.rst:11
-msgid "``enable`` - Enable Docker proxy settings"
-msgstr "``enable`` - 启用 Docker 代理设置"
+msgid "**Available Commands**:"
+msgstr "可用命令："
 
 #: ../../source/clash_tools/clash_docker.rst:12
-msgid "``disable`` - Disable Docker proxy settings"
-msgstr "``disable`` - 禁用 Docker 代理设置"
+msgid "``enable`` - Enable Docker proxy settings"
+msgstr "``enable`` - 启用 Docker 代理配置"
 
 #: ../../source/clash_tools/clash_docker.rst:13
-msgid "``status`` - Check current proxy status"
-msgstr "``status`` - 检查当前代理状态"
+msgid "``disable`` - Disable Docker proxy settings"
+msgstr "``disable`` - 禁用 Docker 代理配置"
 
 #: ../../source/clash_tools/clash_docker.rst:14
+msgid "``status`` - Check current proxy status"
+msgstr "``status`` - 查看当前代理状态"
+
+#: ../../source/clash_tools/clash_docker.rst:15
 msgid "``reset`` - Reset all proxy configurations"
 msgstr "``reset`` - 重置所有代理配置"
 
-#: ../../source/clash_tools/clash_docker.rst:17
+#: ../../source/clash_tools/clash_docker.rst:18
 msgid "Detailed Commands"
 msgstr "详细命令"
 
-#: ../../source/clash_tools/clash_docker.rst:20
+#: ../../source/clash_tools/clash_docker.rst:21
 msgid "enable - Enable Docker Proxy"
 msgstr "enable - 启用 Docker 代理"
 
-#: ../../source/clash_tools/clash_docker.rst:22
+#: ../../source/clash_tools/clash_docker.rst:23
 msgid "Enable Docker proxy settings::"
-msgstr "启用 Docker 代理设置::"
+msgstr "启用 Docker 代理配置::"
 
-#: ../../source/clash_tools/clash_docker.rst:26
+#: ../../source/clash_tools/clash_docker.rst:27
 msgid "**Options**::"
-msgstr "**选项**::"
+msgstr "选项::"
 
-#: ../../source/clash_tools/clash_docker.rst:31
+#: ../../source/clash_tools/clash_docker.rst:32
 msgid "**Examples**::"
-msgstr "**示例**::"
+msgstr "示例::"
 
-#: ../../source/clash_tools/clash_docker.rst:42
-#: ../../source/clash_tools/clash_docker.rst:55
+#: ../../source/clash_tools/clash_docker.rst:43
+#: ../../source/clash_tools/clash_docker.rst:56
 msgid "**This command will**:"
-msgstr "**此命令将**："
-
-#: ../../source/clash_tools/clash_docker.rst:44
-msgid "Configure Docker client proxy (``~/.docker/config.json``)"
-msgstr "配置 Docker 客户端代理 (``~/.docker/config.json``)"
+msgstr "此命令将："
 
 #: ../../source/clash_tools/clash_docker.rst:45
+msgid "Configure Docker client proxy (``~/.docker/config.json``)"
+msgstr "配置 Docker 客户端代理（``~/.docker/config.json``）"
+
+#: ../../source/clash_tools/clash_docker.rst:46
 msgid ""
 "If run with root privileges, also configure Docker daemon proxy "
 "(``/etc/systemd/system/docker.service.d/http-proxy.conf``)"
-msgstr "如果以 root 权限运行，还会配置 Docker 守护进程代理 (``/etc/systemd/system/docker.service.d/http-proxy.conf``)"
+msgstr "以 root 权限运行时，还将配置 Docker 守护进程代理（``/etc/systemd/system/docker.service.d/http-proxy.conf``）"
 
-#: ../../source/clash_tools/clash_docker.rst:46
+#: ../../source/clash_tools/clash_docker.rst:47
 msgid "Restart Docker service (only when configuring daemon proxy)"
 msgstr "重启 Docker 服务（仅在配置守护进程代理时）"
 
-#: ../../source/clash_tools/clash_docker.rst:49
+#: ../../source/clash_tools/clash_docker.rst:50
 msgid "disable - Disable Docker Proxy"
 msgstr "disable - 禁用 Docker 代理"
 
-#: ../../source/clash_tools/clash_docker.rst:51
+#: ../../source/clash_tools/clash_docker.rst:52
 msgid "Disable Docker proxy settings::"
-msgstr "禁用 Docker 代理设置::"
+msgstr "禁用 Docker 代理配置::"
 
-#: ../../source/clash_tools/clash_docker.rst:57
+#: ../../source/clash_tools/clash_docker.rst:58
 msgid "Remove Docker client proxy configuration"
 msgstr "移除 Docker 客户端代理配置"
 
-#: ../../source/clash_tools/clash_docker.rst:58
-msgid "If run with root privileges, also remove Docker daemon proxy configuration"
-msgstr "如果以 root 权限运行，还会移除 Docker 守护进程代理配置"
-
 #: ../../source/clash_tools/clash_docker.rst:59
+msgid "If run with root privileges, also remove Docker daemon proxy configuration"
+msgstr "以 root 权限运行时，还将移除 Docker 守护进程代理配置"
+
+#: ../../source/clash_tools/clash_docker.rst:60
 msgid "Restart Docker service (only when removing daemon proxy)"
 msgstr "重启 Docker 服务（仅在移除守护进程代理时）"
 
-#: ../../source/clash_tools/clash_docker.rst:62
+#: ../../source/clash_tools/clash_docker.rst:63
 msgid "status - Check Docker Proxy Status"
-msgstr "status - 检查 Docker 代理状态"
+msgstr "status - 查看 Docker 代理状态"
 
-#: ../../source/clash_tools/clash_docker.rst:64
+#: ../../source/clash_tools/clash_docker.rst:65
 msgid "Check current Docker proxy status::"
-msgstr "检查当前 Docker 代理状态::"
+msgstr "查看当前 Docker 代理状态::"
 
-#: ../../source/clash_tools/clash_docker.rst:68
+#: ../../source/clash_tools/clash_docker.rst:69
 msgid "**Example output**::"
-msgstr "**示例输出**::"
+msgstr "示例输出::"
 
-#: ../../source/clash_tools/clash_docker.rst:82
+#: ../../source/clash_tools/clash_docker.rst:83
 msgid "reset - Reset Docker Proxy Configuration"
 msgstr "reset - 重置 Docker 代理配置"
 
-#: ../../source/clash_tools/clash_docker.rst:84
+#: ../../source/clash_tools/clash_docker.rst:85
 msgid "Reset all Docker proxy configurations::"
 msgstr "重置所有 Docker 代理配置::"
 
-#: ../../source/clash_tools/clash_docker.rst:88
+#: ../../source/clash_tools/clash_docker.rst:89
 msgid "**This command will completely remove**:"
-msgstr "**此命令将完全移除**："
+msgstr "此命令将完全移除："
 
-#: ../../source/clash_tools/clash_docker.rst:90
+#: ../../source/clash_tools/clash_docker.rst:91
 msgid "Docker client proxy configuration"
 msgstr "Docker 客户端代理配置"
 
-#: ../../source/clash_tools/clash_docker.rst:91
+#: ../../source/clash_tools/clash_docker.rst:92
 msgid "Docker daemon proxy configuration"
 msgstr "Docker 守护进程代理配置"
 
-#: ../../source/clash_tools/clash_docker.rst:94
+#: ../../source/clash_tools/clash_docker.rst:95
 msgid "Permission Requirements"
 msgstr "权限要求"
 
-#: ../../source/clash_tools/clash_docker.rst:96
+#: ../../source/clash_tools/clash_docker.rst:97
 msgid ""
 "**Client Proxy**: Docker client proxy configuration doesn't require "
 "special permissions and can be operated by regular users."
-msgstr "**客户端代理**：Docker 客户端代理配置不需要特殊权限，普通用户即可操作。"
+msgstr "客户端代理：Docker 客户端代理配置不需要特殊权限，普通用户即可操作。"
 
-#: ../../source/clash_tools/clash_docker.rst:98
+#: ../../source/clash_tools/clash_docker.rst:99
 msgid ""
 "**Daemon Proxy**: Docker daemon proxy configuration requires root "
 "privileges because it needs to:"
-msgstr "**守护进程代理**：Docker 守护进程代理配置需要 root 权限，因为需要："
+msgstr "守护进程代理：Docker 守护进程代理配置需要 root 权限，因为需要："
 
-#: ../../source/clash_tools/clash_docker.rst:100
+#: ../../source/clash_tools/clash_docker.rst:101
 msgid "Modify systemd service configuration files"
 msgstr "修改 systemd 服务配置文件"
 
-#: ../../source/clash_tools/clash_docker.rst:101
+#: ../../source/clash_tools/clash_docker.rst:102
 msgid "Restart Docker service"
 msgstr "重启 Docker 服务"
 
-#: ../../source/clash_tools/clash_docker.rst:103
+#: ../../source/clash_tools/clash_docker.rst:104
 msgid ""
 "If you don't have root privileges, the tool will display a warning "
 "message but will still configure the client proxy."
-msgstr "如果没有 root 权限，工具会显示警告信息，但仍会配置客户端代理。"
+msgstr "如果没有 root 权限，工具会显示警告，但仍会配置客户端代理。"
 
-#: ../../source/clash_tools/clash_docker.rst:106
+#: ../../source/clash_tools/clash_docker.rst:107
 msgid "Troubleshooting"
-msgstr "故障排除"
+msgstr "故障排查"
 
-#: ../../source/clash_tools/clash_docker.rst:108
+#: ../../source/clash_tools/clash_docker.rst:109
 msgid "**Issue: Docker Proxy Issues**"
-msgstr "**问题：Docker 代理问题**"
+msgstr "问题：Docker 代理异常"
 
-#: ../../source/clash_tools/clash_docker.rst:110
+#: ../../source/clash_tools/clash_docker.rst:111
 msgid ""
 "For Docker proxy problems, see the detailed troubleshooting in the "
 "clash_docker section above."
-msgstr "对于 Docker 代理问题，请参见上面 clash_docker 部分的详细故障排除。"
+msgstr "关于 Docker 代理问题，请参考上文 clash_docker 章节中的详细排查。"

@@ -1,0 +1,317 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2025, the clash_tools developers
+# This file is distributed under the same license as the clash_tools
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: clash_tools 3.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-17 14:26+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: zh_CN\n"
+"Language-Team: zh_CN <LL@li.org>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: ../../source/wg_docker/index.rst:2
+msgid "`wg_docker` - WireGuard Docker Orchestration"
+msgstr "`wg_docker` - WireGuard 的 Docker 编排"
+
+#: ../../source/wg_docker/index.rst:5
+msgid "Overview"
+msgstr "概览"
+
+#: ../../source/wg_docker/index.rst:7
+msgid "``wg_docker`` is a Typer-based CLI for managing WireGuard server/client deployments via Docker. It renders configuration files from templates and controls lifecycle with docker compose. The tool is designed to be safe for first-time usage by bootstrapping missing keys and templates."
+msgstr "``wg_docker`` 是一个基于 Typer 的 CLI，用于通过 Docker 管理 WireGuard 服务端/客户端部署。它从模板渲染配置文件，并使用 docker compose 管理生命周期；首次使用会自动引导生成缺失的密钥与模板。"
+
+#: ../../source/wg_docker/index.rst:10
+msgid "Prerequisites"
+msgstr "先决条件"
+
+#: ../../source/wg_docker/index.rst:12
+msgid "Linux host with Docker and docker compose available"
+msgstr "具备 Docker 与 docker compose 的 Linux 主机"
+
+#: ../../source/wg_docker/index.rst:13
+msgid "``wg`` binary available in ``$PATH`` (used for key generation)"
+msgstr "``wg`` 可执行程序在 ``$PATH`` 中（用于生成密钥）"
+
+#: ../../source/wg_docker/index.rst:14
+msgid "Systemd-based distributions are recommended for production"
+msgstr "生产环境建议使用基于 systemd 的发行版"
+
+#: ../../source/wg_docker/index.rst:17
+msgid "User Configuration Directory"
+msgstr "用户配置目录"
+
+#: ../../source/wg_docker/index.rst:19
+msgid "All generated and user-managed files live under::"
+msgstr "所有生成与用户管理的文件位于::"
+
+#: ../../source/wg_docker/index.rst:25
+msgid "Key files:"
+msgstr "关键文件："
+
+#: ../../source/wg_docker/index.rst:27
+msgid "``server_config.yml``: Authoritative server-side configuration (auto-copied from packaged template on first use)"
+msgstr "``server_config.yml``：权威的服务端配置（首次使用会从包内模板自动拷贝）"
+
+#: ../../source/wg_docker/index.rst:28
+msgid "``server_wg0.conf``: Rendered WireGuard server config"
+msgstr "``server_wg0.conf``：渲染后的 WireGuard 服务端配置"
+
+#: ../../source/wg_docker/index.rst:29
+msgid "``server_compose.yml``: Rendered docker compose for the server"
+msgstr "``server_compose.yml``：渲染后的服务端 docker compose"
+
+#: ../../source/wg_docker/index.rst:30
+msgid "``client_wg0.conf``: Rendered WireGuard client config"
+msgstr "``client_wg0.conf``：渲染后的 WireGuard 客户端配置"
+
+#: ../../source/wg_docker/index.rst:31
+msgid "``client_compose.yml``: Rendered docker compose for the client"
+msgstr "``client_compose.yml``：渲染后的客户端 docker compose"
+
+#: ../../source/wg_docker/index.rst:32
+msgid "``wg_keys.json``: Pre-generated key pairs store (peer id 1 = server; 2..254 = clients)"
+msgstr "``wg_keys.json``：预生成的密钥对存储（1 为服务端；2..254 为客户端）"
+
+#: ../../source/wg_docker/index.rst:35
+msgid "Keys and Identity"
+msgstr "密钥与身份"
+
+#: ../../source/wg_docker/index.rst:37
+msgid "On first import/run, the tool ensures a keystore exists and, if missing, generates pairs for ids 1..254 using the system ``wg`` binary."
+msgstr "首次导入/运行时会确保密钥库存在，如缺失将使用系统 ``wg`` 为 1..254 生成密钥对。"
+
+#: ../../source/wg_docker/index.rst:39
+msgid "ID 1: server private/public key"
+msgstr "ID 1：服务端私钥/公钥"
+
+#: ../../source/wg_docker/index.rst:40
+msgid "IDs 2..254: client private/public keys"
+msgstr "ID 2..254：客户端私钥/公钥"
+
+#: ../../source/wg_docker/index.rst:41
+msgid "Stored at ``wg_keys.json`` within the user config directory"
+msgstr "存放于用户配置目录下的 ``wg_keys.json``"
+
+#: ../../source/wg_docker/index.rst:44
+msgid "Command Groups and Commands"
+msgstr "命令分组与命令"
+
+#: ../../source/wg_docker/index.rst:47
+msgid "server"
+msgstr "server"
+
+#: ../../source/wg_docker/index.rst:49
+msgid "``server up``"
+msgstr "``server up``"
+
+#: ../../source/wg_docker/index.rst:50
+msgid "Renders ``server_wg0.conf`` and ``server_compose.yml`` to the user config directory"
+msgstr "将 ``server_wg0.conf`` 与 ``server_compose.yml`` 渲染到用户配置目录"
+
+#: ../../source/wg_docker/index.rst:51
+msgid "Starts the server docker stack in detached mode"
+msgstr "以后台模式启动服务端 docker 栈"
+
+#: ../../source/wg_docker/index.rst:53
+msgid "``server down``"
+msgstr "``server down``"
+
+#: ../../source/wg_docker/index.rst:54
+msgid "Stops the stack and removes volumes (``down -v``)"
+msgstr "停止栈并移除卷（``down -v``）"
+
+#: ../../source/wg_docker/index.rst:56
+msgid "``server restart``"
+msgstr "``server restart``"
+
+#: ../../source/wg_docker/index.rst:57 ../../source/wg_docker/index.rst:82
+msgid "Equivalent to ``down`` followed by ``up``"
+msgstr "等价于先 ``down`` 再 ``up``"
+
+#: ../../source/wg_docker/index.rst:59
+msgid "``server show``"
+msgstr "``server show``"
+
+#: ../../source/wg_docker/index.rst:60
+msgid "Executes ``wg show`` inside the running container for inspection"
+msgstr "在运行中的容器内执行 ``wg show`` 以查看状态"
+
+#: ../../source/wg_docker/index.rst:62
+msgid "``server config``"
+msgstr "``server config``"
+
+#: ../../source/wg_docker/index.rst:63
+msgid "Manage ``server_config.yml`` with options: - ``--edit``: Open file in ``$VISUAL``/``$EDITOR`` (fallback to ``nano``) - ``--cat``: Print contents - ``--path``: Print absolute path - ``--reset``: Overwrite with packaged template"
+msgstr "管理 ``server_config.yml``，选项：- ``--edit``：在 ``$VISUAL``/``$EDITOR`` 打开（回退到 ``nano``）- ``--cat``：打印内容 - ``--path``：打印绝对路径 - ``--reset``：用内置模板覆盖"
+
+#: ../../source/wg_docker/index.rst:69
+msgid "``server get-client-config <client_id>``"
+msgstr "``server get-client-config <client_id>``"
+
+#: ../../source/wg_docker/index.rst:70
+msgid "Render and print the specific client's ``client_wg0.conf`` to stdout (does not start any container)"
+msgstr "渲染并输出指定客户端的 ``client_wg0.conf`` 到标准输出（不启动任何容器）"
+
+#: ../../source/wg_docker/index.rst:73
+msgid "client"
+msgstr "client"
+
+#: ../../source/wg_docker/index.rst:75
+msgid "``client up``"
+msgstr "``client up``"
+
+#: ../../source/wg_docker/index.rst:76
+msgid "Renders ``client_compose.yml`` and starts the client docker stack in detached mode"
+msgstr "渲染 ``client_compose.yml`` 并以后台模式启动客户端 docker 栈"
+
+#: ../../source/wg_docker/index.rst:78
+msgid "``client down``"
+msgstr "``client down``"
+
+#: ../../source/wg_docker/index.rst:79
+msgid "Stops the stack and removes volumes"
+msgstr "停止栈并移除卷"
+
+#: ../../source/wg_docker/index.rst:81
+msgid "``client restart``"
+msgstr "``client restart``"
+
+#: ../../source/wg_docker/index.rst:84
+msgid "``client config``"
+msgstr "``client config``"
+
+#: ../../source/wg_docker/index.rst:85
+msgid "Manage ``client_wg0.conf`` with options ``--edit``/``--cat``/``--path``/``--reset``"
+msgstr "管理 ``client_wg0.conf``，支持 ``--edit``/``--cat``/``--path``/``--reset``"
+
+#: ../../source/wg_docker/index.rst:88
+msgid "Quick Start"
+msgstr "快速开始"
+
+#: ../../source/wg_docker/index.rst:108
+msgid "`server_config.yml` Schema"
+msgstr "`server_config.yml` 结构"
+
+#: ../../source/wg_docker/index.rst:110
+msgid "Top-level keys:"
+msgstr "顶层键："
+
+#: ../../source/wg_docker/index.rst:112
+msgid "``server``: - ``nic`` (str): Outbound interface for MASQUERADE rules (default ``eth0``) - ``server_ip`` (str): Public IP or DNS name for server endpoint - ``subnet`` (str): Server-side IPv4 subnet in CIDR notation (e.g., ``10.9.0.0/24``) - ``listen_port`` (int): UDP port for the server"
+msgstr "``server``：- ``nic``（字符串）：用于 MASQUERADE 的出站网卡（默认 ``eth0``）- ``server_ip``（字符串）：服务端公网 IP 或域名 - ``subnet``（字符串）：服务端 IPv4 子网 CIDR（如 ``10.9.0.0/24``）- ``listen_port``（整数）：服务端 UDP 监听端口"
+
+#: ../../source/wg_docker/index.rst:118
+msgid "``clients`` (dict[int, client]) — keys are client ids 2..254. Each client has: - ``nic`` (str): Host interface used by client for LAN routes in PostUp/PreDown - ``exclude_defaults`` (bool): Whether to merge default private/link-local ranges into ``excludedips`` - ``allowedips`` (list/str): Values rendered into client ``AllowedIPs`` (default ``[\"0.0.0.0/0\"]``) - ``excludedips`` (list/str): CIDRs or addresses routed outside the tunnel - ``snat`` (bool): Whether server applies SNAT for traffic destined to this client - ``c_to_s_ports`` (list): Per-entry format ``[client_port, server_port, [tsl_method]]`` where ``tsl_method`` is ``tcp`` or ``udp`` (defaults to ``tcp``)"
+msgstr "``clients``（字典[int, client]）——键为 2..254 的客户端编号。每个客户端包含：- ``nic``：客户端用于本地 LAN 路由的网卡 - ``exclude_defaults``：是否将默认私有/链路本地网段合并进 ``excludedips`` - ``allowedips``：渲染到客户端 ``AllowedIPs`` 的值（默认 ``[\"0.0.0.0/0\"]``）- ``excludedips``：经由直连的 CIDR 或地址 - ``snat``：服务端是否对发往该客户端的流量做 SNAT - ``c_to_s_ports``：条目格式 ``[client_port, server_port, [tsl_method]]``，``tsl_method`` 为 ``tcp`` 或 ``udp``（默认 ``tcp``）"
+
+#: ../../source/wg_docker/index.rst:126
+msgid "Example:"
+msgstr "示例："
+
+#: ../../source/wg_docker/index.rst:159
+msgid "Routing Behavior (Client)"
+msgstr "路由行为（客户端）"
+
+#: ../../source/wg_docker/index.rst:161
+msgid "The client template sets ``PostUp`` and ``PreDown`` commands to preserve reachability:"
+msgstr "客户端模板通过 ``PostUp`` 与 ``PreDown`` 命令保证可达性："
+
+#: ../../source/wg_docker/index.rst:163
+msgid "Always adds a specific route for the WireGuard subnet via ``wg0``"
+msgstr "始终为 WireGuard 子网通过 ``wg0`` 添加特定路由"
+
+#: ../../source/wg_docker/index.rst:164
+msgid "If ``excludedips`` (possibly merged with ``exclude_defaults``) is non-empty, routes those destinations via the client's ``nic`` and default gateway when available"
+msgstr "若 ``excludedips``（可能与 ``exclude_defaults`` 合并）非空，则经客户端 ``nic`` 与默认网关路由这些目的网段"
+
+#: ../../source/wg_docker/index.rst:167
+msgid "Port Forwarding and Compose Ports (Server)"
+msgstr "端口转发与 Compose 端口（服务端）"
+
+#: ../../source/wg_docker/index.rst:169
+msgid "For each client mapping in ``c_to_s_ports``, two things happen: 1. iptables PREROUTING/ FORWARD rules are emitted to DNAT and ACCEPT traffic destined to ``server_port`` towards the client's ``client_port`` and IP 2. The server compose file exposes a host port mapping ``server_port/server_protocol``"
+msgstr "对 ``c_to_s_ports`` 的每条映射，将发生两件事：1）生成 iptables PREROUTING/FORWARD 规则，将到达 ``server_port`` 的流量 DNAT/ACCEPT 到客户端的 ``client_port`` 与 IP；2）服务端 compose 暴露对应的宿主机端口映射 ``server_port/server_protocol``"
+
+#: ../../source/wg_docker/index.rst:174
+msgid "Generated Files and Templates"
+msgstr "生成文件与模板"
+
+#: ../../source/wg_docker/index.rst:176
+msgid "Templates (shipped): ``server_wg0.conf.j2``, ``client_wg0.conf.j2``, ``server_compose.yml.j2``, ``client_compose.yml.j2``"
+msgstr "内置模板：``server_wg0.conf.j2``、``client_wg0.conf.j2``、``server_compose.yml.j2``、``client_compose.yml.j2``"
+
+#: ../../source/wg_docker/index.rst:177
+msgid "Outputs (rendered in user config dir): ``server_wg0.conf``, ``client_wg0.conf``, ``server_compose.yml``, ``client_compose.yml``"
+msgstr "渲染产物（用户配置目录）：``server_wg0.conf``、``client_wg0.conf``、``server_compose.yml``、``client_compose.yml``"
+
+#: ../../source/wg_docker/index.rst:180
+msgid "Practical Examples"
+msgstr "实用示例"
+
+#: ../../source/wg_docker/index.rst:182
+msgid "Edit server configuration in your editor::"
+msgstr "在编辑器中编辑服务端配置::"
+
+#: ../../source/wg_docker/index.rst:186
+msgid "Print absolute path to the server configuration::"
+msgstr "打印服务端配置文件的绝对路径::"
+
+#: ../../source/wg_docker/index.rst:190
+msgid "Reset the server configuration from the packaged template::"
+msgstr "用内置模板重置服务端配置::"
+
+#: ../../source/wg_docker/index.rst:194
+msgid "Render and write the client 5 config to disk::"
+msgstr "渲染并写出客户端 5 的配置::"
+
+#: ../../source/wg_docker/index.rst:199
+msgid "Troubleshooting"
+msgstr "故障排查"
+
+#: ../../source/wg_docker/index.rst:201
+msgid "``wg`` missing: Install WireGuard tools (e.g., ``apt install wireguard``) to enable key generation"
+msgstr "缺少 ``wg``：请安装 WireGuard 工具（如 ``apt install wireguard``）以启用密钥生成"
+
+#: ../../source/wg_docker/index.rst:202
+msgid "Docker issues: Verify Docker service and compose functionality"
+msgstr "Docker 问题：确认 Docker 服务与 compose 正常"
+
+#: ../../source/wg_docker/index.rst:203
+msgid "Port collision: Ensure ``listen_port`` and any forwarded ``server_port`` values are not already used on the host"
+msgstr "端口冲突：确保 ``listen_port`` 与所有转发的 ``server_port`` 未被宿主机占用"
+
+#: ../../source/wg_docker/index.rst:204
+msgid "Firewall: Confirm that host firewall permits UDP ``listen_port`` and any forwarded TCP/UDP ports"
+msgstr "防火墙：确认宿主机放行 UDP ``listen_port`` 及所有转发的 TCP/UDP 端口"
+
+#: ../../source/wg_docker/index.rst:205
+msgid "Logs: Use ``docker compose -f $(python -m clash_tools.wg_docker.cli server config --path | sed 's/server_config.yml/server_compose.yml/') logs | cat`` to inspect runtime logs"
+msgstr "日志：使用 ``docker compose -f $(python -m clash_tools.wg_docker.cli server config --path | sed 's/server_config.yml/server_compose.yml/') logs | cat`` 查看运行日志"
+
+#: ../../source/wg_docker/index.rst:208
+msgid "Security Notes"
+msgstr "安全注意事项"
+
+#: ../../source/wg_docker/index.rst:210
+msgid "Keep ``wg_keys.json`` secured; it contains private keys"
+msgstr "妥善保护 ``wg_keys.json``；其中包含私钥"
+
+#: ../../source/wg_docker/index.rst:211
+msgid "Review ``excludedips`` and ``allowedips`` to avoid unintentionally leaking traffic"
+msgstr "检查 ``excludedips`` 与 ``allowedips`` 以避免意外泄露流量"
+
+#: ../../source/wg_docker/index.rst:212
+msgid "Validate ``server_ip`` and exposed ports before deploying to the public Internet"
+msgstr "在公开部署前校验 ``server_ip`` 与暴露的端口"

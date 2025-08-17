@@ -7,11 +7,11 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: clash_tools 0.0.1\n"
+"Project-Id-Version: clash_tools 3.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-03 00:08+0800\n"
-"PO-Revision-Date: 2025-07-13 22:42+0800\n"
-"Last-Translator: clash_tools developers <nyanyanyaworld@gmail.com>\n"
+"POT-Creation-Date: 2025-08-17 14:26+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: zh_CN\n"
 "Language-Team: zh_CN <LL@li.org>\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: ../../source/index.rst:75
+#: ../../source/index.rst:80
 msgid "Contents:"
 msgstr "目录："
 
@@ -32,7 +32,7 @@ msgstr "clash_tools 文档"
 msgid ""
 "**GitHub Repository**: `sleeping-in-bed/clash_tools <https://github.com"
 "/sleeping-in-bed/clash_tools>`_"
-msgstr "**GitHub 仓库**: `sleeping-in-bed/clash_tools <https://github.com/sleeping-in-bed/clash_tools>`_"
+msgstr "**GitHub 仓库**：`sleeping-in-bed/clash_tools <https://github.com/sleeping-in-bed/clash_tools>`_"
 
 #: ../../source/index.rst:6
 msgid "PyPI version"
@@ -48,7 +48,7 @@ msgstr "测试状态"
 
 #: ../../source/index.rst:15
 msgid "Codecov"
-msgstr "代码覆盖率"
+msgstr "Codecov"
 
 #: ../../source/index.rst:19
 msgid ""
@@ -56,111 +56,121 @@ msgid ""
 " proxy configurations and services. It provides multiple command-line "
 "tools for different purposes, making it easy to work with Clash in "
 "various environments."
-msgstr "clash_tools 是一个用于管理 Clash 代理配置和服务的综合工具集。它提供多种命令行工具用于不同用途，使得在各种环境中使用 Clash 变得简单。"
+msgstr "clash_tools 是一组用于管理 Clash 代理配置与服务的工具集合，提供多种命令行工具，方便在不同环境中使用 Clash。"
 
 #: ../../source/index.rst:22
 msgid "Tools Overview"
 msgstr "工具概览"
 
 #: ../../source/index.rst:24
-#, fuzzy
 msgid "The toolkit includes four main utilities:"
 msgstr "该工具包包含四个主要工具："
 
 #: ../../source/index.rst:26
-msgid "**wireguard**"
-msgstr "**wireguard**"
+msgid "**wg_docker**"
+msgstr "**wg_docker**"
 
 #: ../../source/index.rst:27
-msgid "A tool to manage WireGuard server and client configurations."
-msgstr "一个用于管理 WireGuard 服务端和客户端配置的工具。"
+msgid "WireGuard docker orchestration for server/client deployments."
+msgstr "面向服务端/客户端部署的 WireGuard Docker 编排工具。"
 
 #: ../../source/index.rst:29
+msgid ""
+"Key highlights: - User config directory: "
+"``$XDG_CONFIG_HOME/clash_tools/wireguard/`` or "
+"``~/.config/clash_tools/wireguard/`` - Renders "
+"``server_wg0.conf``/``client_wg0.conf`` and docker compose files - "
+"Commands: ``server`` (``up``/``down``/``restart``/``show``/``config"
+"``/``get-client-config``), ``client`` "
+"(``up``/``down``/``restart``/``config``)"
+msgstr "要点：- 用户配置目录：``$XDG_CONFIG_HOME/clash_tools/wireguard/`` 或 ``~/.config/clash_tools/wireguard/`` - 渲染 ``server_wg0.conf``/``client_wg0.conf`` 与 docker compose 文件 - 命令：``server``（``up``/``down``/``restart``/``show``/``config``/``get-client-config``）、``client``（``up``/``down``/``restart``/``config``）"
+
+#: ../../source/index.rst:34
 msgid "**clash_docker**"
 msgstr "**clash_docker**"
 
-#: ../../source/index.rst:30
+#: ../../source/index.rst:35
 msgid "Docker proxy management tool for enabling/disabling Docker proxy settings"
-msgstr "用于启用/禁用 Docker 代理设置的 Docker 代理管理工具"
+msgstr "启用/禁用 Docker 代理设置的管理工具"
 
-#: ../../source/index.rst:32
+#: ../../source/index.rst:37
 msgid "**clash_proxy**"
 msgstr "**clash_proxy**"
 
-#: ../../source/index.rst:33
+#: ../../source/index.rst:38
 msgid ""
 "Shell script for setting up proxy environment variables in the current "
 "session"
-msgstr "用于在当前会话中设置代理环境变量的 shell 脚本"
+msgstr "为当前会话设置代理环境变量的 Shell 脚本"
 
-#: ../../source/index.rst:35
+#: ../../source/index.rst:40
 msgid "**clash_serve**"
 msgstr "**clash_serve**"
 
-#: ../../source/index.rst:36
+#: ../../source/index.rst:41
 msgid ""
 "Service management tool for starting the Clash service and managing "
 "configuration files"
-msgstr "用于启动 Clash 服务和管理配置文件的服务管理工具"
+msgstr "用于启动 Clash 服务并管理配置文件的服务管理工具"
 
-#: ../../source/index.rst:39
+#: ../../source/index.rst:44
 msgid "Features"
 msgstr "特性"
 
-#: ../../source/index.rst:41
+#: ../../source/index.rst:46
 msgid ""
 "🚀 **Docker Integration**: One-click enable/disable Docker client and "
 "daemon proxy"
-msgstr "🚀 **Docker 集成**：一键启用/禁用 Docker 客户端和守护进程代理"
+msgstr "🚀 **Docker 集成**：一键启用/禁用 Docker 客户端与守护进程代理"
 
-#: ../../source/index.rst:42
+#: ../../source/index.rst:47
 msgid "🔧 **Environment Setup**: Easy proxy environment variable configuration"
-msgstr "🔧 **环境设置**：简单的代理环境变量配置"
+msgstr "🔧 **环境配置**：轻松设置代理环境变量"
 
-#: ../../source/index.rst:43
+#: ../../source/index.rst:48
 msgid "🎯 **Service Management**: Simple Clash service startup and management"
-msgstr "🎯 **服务管理**：简单的 Clash 服务启动和管理"
+msgstr "🎯 **服务管理**：简化 Clash 服务启动与管理"
 
-#: ../../source/index.rst:44
+#: ../../source/index.rst:49
 msgid "📊 **Status Monitoring**: Real-time proxy status checking"
-msgstr "📊 **状态监控**：实时代理状态检查"
+msgstr "📊 **状态监控**：实时检查代理状态"
 
-#: ../../source/index.rst:45
+#: ../../source/index.rst:50
 msgid "🔄 **Configuration Reset**: Convenient reset functionality"
 msgstr "🔄 **配置重置**：便捷的重置功能"
 
-#: ../../source/index.rst:46
+#: ../../source/index.rst:51
 msgid "💻 **Multi-platform**: Works on Linux systems with systemd support"
 msgstr "💻 **多平台**：适用于支持 systemd 的 Linux 系统"
 
-#: ../../source/index.rst:49
+#: ../../source/index.rst:54
 msgid "Quick Start"
 msgstr "快速开始"
 
-#: ../../source/index.rst:51
+#: ../../source/index.rst:56
 msgid "Installation::"
 msgstr "安装::"
 
-#: ../../source/index.rst:55
+#: ../../source/index.rst:60
 msgid "Basic Usage::"
 msgstr "基本用法::"
 
-#: ../../source/index.rst:73
+#: ../../source/index.rst:78
 msgid "Documentation"
-msgstr "文档目录"
+msgstr "文档"
 
-#: ../../source/index.rst:83
+#: ../../source/index.rst:88
 msgid "Indices and tables"
-msgstr "索引和表格"
+msgstr "索引与表格"
 
-#: ../../source/index.rst:85
+#: ../../source/index.rst:90
 msgid ":ref:`genindex`"
 msgstr ":ref:`genindex`"
 
-#: ../../source/index.rst:86
+#: ../../source/index.rst:91
 msgid ":ref:`modindex`"
 msgstr ":ref:`modindex`"
 
-#: ../../source/index.rst:87
+#: ../../source/index.rst:92
 msgid ":ref:`search`"
 msgstr ":ref:`search`"
