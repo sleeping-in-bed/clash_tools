@@ -123,13 +123,13 @@ class ClientConfig(BaseModel):
 
     @field_validator("c_to_s_ports", mode="before")
     @classmethod
-    def _accept_none_c_to_s_ports(cls, v):
+    def _accept_none_c_to_s_ports(cls, v: Any) -> Any:
         """Allow null/None c_to_s_ports by coercing to an empty list."""
         return [] if v is None else v
 
     @field_validator("allowedips", "excludedips", mode="before")
     @classmethod
-    def _lists_allow_none(cls, v):
+    def _lists_allow_none(cls, v: Any) -> Any:
         """Allow None and coerce to set; accept list/str as set."""
         if v is None:
             return set()
