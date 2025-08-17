@@ -20,7 +20,9 @@ def runner() -> CliRunner:
 
 
 def test_clash_docker_cli_invokes_manager_methods(
-    module: Any, runner: CliRunner, monkeypatch: pytest.MonkeyPatch,
+    module: Any,
+    runner: CliRunner,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     calls: list[str] = []
 

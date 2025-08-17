@@ -28,7 +28,8 @@ def test_clash_proxy_reads_config_and_prints_exports(in_pkg_dir: Path) -> None:
 
 
 def test_clash_serve_config_path_and_edit_flag(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     mod = importlib.import_module("clash_tools.clash_tools.clash_serve")
     runner = CliRunner()

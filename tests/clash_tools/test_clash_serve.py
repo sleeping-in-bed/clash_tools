@@ -21,7 +21,9 @@ def runner() -> CliRunner:
 
 
 def test_run_invokes_sudo_clash(
-    module: Any, runner: CliRunner, monkeypatch: pytest.MonkeyPatch,
+    module: Any,
+    runner: CliRunner,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     calls: list[list[str]] = []
 
@@ -29,7 +31,9 @@ def test_run_invokes_sudo_clash(
         calls.append(cmd)
 
     monkeypatch.setattr(
-        module, "subprocess", type("S", (), {"run": staticmethod(fake_run)}),
+        module,
+        "subprocess",
+        type("S", (), {"run": staticmethod(fake_run)}),
     )
 
     result = runner.invoke(module.run)  # type: ignore[arg-type]
@@ -38,7 +42,10 @@ def test_run_invokes_sudo_clash(
 
 
 def test_config_prints_path_and_edit_opens_editor(
-    module: Any, runner: CliRunner, monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+    module: Any,
+    runner: CliRunner,
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
 ) -> None:
     # Ensure EDITOR is a no-op
     monkeypatch.setenv("EDITOR", "true")
@@ -54,7 +61,9 @@ def test_config_prints_path_and_edit_opens_editor(
         calls.append(cmd)
 
     monkeypatch.setattr(
-        module, "subprocess", type("S", (), {"run": staticmethod(fake_run)}),
+        module,
+        "subprocess",
+        type("S", (), {"run": staticmethod(fake_run)}),
     )
 
     # Invoke config --edit
@@ -65,12 +74,16 @@ def test_config_prints_path_and_edit_opens_editor(
 
 
 def test_service_group_hint_when_not_root(
-    module: Any, runner: CliRunner, monkeypatch: pytest.MonkeyPatch,
+    module: Any,
+    runner: CliRunner,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     monkeypatch.setattr(module.os, "geteuid", lambda: 1000)
     # Avoid actually calling systemctl
     monkeypatch.setattr(
-        module, "subprocess", type("S", (), {"run": staticmethod(lambda *a, **k: None)}),
+        module,
+        "subprocess",
+        type("S", (), {"run": staticmethod(lambda *a, **k: None)}),
     )
     # Invoke a subcommand so the group callback runs and prints the hint
     result = runner.invoke(module.cli, ["service", "status"])  # type: ignore[arg-type]
@@ -79,7 +92,9 @@ def test_service_group_hint_when_not_root(
 
 
 def test_add_service_uses_run_sudo_command(
-    module: Any, runner: CliRunner, monkeypatch: pytest.MonkeyPatch,
+    module: Any,
+    runner: CliRunner,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     calls: list[tuple[list[str], str]] = []
 
@@ -109,7 +124,10 @@ def test_add_service_uses_run_sudo_command(
 
 
 def test_remove_service_with_temp_path(
-    module: Any, runner: CliRunner, monkeypatch: pytest.MonkeyPatch, tmp_path: Path,
+    module: Any,
+    runner: CliRunner,
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
 ) -> None:
     calls: list[list[str]] = []
 
@@ -124,7 +142,9 @@ def test_remove_service_with_temp_path(
 
     monkeypatch.setattr(module, "run_sudo_command", fake_run_sudo)
     monkeypatch.setattr(
-        module, "get_service_file_path", lambda: tmp_path / "clash.service",
+        module,
+        "get_service_file_path",
+        lambda: tmp_path / "clash.service",
     )
 
     # Create fake service file
@@ -140,7 +160,9 @@ def test_remove_service_with_temp_path(
 
 
 def test_status_invokes_systemctl_status(
-    module: Any, runner: CliRunner, monkeypatch: pytest.MonkeyPatch,
+    module: Any,
+    runner: CliRunner,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     calls: list[list[str]] = []
 
@@ -148,7 +170,9 @@ def test_status_invokes_systemctl_status(
         calls.append(cmd)
 
     monkeypatch.setattr(
-        module, "subprocess", type("S", (), {"run": staticmethod(fake_run)}),
+        module,
+        "subprocess",
+        type("S", (), {"run": staticmethod(fake_run)}),
     )
 
     result = runner.invoke(module.status)  # type: ignore[arg-type]
