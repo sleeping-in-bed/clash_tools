@@ -11,11 +11,18 @@ from typer.testing import CliRunner
 
 @pytest.fixture
 def in_pkg_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    """Ensure running inside moved package directory."""
-    # Ensure running inside moved package directory
-    pkg_dir = Path(__file__).parents[2] / "clash_tools" / "clash_tools"
-    assert (pkg_dir / "config.yml").exists()
-    monkeypatch.chdir(pkg_dir)
+    """Ensure running inside moved package directory, and prepare user config."""
+    # Directory that contains top-level config.py used by scripts (imported as `from config import ...`)
+    pkg_dir = Path(__file__).parents[2] / "clash_tools" / "clash_tools" / "clash_tools"
+    # Prepare XDG user config
+    xdg_home = tmp_path / "xdg"
+    user_cfg_dir = xdg_home / "clash_tools" / "clash"
+    user_cfg_dir.mkdir(parents=True, exist_ok=True)
+    (user_cfg_dir / "config.yaml").write_text(
+        "port: 7890\nsocks-port: 7891\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("XDG_CONFIG_HOME", str(xdg_home))
     return pkg_dir
 
 
@@ -45,7 +52,7 @@ def test_clash_serve_config_path_and_edit_flag(
     monkeypatch.chdir(script_dir)
 
     # Ensure config exists
-    cfg = script_dir / "config.yml"
+    cfg = script_dir / "config.yaml"
     if not cfg.exists():
         cfg.write_text("port: 7890\nsocks-port: 7891\n", encoding="utf-8")
 

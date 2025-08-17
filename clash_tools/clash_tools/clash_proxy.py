@@ -1,21 +1,17 @@
 #!/usr/bin/env python3
 """Clash proxy helper CLI using Typer."""
 
-from pathlib import Path
-
 import typer
 import yaml
+
+from .config import user_config_path
 
 app = typer.Typer(add_completion=False)
 
 
-def _config_path() -> Path:
-    return Path(__file__).parent.absolute() / "config.yml"
-
-
 def print_env() -> None:
     """Print environment exports for HTTP/HTTPS and SOCKS proxies."""
-    config_file = _config_path()
+    config_file = user_config_path()
     if not config_file.exists():
         typer.echo(f"Error: Config file not found: {config_file}", err=True)
         raise typer.Exit(code=1)

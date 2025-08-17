@@ -12,27 +12,13 @@ from shutil import copyfile
 
 import typer
 
-SCRIPT_DIR = Path(__file__).parent.absolute()
-
-
-def _user_config_dir() -> Path:
-    """Return user config directory for Clash (XDG compliant)."""
-    xdg = os.environ.get("XDG_CONFIG_HOME")
-    base = Path(xdg) if xdg else Path.home() / ".config"
-    cfg_dir = base / "clash_tools" / "clash"
-    cfg_dir.mkdir(parents=True, exist_ok=True)
-    return cfg_dir
-
-
-def _user_config_path() -> Path:
-    """Return user config file path (config.yml)."""
-    return _user_config_dir() / "config.yml"
-
-
-def _template_config_path() -> Path:
-    """Return template config path shipped with the package (in SCRIPT_DIR)."""
-    return SCRIPT_DIR / "config.yml"
-
+from .config import (
+    SCRIPT_DIR,
+    ensure_country_mmdb,
+    template_config_path,
+    user_config_dir,
+    user_config_path,
+)
 
 app = typer.Typer(help="Clash service management tool")
 service_app = typer.Typer(
@@ -44,8 +30,10 @@ app.add_typer(service_app, name="service")
 @app.command()
 def run() -> None:
     """Run clash using the user config directory."""
-    cfg_dir = _user_config_dir()
-    typer.echo(f"Running: sudo ./clash -d {cfg_dir}")
+    cfg_dir = user_config_dir()
+    # Ensure Country.mmdb exists in user config directory
+    ensure_country_mmdb()
+    typer.echo(f"Running: sudo {SCRIPT_DIR / 'clash'!s} -d {cfg_dir}")
     # Execute from script dir where binary resides, but point -d to user cfg dir
     subprocess.run(["sudo", str(SCRIPT_DIR / "clash"), "-d", str(cfg_dir)], check=False)
 
@@ -71,14 +59,14 @@ def config(
         help="Overwrite user config from template",
     ),
 ) -> None:
-    """Manage user config.yml file.
+    """Manage user config.yaml file.
 
     - Always prints the user config path
     - If --reset is provided, copy template to user config (overwrite)
     - If --edit is provided, ensure user config exists by copying template if missing, then open editor
     """
-    user_cfg = _user_config_path()
-    tpl_cfg = _template_config_path()
+    user_cfg = user_config_path()
+    tpl_cfg = template_config_path()
 
     typer.echo(f"Config file: {user_cfg.absolute()}")
 

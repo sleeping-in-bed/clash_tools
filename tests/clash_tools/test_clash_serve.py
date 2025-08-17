@@ -55,7 +55,7 @@ def test_config_prints_path_and_edit_opens_editor(
     monkeypatch.setenv("EDITOR", "true")
 
     # Ensure template exists
-    tpl = Path(module.__file__).parent / "config.yml"
+    tpl = Path(module.__file__).parent / "config.yaml"
     if not tpl.exists():
         tpl.write_text("port: 7890\nsocks-port: 7891\n", encoding="utf-8")
 
@@ -74,7 +74,7 @@ def test_config_prints_path_and_edit_opens_editor(
     result = runner.invoke(module.app, ["config", "--edit"])
     assert result.exit_code == 0
     # First call should be editor invocation with path
-    assert calls and calls[0][0] == "true" and calls[0][1].endswith("config.yml")
+    assert calls and calls[0][0] == "true" and calls[0][1].endswith("config.yaml")
 
 
 def test_service_group_hint_when_not_root(
