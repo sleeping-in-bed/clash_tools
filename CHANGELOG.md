@@ -1,3 +1,9 @@
+## [3.0.1](https://github.com/sleeping-in-bed/clash_tools/compare/v3.0.0...v3.0.1) (2025-08-17)
+
+### Bug Fixes
+
+* fix client cannot be null ([dd6f98d](https://github.com/sleeping-in-bed/clash_tools/commit/dd6f98d22a4cc33f13d9b69a7c11a93f87bb6f74))
+
 ## [3.0.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.7.0...v3.0.0) (2025-08-17)
 
 ### ⚠ BREAKING CHANGES
