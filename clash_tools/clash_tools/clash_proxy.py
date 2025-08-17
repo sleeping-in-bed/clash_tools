@@ -4,7 +4,7 @@
 import typer
 import yaml
 
-from .config import user_config_path
+from clash_tools.clash_tools.config import user_config_path
 
 app = typer.Typer(add_completion=False)
 

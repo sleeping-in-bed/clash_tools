@@ -12,7 +12,7 @@ from shutil import copyfile
 
 import typer
 
-from .config import (
+from clash_tools.clash_tools.config import (
     SCRIPT_DIR,
     ensure_country_mmdb,
     template_config_path,
@@ -33,7 +33,11 @@ def run() -> None:
     cfg_dir = user_config_dir()
     # Ensure Country.mmdb exists in user config directory
     ensure_country_mmdb()
-    typer.echo(f"Running: sudo {SCRIPT_DIR / 'clash'!s} -d {cfg_dir}")
+    typer.secho(
+        f"Running: sudo {SCRIPT_DIR / 'clash'!s} -d {cfg_dir}",
+        fg=typer.colors.CYAN,
+        bold=True,
+    )
     # Execute from script dir where binary resides, but point -d to user cfg dir
     subprocess.run(["sudo", str(SCRIPT_DIR / "clash"), "-d", str(cfg_dir)], check=False)
 
@@ -68,32 +72,42 @@ def config(
     user_cfg = user_config_path()
     tpl_cfg = template_config_path()
 
-    typer.echo(f"Config file: {user_cfg.absolute()}")
+    typer.secho(f"Config file: {user_cfg.absolute()}", fg=typer.colors.CYAN)
 
     if reset:
-        try:
-            if not tpl_cfg.exists():
-                typer.echo("Template config not found!", err=True)
-                return
-            copyfile(tpl_cfg, user_cfg)
-            typer.echo("Reset from template.")
-        except Exception as e:
-            typer.echo(f"Failed to reset: {e}", err=True)
+        if not tpl_cfg.exists():
+            typer.secho("Template config not found!", err=True, fg=typer.colors.RED)
+            return
+        ok = run_sudo_command(
+            ["cp", str(tpl_cfg), str(user_cfg)],
+            success_msg="",
+            failure_msg="Failed to reset from template.",
+        )
+        if ok:
+            typer.secho("Reset from template.", fg=typer.colors.GREEN)
         return
 
     if edit:
         # bootstrap from template if missing
         if not user_cfg.exists():
             if tpl_cfg.exists():
-                copyfile(tpl_cfg, user_cfg)
+                run_sudo_command(
+                    ["cp", str(tpl_cfg), str(user_cfg)],
+                    success_msg="",
+                    failure_msg="Failed to bootstrap config from template.",
+                )
             else:
                 # create empty file if template missing
-                user_cfg.write_text("", encoding="utf-8")
+                run_sudo_command(
+                    ["touch", str(user_cfg)],
+                    success_msg="",
+                    failure_msg="Failed to create empty config file.",
+                )
         editor = os.environ.get("EDITOR", "nano")
         try:
-            subprocess.run([editor, str(user_cfg)], check=False)
+            subprocess.run(["sudo", editor, str(user_cfg)], check=False)
         except Exception as e:
-            typer.echo(f"Error opening editor: {e}", err=True)
+            typer.secho(f"Error opening editor: {e}", err=True, fg=typer.colors.RED)
         return
 
 
@@ -131,7 +145,7 @@ def service() -> None:
     """Manage clash as a systemd service."""
     # This check is a hint, actual sudo is enforced in run_sudo_command
     if os.geteuid() != 0:
-        typer.echo("Hint: Service commands may require sudo permissions.")
+        typer.secho("Hint: Service commands may require sudo permissions.", fg=typer.colors.YELLOW)
 
 
 @service_app.command("add")
@@ -141,7 +155,11 @@ def add_service() -> None:
     service_file = get_service_file_path()
 
     if not clash_executable.is_file():
-        typer.echo(f"Clash executable not found at: {clash_executable}", err=True)
+        typer.secho(
+            f"Clash executable not found at: {clash_executable}",
+            err=True,
+            fg=typer.colors.RED,
+        )
         return
 
     service_content = f"""[Unit]
@@ -158,14 +176,14 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 """
-    typer.echo("The following service file will be created:")
+    typer.secho("The following service file will be created:", fg=typer.colors.CYAN)
     typer.echo(service_content)
 
     if service_file.exists():
         if not typer.confirm("Service file already exists. Overwrite?"):
             raise typer.Abort()
 
-    typer.echo(f"Writing service file to {service_file}...")
+    typer.secho(f"Writing service file to {service_file}...", fg=typer.colors.CYAN)
     if run_sudo_command(
         ["tee", str(service_file)],
         success_msg=f"Service file created at {service_file}",

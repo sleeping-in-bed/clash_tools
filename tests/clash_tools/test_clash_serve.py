@@ -73,8 +73,11 @@ def test_config_prints_path_and_edit_opens_editor(
     # Invoke config --edit
     result = runner.invoke(module.app, ["config", "--edit"])
     assert result.exit_code == 0
-    # First call should be editor invocation with path
-    assert calls and calls[0][0] == "true" and calls[0][1].endswith("config.yaml")
+    # First call should be editor invocation with sudo and path
+    assert calls
+    assert calls[0][0] == "sudo"
+    assert calls[0][1] == "true"
+    assert calls[0][2].endswith("config.yaml")
 
 
 def test_service_group_hint_when_not_root(
