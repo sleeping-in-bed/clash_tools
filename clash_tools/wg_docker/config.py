@@ -55,4 +55,10 @@ def load_server_config() -> ServerWGConfig:
         path.write_text(template.read_text(encoding="utf-8"), encoding="utf-8")
     with path.open("r", encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
+    # Normalize clients entries: coerce null client definitions to empty dicts
+    clients = data.get("clients")
+    if isinstance(clients, dict):
+        for k, v in list(clients.items()):
+            if v is None:
+                clients[k] = {}
     return ServerWGConfig(**data)
