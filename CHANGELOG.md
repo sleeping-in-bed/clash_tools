@@ -1,3 +1,9 @@
+## [3.1.4](https://github.com/sleeping-in-bed/clash_tools/compare/v3.1.3...v3.1.4) (2025-08-17)
+
+### Bug Fixes
+
+* fix clash_serve ([c11b608](https://github.com/sleeping-in-bed/clash_tools/commit/c11b608b5d26e05b7492127b8fdfd9c90f793723))
+
 ## [3.1.3](https://github.com/sleeping-in-bed/clash_tools/compare/v3.1.2...v3.1.3) (2025-08-17)
 
 ### Bug Fixes
