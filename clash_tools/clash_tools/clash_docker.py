@@ -225,6 +225,12 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
 # Create Typer command group
 app = typer.Typer(help="Clash Docker Proxy Management Tool", no_args_is_help=True)
 
+@app.callback(invoke_without_command=True)
+def _root(ctx: typer.Context) -> None:
+    """Show help when no subcommand is provided, without error panel."""
+    if ctx.invoked_subcommand is None:
+        typer.echo(ctx.get_help())
+
 
 @app.command()
 def enable(
