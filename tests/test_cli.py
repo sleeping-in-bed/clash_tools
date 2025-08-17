@@ -78,8 +78,8 @@ def _compose_path(base_xdg: Path, name: str) -> Path:
 
 
 def _client_config_path(base_xdg: Path) -> Path:
-    """Resolve client_config.yml under the test XDG config tree."""
-    return base_xdg / "clash_tools" / "wireguard" / "client_config.yml"
+    """Resolve client_wg0.conf under the test XDG config tree."""
+    return base_xdg / "clash_tools" / "wireguard" / "client_wg0.conf"
 
 
 def test_server_get_client_config_uses_renderer(
@@ -87,7 +87,9 @@ def test_server_get_client_config_uses_renderer(
     runner: CliRunner,
 ) -> None:
     """Ensure server get-client-config prints renderer output."""
-    cli_module.renderer = SimpleNamespace(get_client_conf=lambda client_id: "ok: 2\n")
+    cli_module.renderer = SimpleNamespace(
+        render_client_conf=lambda client_id, write=False: ("ok: 2\n", Path("ignored")),
+    )
     result = runner.invoke(cli_module.app, ["server", "get-client-config", "2"])  # type: ignore[arg-type]
     assert result.exit_code == 0
     assert result.stdout.strip() == "ok: 2"
@@ -203,7 +205,7 @@ def test_client_up_down_restart(
     """Client up/down/restart should use compose file and invoke docker compose."""
     compose_path = _compose_path(tmp_config_dir, "client_compose.yml")
     cli_module.renderer = SimpleNamespace(
-        render_client_conf=lambda: ("", Path("ignored")),
+        render_client_conf=lambda client_id=2: ("", Path("ignored")),
         render_client_compose=lambda: ("", compose_path),
     )
 
@@ -228,7 +230,7 @@ def test_client_config_path_is_client_yaml(
     cli_module: Any,
     runner: CliRunner,
 ) -> None:
-    """Client config --path should point to client_config.yml."""
+    """Client config --path should point to client_wg0.conf."""
     expected_client_path = _client_config_path(tmp_config_dir)
     res_client = runner.invoke(cli_module.app, ["client", "config", "--path"])  # type: ignore[arg-type]
     assert res_client.exit_code == 0

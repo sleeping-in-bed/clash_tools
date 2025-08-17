@@ -15,10 +15,9 @@ from typing import Final
 from .config import (
     get_jinja_env,
     get_user_config_dir,
-    load_client_config,
     load_server_config,
 )
-from .models import WGKeyPair, WGKeyStore, WGPeer
+from .models import ClientConfig, WGKeyPair, WGKeyStore, WGPeer
 
 _WG_BIN: Final[str] = "wg"
 
@@ -220,25 +219,24 @@ class WGConfRenderer:
             out_path.write_text(rendered, encoding="utf-8")
         return rendered, out_path
 
-    def _build_client_post(self) -> tuple[str, str]:
-        """Build client PostUp and PreDown route commands from excludedips.
+    def _build_client_post(self, client_cfg: ClientConfig) -> tuple[str, str]:
+        """Build client PostUp and PreDown route commands from server-side client cfg.
 
         Ensures the WireGuard subnet stays reachable by adding a specific
         route via `wg0`, even if LAN ranges are excluded.
         """
-        client_cfg = load_client_config()
-
         post_up_cmds: list[str] = [f'ip route replace "{self.cidr}" dev wg0 || true']
         pre_down_cmds: list[str] = [f'ip route del "{self.cidr}" || true']
 
         if client_cfg.excludedips:
-            dsts = " ".join(client_cfg.excludedips)
+            dsts = " ".join(sorted(client_cfg.excludedips))
+            # Extract default gateway IP only if a 'via' exists; otherwise leave empty
             post_up_cmds.insert(
                 0,
-                "gw=$(ip route show default | awk '/^default/ {print $3}' | head -n1)",
+                "gw=$(ip route show default | awk '{for(i=1;i<=NF;i++) if($i==\"via\"){print $(i+1); exit}}')",
             )
             post_up_cmds.append(
-                f'for dst in {dsts}; do [ -n "$gw" ] && ip route replace "$dst" via "$gw" dev {client_cfg.nic} || true; done',
+                f'for dst in {dsts}; do if [ -n "$gw" ]; then ip route replace "$dst" via "$gw" dev {client_cfg.nic} || true; else ip route replace "$dst" dev {client_cfg.nic} || true; fi; done',
             )
             pre_down_cmds.append(
                 f'for dst in {dsts}; do ip route del "$dst" || true; done',
@@ -248,41 +246,25 @@ class WGConfRenderer:
         pre_down = 'sh -c "' + "; ".join(pre_down_cmds) + '"'
         return post_up, pre_down
 
-    def render_client_conf(self, write: bool = True) -> tuple[str, Path]:
-        """Render client wg0.conf from client_config.yml in user config dir."""
-        client_cfg = load_client_config()
-
-        template = get_jinja_env().get_template("client_wg0.conf.j2")
-        post_up, pre_down = self._build_client_post()
-        rendered: str = template.render(
-            client_ip=str(client_cfg.client_ip),
-            client_private_key=client_cfg.privatekey,
-            server_public_key=client_cfg.publickey,
-            allowed_ips=",".join(client_cfg.allowedips)
-            if isinstance(client_cfg.allowedips, list)
-            else client_cfg.allowedips,
-            endpoint=client_cfg.endpoint,
-            post_up=post_up,
-            pre_down=pre_down,
-        )
-        out_path = get_user_config_dir() / "client_wg0.conf"
-        if write:
-            out_path.write_text(rendered, encoding="utf-8")
-        return rendered, out_path
-
-    def get_client_conf(self, client_id: int) -> str:
-        """Generate a client_config.yml content from server config and keystore.
+    def render_client_conf(
+        self, client_id: int, write: bool = True,
+    ) -> tuple[str, Path]:
+        """Render client wg0.conf for a given client_id from server_config.yml.
 
         Args:
-            client_id: Client id (host part of VPN address) to derive client_ip.
-            allowed_ips: Optional allowed IPs list. Defaults to ["0.0.0.0/0"].
-            excludedips: Optional excluded IPs list. Defaults to empty list.
+            client_id: Client id (host part) used to derive client_ip and keys.
+            write: Whether to write the rendered file to user config dir.
 
         Returns:
-            YAML string representing client_config.yml.
+            Tuple of (rendered_text, output_path).
 
         """
-        # Determine client and server keys
+        client_cfg = self.server_cfg.clients.get(client_id)
+        if client_cfg is None:
+            msg = f"client id {client_id} not found in server config"
+            raise RuntimeError(msg)
+
+        # Resolve keys
         server_public_key: str | None = None
         client_private_key: str | None = None
         for peer_id, pair in self.store.pairs.items():
@@ -291,21 +273,27 @@ class WGConfRenderer:
             if peer_id == client_id:
                 client_private_key = pair.private_key
         if server_public_key is None or client_private_key is None:
-            msg = "missing keys for client config generation"
+            msg = "missing keys for client rendering"
             raise RuntimeError(msg)
 
         client_ip = str(IPv4Address(int(self.base_ip) + client_id))
         endpoint = f"{self.server_cfg.server.server_ip}:{self.listen_port}"
-        data = {
-            "client_ip": client_ip,
-            "privatekey": client_private_key,
-            "publickey": server_public_key,
-            "endpoint": endpoint,
-            "allowedips": ["0.0.0.0/0"],
-            "excludedips": ["172.17.0.0/16"],
-        }
-        template = get_jinja_env().get_template("client_config.yml.j2")
-        return template.render(**data)
+
+        template = get_jinja_env().get_template("client_wg0.conf.j2")
+        post_up, pre_down = self._build_client_post(client_cfg)
+        rendered: str = template.render(
+            client_ip=client_ip,
+            client_private_key=client_private_key,
+            server_public_key=server_public_key,
+            allowed_ips=",".join(sorted(client_cfg.allowedips)),
+            endpoint=endpoint,
+            post_up=post_up,
+            pre_down=pre_down,
+        )
+        out_path = get_user_config_dir() / "client_wg0.conf"
+        if write:
+            out_path.write_text(rendered, encoding="utf-8")
+        return rendered, out_path
 
     def render_client_compose(self, write: bool = True) -> tuple[str, Path]:
         """Render docker compose for client deployment."""

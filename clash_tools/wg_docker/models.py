@@ -97,15 +97,27 @@ class PortMapping(BaseModel):
 
 
 class ClientConfig(BaseModel):
-    """Per-client configuration.
+    """Per-client configuration (authoritative for client wg0 rendering).
 
     Attributes:
-        snat: Whether to apply SNAT for traffic to this client (adds POSTROUTING rules).
+        nic: Host interface name used for local LAN routes in client PostUp/PreDown.
+        exclude_defaults: Whether to include common private/link-local ranges in
+            `excludedips` by default. When true, the following ranges are merged
+            into `excludedips` if not present: 10.0.0.0/8, 172.16.0.0/12,
+            192.168.0.0/16, 100.64.0.0/10, 127.0.0.0/8, 169.254.0.0/16.
+        allowedips: Set of CIDRs/addresses for the client peer's AllowedIPs.
+        excludedips: Set of CIDRs/addresses to bypass the tunnel (routed via `nic`).
+        snat: Whether the server should apply SNAT for traffic destined to this client.
         c_to_s_ports: List of client-to-server port mappings as
-            [client_port, server_port, optional protocol].
+            [client_port, server_port, optional protocol], where protocol is
+            "tcp" or "udp" (defaults to "tcp").
 
     """
 
+    nic: str = "eth0"
+    exclude_defaults: bool = True
+    allowedips: set[str] = Field(default_factory=lambda: {"0.0.0.0/0"})
+    excludedips: set[str] = Field(default_factory=set)
     snat: bool = False
     c_to_s_ports: list[PortMapping] = Field(default_factory=list)
 
@@ -115,21 +127,52 @@ class ClientConfig(BaseModel):
         """Allow null/None c_to_s_ports by coercing to an empty list."""
         return [] if v is None else v
 
+    @field_validator("allowedips", "excludedips", mode="before")
+    @classmethod
+    def _lists_allow_none(cls, v):
+        """Allow None and coerce to set; accept list/str as set."""
+        if v is None:
+            return set()
+        if isinstance(v, str):
+            return {v}
+        if isinstance(v, list | tuple | set):
+            return set(v)
+        return v
+
+    @model_validator(mode="after")
+    def _apply_default_excluded(self) -> ClientConfig:
+        """Merge default excluded ranges when enabled."""
+        default_excluded: set[str] = {
+            "10.0.0.0/8",
+            "172.16.0.0/12",
+            "192.168.0.0/16",
+            "100.64.0.0/10",
+            "127.0.0.0/8",
+            "169.254.0.0/16",
+        }
+        if self.exclude_defaults:
+            self.excludedips = set(self.excludedips) | default_excluded
+        # Ensure allowedips/excludedips are sets (in case upstream coercion missed)
+        self.allowedips = set(self.allowedips)
+        self.excludedips = set(self.excludedips)
+        return self
+
 
 class ServerConfig(BaseModel):
     """Server configuration settings.
 
     Attributes:
+        nic: Outbound interface name used for server-side MASQUERADE rules.
         server_ip: Public IP or DNS name for the WireGuard server endpoint.
         subnet: Server-side IPv4 subnet in CIDR notation (e.g., 10.0.0.0/24).
         listen_port: WireGuard UDP listen port for the server.
 
     """
 
+    nic: str = "eth0"
     server_ip: str
     subnet: str
     listen_port: int
-    nic: str = "eth0"
 
 
 class ServerWGConfig(BaseModel):
@@ -143,31 +186,3 @@ class ServerWGConfig(BaseModel):
 
     server: ServerConfig
     clients: dict[int, ClientConfig]
-
-
-class ClientWGConfig(BaseModel):
-    """Client-side configuration file (client_config.yml).
-
-    Attributes:
-        client_ip: VPN address for the client (without CIDR suffix or with, per usage).
-        privatekey: WireGuard private key for the client.
-        publickey: WireGuard public key for the server.
-        endpoint: Server endpoint in the format "host:port".
-        allowedips: Allowed IPs routes for the peer (list of CIDRs or addresses).
-        excludedips: IPs to exclude/bypass from routing (list of CIDRs).
-
-    """
-
-    client_ip: str
-    privatekey: str
-    publickey: str
-    endpoint: str
-    allowedips: list[str]
-    excludedips: list[str] = Field(default_factory=list)
-    nic: str = "eth0"
-
-    @field_validator("excludedips", mode="before")
-    @classmethod
-    def _accept_none_excludedips(cls, v):
-        """Allow null/None excludedips by coercing to an empty list."""
-        return [] if v is None else v

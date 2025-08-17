@@ -77,8 +77,8 @@ def _server_config_path() -> Path:
 
 
 def _client_config_path() -> Path:
-    """Return absolute path to client_config.yml in user config dir."""
-    return get_user_config_dir() / "client_config.yml"
+    """Return absolute path to client_wg0.conf in user config dir."""
+    return get_user_config_dir() / "client_wg0.conf"
 
 
 def _server_template() -> Path:
@@ -93,9 +93,9 @@ def _server_template() -> Path:
 def server_get_client_config(
     client_id: int = typer.Argument(..., help="Client id (host part)"),
 ) -> None:
-    """Render client_config.yml for a given client id and print to stdout."""
-    content = renderer.get_client_conf(client_id=client_id)
-    typer.echo(content)
+    """Render client_wg0.conf for a given client id and print to stdout."""
+    rendered, _ = renderer.render_client_conf(client_id=client_id, write=False)
+    typer.echo(rendered)
 
 
 @server_app.command("up")
@@ -119,6 +119,15 @@ def server_restart() -> None:
     """Restart server docker compose (down -v then up -d)."""
     server_down()
     server_up()
+
+
+@server_app.command("show")
+def server_show() -> None:
+    """Exec into the server container and run `wg show`."""
+    _, compose_file = renderer.render_server_compose()
+    subprocess.run(
+        _compose_cmd(compose_file, ["exec", "wireguard", "wg", "show"]), check=False,
+    )
 
 
 def _do_config_yml(
@@ -171,7 +180,7 @@ def _do_config_yml(
 
 
 @server_app.command("config")
-def config_yml(
+def server_config(
     edit: bool = typer.Option(
         False,
         "--edit",
@@ -202,8 +211,7 @@ def config_yml(
 @client_app.command("up")
 def client_up() -> None:
     """Render configs to user dir and start client docker compose in detached mode."""
-    # Render client wg0.conf (default client id 2) and compose
-    renderer.render_client_conf()
+    # Only render client compose; client_wg0.conf is managed via `client config`
     _, compose_file = renderer.render_client_compose()
     subprocess.run(_compose_cmd(compose_file, ["up", "-d"]), check=False)
 
@@ -227,17 +235,17 @@ def client_config(
     edit: bool = typer.Option(
         False,
         "--edit",
-        help="Edit client_config.yml in $EDITOR",
+        help="Edit client_wg0.conf in $EDITOR",
     ),
-    cat: bool = typer.Option(False, "--cat", help="Print client_config.yml contents"),
+    cat: bool = typer.Option(False, "--cat", help="Print client_wg0.conf contents"),
     path: bool = typer.Option(
         False,
         "--path",
-        help="Print client_config.yml absolute path",
+        help="Print client_wg0.conf absolute path",
     ),
     reset: bool = typer.Option(False, "--reset", help="Create empty file if missing"),
 ) -> None:
-    """Manage client_config.yml in the user config directory."""
+    """Manage client_wg0.conf in the user config directory."""
     _do_config_yml(
         cfg_path=_client_config_path(),
         template=None,

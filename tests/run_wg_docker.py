@@ -48,13 +48,8 @@ def main() -> int:
         server_conf, server_out = renderer.render_server_conf()
         server_compose, server_compose_path = renderer.render_server_compose()
 
-        # Render one client config (e.g., client id 2)
-        # Generate a client_config.yml from server config/keystore (template) for client id=2
-        client_cfg_yaml = renderer.get_client_conf(client_id=2)
-        (config_dir / "client_config.yml").write_text(client_cfg_yaml, encoding="utf-8")
-
-        # Render client wg0.conf and compose
-        client_conf, client_out = renderer.render_client_conf()
+        # Render client wg0.conf (e.g., client id 2) and compose
+        client_conf, client_out = renderer.render_client_conf(client_id=2)
         client_compose, client_compose_path = renderer.render_client_compose()
 
     return 0

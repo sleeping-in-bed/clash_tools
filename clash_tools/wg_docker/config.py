@@ -11,7 +11,7 @@ from pathlib import Path
 import yaml
 from jinja2 import Environment, FileSystemLoader
 
-from .models import ClientWGConfig, ServerWGConfig
+from .models import ServerWGConfig
 
 
 def get_user_config_dir() -> Path:
@@ -56,19 +56,3 @@ def load_server_config() -> ServerWGConfig:
     with path.open("r", encoding="utf-8") as f:
         data = yaml.safe_load(f) or {}
     return ServerWGConfig(**data)
-
-
-def load_client_config() -> ClientWGConfig:
-    """Load client configuration from default path in user config dir.
-
-    Raises:
-        FileNotFoundError: If the file does not exist.
-
-    """
-    path = get_user_config_dir() / "client_config.yml"
-    if not path.exists():
-        msg = f"client_config.yml not found at {path}"
-        raise FileNotFoundError(msg)
-    with path.open("r", encoding="utf-8") as f:
-        data = yaml.safe_load(f) or {}
-    return ClientWGConfig(**data)

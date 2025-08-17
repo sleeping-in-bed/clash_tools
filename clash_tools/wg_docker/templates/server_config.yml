@@ -1,17 +1,27 @@
 server:
   nic: eth0
-  server_ip: 203.0.113.10
+  server_ip: 6.6.6.6
   subnet: 10.9.0.0/24
   listen_port: 51820
 
 clients:
   2:
+    nic: eth0
+    exclude_defaults: true
+    allowedips:
+      - 0.0.0.0/0
+    excludedips: []
     snat: false
     c_to_s_ports:
       - [22, 2222]
       - [80, 8080]
       - [443, 8443]
   3:
+    nic: eth0
+    exclude_defaults: true
+    allowedips:
+      - 0.0.0.0/0
+    excludedips: []
     snat: true
     c_to_s_ports:
       - [12345, 45678, "udp"]

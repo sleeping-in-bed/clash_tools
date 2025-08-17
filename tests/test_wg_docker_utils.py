@@ -180,10 +180,8 @@ clients:
     assert "AllowedIPs = 10.99.0.2/32" in server_conf
     assert "PostUp = " in server_conf
 
-    # Generate client_config.yml for id=2, then render client wg0.conf
-    client_cfg_yaml = renderer.get_client_conf(client_id=2)
-    (tmp_path / "client_config.yml").write_text(client_cfg_yaml, encoding="utf-8")
-    client_conf, _ = renderer.render_client_conf(write=False)
+    # Render client wg0.conf from server-side config for id=2
+    client_conf, _ = renderer.render_client_conf(client_id=2, write=False)
     assert "[Interface]" in client_conf
     assert "Address = 10.99.0.2/32" in client_conf
     assert "PrivateKey = C2_PRIV" in client_conf
