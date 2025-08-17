@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import importlib
-from typing import Any
 
 import pytest
 from typer.testing import CliRunner
 
 
 @pytest.fixture
-def module() -> Any:
+def module() -> object:
     """Import the clash_docker module."""
     return importlib.import_module("clash_tools.clash_tools.clash_docker")
 
@@ -22,7 +21,7 @@ def runner() -> CliRunner:
 
 
 def test_clash_docker_cli_invokes_manager_methods(
-    module: Any,
+    module: object,
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:

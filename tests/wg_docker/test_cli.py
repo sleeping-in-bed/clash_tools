@@ -9,7 +9,6 @@ from __future__ import annotations
 import importlib
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Any
 
 import pytest
 from typer.testing import CliRunner
@@ -29,7 +28,7 @@ def tmp_config_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
 
 
 @pytest.fixture
-def cli_module(tmp_config_dir: Path) -> Any:
+def cli_module(tmp_config_dir: Path) -> object:
     """Import the CLI module with isolated environment.
 
     Returns:
@@ -83,7 +82,7 @@ def _client_config_path(base_xdg: Path) -> Path:
 
 
 def test_server_get_client_config_uses_renderer(
-    cli_module: Any,
+    cli_module: object,
     runner: CliRunner,
 ) -> None:
     """Ensure server get-client-config prints renderer output."""
@@ -97,7 +96,7 @@ def test_server_get_client_config_uses_renderer(
 
 def test_server_up_invokes_compose_up(
     tmp_config_dir: Path,
-    cli_module: Any,
+    cli_module: object,
     runner: CliRunner,
     capture_subprocess: list[list[str]],
 ) -> None:
@@ -116,7 +115,7 @@ def test_server_up_invokes_compose_up(
 
 def test_server_down_invokes_compose_down(
     tmp_config_dir: Path,
-    cli_module: Any,
+    cli_module: object,
     runner: CliRunner,
     capture_subprocess: list[list[str]],
 ) -> None:
@@ -134,7 +133,7 @@ def test_server_down_invokes_compose_down(
 
 def test_server_restart_invokes_down_then_up(
     tmp_config_dir: Path,
-    cli_module: Any,
+    cli_module: object,
     runner: CliRunner,
     capture_subprocess: list[list[str]],
 ) -> None:
@@ -154,7 +153,7 @@ def test_server_restart_invokes_down_then_up(
 
 def test_server_config_reset_and_cat_and_path(
     tmp_config_dir: Path,
-    cli_module: Any,
+    cli_module: object,
     runner: CliRunner,
 ) -> None:
     """Server config --reset should write template; --cat prints it; --path prints path."""
@@ -198,7 +197,7 @@ def test_server_config_cat_missing_file_exits_with_error(
 
 def test_client_up_down_restart(
     tmp_config_dir: Path,
-    cli_module: Any,
+    cli_module: object,
     runner: CliRunner,
     capture_subprocess: list[list[str]],
 ) -> None:
@@ -227,7 +226,7 @@ def test_client_up_down_restart(
 
 def test_client_config_path_is_client_yaml(
     tmp_config_dir: Path,
-    cli_module: Any,
+    cli_module: object,
     runner: CliRunner,
 ) -> None:
     """Client config --path should point to client_wg0.conf."""
@@ -239,7 +238,7 @@ def test_client_config_path_is_client_yaml(
 
 def test_server_config_edit_bootstrap_opens_editor(
     tmp_config_dir: Path,
-    cli_module: Any,
+    cli_module: object,
     runner: CliRunner,
     capture_subprocess: list[list[str]],
 ) -> None:
@@ -257,7 +256,7 @@ def test_server_config_edit_bootstrap_opens_editor(
 
 def test_client_config_reset_and_cat(
     tmp_config_dir: Path,
-    cli_module: Any,
+    cli_module: object,
     runner: CliRunner,
 ) -> None:
     """Client config --reset creates file; --cat prints its content (empty by default)."""

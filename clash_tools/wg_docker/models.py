@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal, cast
+from typing import TYPE_CHECKING, Literal, cast
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -73,10 +73,10 @@ class PortMapping(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def _coerce_from_sequence(cls, data: Any) -> Any:
+    def _coerce_from_sequence(cls, data: object) -> object:
         """Allow sequence input like [client_port, server_port, [tsl_method]]."""
         if isinstance(data, list | tuple):
-            seq: Sequence[Any] = data
+            seq: Sequence[object] = cast("Sequence[object]", data)
             if len(seq) not in (2, 3):
                 msg = "c_to_s_ports item must have 2 or 3 elements"
                 raise ValueError(msg)
@@ -123,13 +123,13 @@ class ClientConfig(BaseModel):
 
     @field_validator("c_to_s_ports", mode="before")
     @classmethod
-    def _accept_none_c_to_s_ports(cls, v: Any) -> Any:
+    def _accept_none_c_to_s_ports(cls, v: object) -> object:
         """Allow null/None c_to_s_ports by coercing to an empty list."""
         return [] if v is None else v
 
     @field_validator("allowedips", "excludedips", mode="before")
     @classmethod
-    def _lists_allow_none(cls, v: Any) -> Any:
+    def _lists_allow_none(cls, v: object) -> object:
         """Allow None and coerce to set; accept list/str as set."""
         if v is None:
             return set()

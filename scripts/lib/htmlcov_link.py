@@ -14,9 +14,10 @@ from bs4 import BeautifulSoup
     default="htmlcov",
     help="Coverage HTML output directory.",
 )
-def main(htmlcov_dir: Path) -> None:
+def main(htmlcov_dir: Path | str) -> None:
     """Generate an index.html that links to sub coverage reports."""
     links = []
+    htmlcov_dir = Path(htmlcov_dir)
     if not htmlcov_dir.exists():
         click.echo(f"Directory '{htmlcov_dir}' does not exist.", err=True)
         raise SystemExit(1)

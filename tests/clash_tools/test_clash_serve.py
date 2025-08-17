@@ -4,14 +4,13 @@ from __future__ import annotations
 
 import importlib
 from pathlib import Path
-from typing import Any
 
 import pytest
 from typer.testing import CliRunner
 
 
 @pytest.fixture
-def module() -> Any:
+def module() -> object:
     """Import the clash_serve module."""
     return importlib.import_module("clash_tools.clash_tools.clash_serve")
 
@@ -23,14 +22,14 @@ def runner() -> CliRunner:
 
 
 def test_run_invokes_sudo_clash(
-    module: Any,
+    module: object,
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """Test that `run` command invokes `sudo clash`."""
     calls: list[list[str]] = []
 
-    def fake_run(cmd: list[str], *, check: bool = False, **_: Any) -> None:
+    def fake_run(cmd: list[str], *, check: bool = False, **_: object) -> None:
         calls.append(cmd)
 
     monkeypatch.setattr(
@@ -46,7 +45,7 @@ def test_run_invokes_sudo_clash(
 
 
 def test_config_prints_path_and_edit_opens_editor(
-    module: Any,
+    module: object,
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -62,7 +61,7 @@ def test_config_prints_path_and_edit_opens_editor(
 
     calls: list[list[str]] = []
 
-    def fake_run(cmd: list[str], *, check: bool = False, **_: Any) -> None:
+    def fake_run(cmd: list[str], *, check: bool = False, **_: object) -> None:
         calls.append(cmd)
 
     monkeypatch.setattr(
@@ -79,7 +78,7 @@ def test_config_prints_path_and_edit_opens_editor(
 
 
 def test_service_group_hint_when_not_root(
-    module: Any,
+    module: object,
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -97,7 +96,7 @@ def test_service_group_hint_when_not_root(
 
 
 def test_add_service_uses_run_sudo_command(
-    module: Any,
+    module: object,
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -130,7 +129,7 @@ def test_add_service_uses_run_sudo_command(
 
 
 def test_remove_service_with_temp_path(
-    module: Any,
+    module: object,
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -167,14 +166,14 @@ def test_remove_service_with_temp_path(
 
 
 def test_status_invokes_systemctl_status(
-    module: Any,
+    module: object,
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     """Test that `status` command invokes `systemctl status`."""
     calls: list[list[str]] = []
 
-    def fake_run(cmd: list[str], *, check: bool = False, **_: Any) -> None:
+    def fake_run(cmd: list[str], *, check: bool = False, **_: object) -> None:
         calls.append(cmd)
 
     monkeypatch.setattr(

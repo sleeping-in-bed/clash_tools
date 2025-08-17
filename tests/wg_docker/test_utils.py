@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from subprocess import CompletedProcess
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import pytest
 
@@ -29,8 +29,8 @@ def test_generate_wg_keypair_success(monkeypatch: pytest.MonkeyPatch) -> None:
         check: bool,
         capture_output: bool,
         text: bool,
-        input: str | None = None,  # noqa: A002 - test signature mirrors subprocess.run
-        **_: Any,
+        input: str | None = None,
+        **_: object,
     ) -> CompletedProcess[str]:
         if args == ["wg", "genkey"]:
             return CompletedProcess(
@@ -61,7 +61,7 @@ def test_generate_wg_keypair_success(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_generate_wg_keypair_failure(monkeypatch: pytest.MonkeyPatch) -> None:
     """Raise RuntimeError when the `wg` command is unavailable or fails."""
 
-    def fake_run_fail(*_: Any, **__: Any) -> CompletedProcess[str]:
+    def fake_run_fail(*_: object, **__: object) -> CompletedProcess[str]:
         msg = "wg not found"
         raise FileNotFoundError(msg)
 
