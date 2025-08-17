@@ -14,8 +14,8 @@ project = "clash_tools"
 copyright = "2025, the clash_tools developers"
 author = "the clash_tools developers"
 
-version = "2.7.0"
-release = "2.7.0"
+version = "3.0.0"
+release = "3.0.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
