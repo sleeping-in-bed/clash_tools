@@ -1,3 +1,9 @@
+## [3.0.2](https://github.com/sleeping-in-bed/clash_tools/compare/v3.0.1...v3.0.2) (2025-08-17)
+
+### Bug Fixes
+
+* remove wireguard command ([d990489](https://github.com/sleeping-in-bed/clash_tools/commit/d99048972185811302043c4ab3af64ada0de063f))
+
 ## [3.0.1](https://github.com/sleeping-in-bed/clash_tools/compare/v3.0.0...v3.0.1) (2025-08-17)
 
 ### Bug Fixes
