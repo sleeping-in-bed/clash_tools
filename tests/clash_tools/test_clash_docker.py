@@ -6,16 +6,18 @@ import importlib
 from typing import Any
 
 import pytest
-from click.testing import CliRunner
+from typer.testing import CliRunner
 
 
 @pytest.fixture
 def module() -> Any:
+    """Import the clash_docker module."""
     return importlib.import_module("clash_tools.clash_tools.clash_docker")
 
 
 @pytest.fixture
 def runner() -> CliRunner:
+    """Return a CliRunner instance."""
     return CliRunner()
 
 
@@ -24,10 +26,11 @@ def test_clash_docker_cli_invokes_manager_methods(
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    """Test that CLI commands invoke the correct manager methods."""
     calls: list[str] = []
 
     class FakeManager:
-        def enable_proxy(self, proxy: str | None = None) -> None:  # noqa: ARG002
+        def enable_proxy(self, proxy: str | None = None) -> None:
             calls.append("enable")
 
         def disable_proxy(self) -> None:
@@ -36,13 +39,13 @@ def test_clash_docker_cli_invokes_manager_methods(
         def check_proxy_status(self) -> None:
             calls.append("status")
 
-    # Patch factory used in cli() to return our fake manager
-    monkeypatch.setattr(module, "DockerProxyManager", lambda: FakeManager())
+    # Patch manager creation to our fake
+    monkeypatch.setattr(module, "DockerProxyManager", FakeManager)
 
-    r1 = runner.invoke(module.cli, ["enable"])  # type: ignore[arg-type]
-    r2 = runner.invoke(module.cli, ["disable"])  # type: ignore[arg-type]
-    r3 = runner.invoke(module.cli, ["status"])  # type: ignore[arg-type]
-    r4 = runner.invoke(module.cli, ["reset"])  # type: ignore[arg-type]
+    r1 = runner.invoke(module.app, ["enable"])
+    r2 = runner.invoke(module.app, ["disable"])
+    r3 = runner.invoke(module.app, ["status"])
+    r4 = runner.invoke(module.app, ["reset"])
 
     assert (
         r1.exit_code == 0

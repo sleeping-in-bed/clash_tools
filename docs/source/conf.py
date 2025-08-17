@@ -1,3 +1,5 @@
+"""Configuration file for the Sphinx documentation builder."""
+
 import sys
 from pathlib import Path
 
@@ -29,7 +31,7 @@ extensions = [
 
 
 templates_path = ["_templates"]
-exclude_patterns = []  # type: ignore
+exclude_patterns = []
 
 language = "en"
 

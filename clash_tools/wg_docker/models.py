@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, Literal, cast
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
@@ -87,7 +87,7 @@ class PortMapping(BaseModel):
                 if method not in ("tcp", "udp"):
                     msg = "tsl_method must be 'tcp' or 'udp'"
                     raise ValueError(msg)
-                tsl_method = method  # type: ignore[assignment]
+                tsl_method = cast("TSLMethod", method)
             return {
                 "client_port": client_port,
                 "server_port": server_port,

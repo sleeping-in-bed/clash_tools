@@ -8,7 +8,7 @@ import os
 import subprocess
 from pathlib import Path
 
-import click
+import typer
 
 # Global default proxy settings
 DEFAULT_PROXY = {
@@ -31,24 +31,20 @@ class DockerProxyManager:
         # Use global proxy settings
         self.proxy_settings = DEFAULT_PROXY.copy()
 
-    def check_root(self):
+    def check_root(self) -> bool:
         """Check if running with root privileges."""
         return os.geteuid() == 0
 
     def restart_docker(self) -> bool | None:
         """Restart Docker service."""
         try:
-            click.echo("Restarting Docker service...")
+            typer.echo("Restarting Docker service...")
             subprocess.run(["systemctl", "daemon-reload"], check=True)
             subprocess.run(["systemctl", "restart", "docker"], check=True)
-            click.echo(
-                click.style("✅ Docker service restarted successfully", fg="green"),
-            )
+            typer.echo("Docker service restarted successfully")
             return True
         except subprocess.CalledProcessError as e:
-            click.echo(
-                click.style(f"❌ Failed to restart Docker service: {e}", fg="red"),
-            )
+            typer.echo(f"Failed to restart Docker service: {e}", err=True)
             return False
 
     def enable_docker_client_proxy(self) -> bool | None:
@@ -76,23 +72,18 @@ class DockerProxyManager:
             with open(self.docker_config_file, "w") as f:
                 json.dump(config, f, indent=2)
 
-            click.echo(click.style("✅ Docker client proxy enabled", fg="green"))
+            typer.echo("Docker client proxy enabled")
             return True
         except Exception as e:
-            click.echo(
-                click.style(f"❌ Failed to enable Docker client proxy: {e}", fg="red"),
-            )
+            typer.echo(f"Failed to enable Docker client proxy: {e}", err=True)
             return False
 
     def disable_docker_client_proxy(self) -> bool | None:
         """Disable Docker client proxy."""
         try:
             if not self.docker_config_file.exists():
-                click.echo(
-                    click.style(
-                        "✅ Docker client proxy config file not found, no need to disable",
-                        fg="green",
-                    ),
+                typer.echo(
+                    "Docker client proxy config file not found, no need to disable",
                 )
                 return True
 
@@ -108,12 +99,10 @@ class DockerProxyManager:
             with open(self.docker_config_file, "w") as f:
                 json.dump(config, f, indent=2)
 
-            click.echo(click.style("✅ Docker client proxy disabled", fg="green"))
+            typer.echo("Docker client proxy disabled")
             return True
         except Exception as e:
-            click.echo(
-                click.style(f"❌ Failed to disable Docker client proxy: {e}", fg="red"),
-            )
+            typer.echo(f"Failed to disable Docker client proxy: {e}", err=True)
             return False
 
     def enable_docker_daemon_proxy(self) -> bool | None:
@@ -132,12 +121,10 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
             with open(self.systemd_proxy_file, "w") as f:
                 f.write(proxy_config)
 
-            click.echo(click.style("✅ Docker daemon proxy enabled", fg="green"))
+            typer.echo("Docker daemon proxy enabled")
             return True
         except Exception as e:
-            click.echo(
-                click.style(f"❌ Failed to enable Docker daemon proxy: {e}", fg="red"),
-            )
+            typer.echo(f"Failed to enable Docker daemon proxy: {e}", err=True)
             return False
 
     def disable_docker_daemon_proxy(self) -> bool | None:
@@ -145,59 +132,54 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
         try:
             if self.systemd_proxy_file.exists():
                 self.systemd_proxy_file.unlink()
-                click.echo(click.style("✅ Docker daemon proxy disabled", fg="green"))
+                typer.echo("Docker daemon proxy disabled")
             else:
-                click.echo(
-                    click.style(
-                        "✅ Docker daemon proxy config file not found, no need to disable",
-                        fg="green",
-                    ),
+                typer.echo(
+                    "Docker daemon proxy config file not found, no need to disable",
                 )
             return True
         except Exception as e:
-            click.echo(
-                click.style(f"❌ Failed to disable Docker daemon proxy: {e}", fg="red"),
-            )
+            typer.echo(f"Failed to disable Docker daemon proxy: {e}", err=True)
             return False
 
     def check_proxy_status(self) -> None:
         """Check proxy status."""
-        click.echo(click.style("=== Docker Proxy Status ===", fg="blue", bold=True))
+        typer.echo("=== Docker Proxy Status ===")
 
         # Check client proxy
         if self.docker_config_file.exists():
             with open(self.docker_config_file) as f:
                 config = json.load(f)
             if "proxies" in config:
-                click.echo(click.style("🟢 Docker client proxy: Enabled", fg="green"))
+                typer.echo("Docker client proxy: Enabled")
                 proxy_info = config["proxies"]["default"]
-                click.echo(f"   HTTP Proxy: {proxy_info.get('httpProxy', 'N/A')}")
-                click.echo(f"   HTTPS Proxy: {proxy_info.get('httpsProxy', 'N/A')}")
-                click.echo(f"   No Proxy: {proxy_info.get('noProxy', 'N/A')}")
+                typer.echo(f"   HTTP Proxy: {proxy_info.get('httpProxy', 'N/A')}")
+                typer.echo(f"   HTTPS Proxy: {proxy_info.get('httpsProxy', 'N/A')}")
+                typer.echo(f"   No Proxy: {proxy_info.get('noProxy', 'N/A')}")
             else:
-                click.echo(click.style("🔴 Docker client proxy: Disabled", fg="red"))
+                typer.echo("Docker client proxy: Disabled")
         else:
-            click.echo(click.style("🔴 Docker client proxy: Disabled", fg="red"))
+            typer.echo("Docker client proxy: Disabled")
 
         # Check daemon proxy
         if self.systemd_proxy_file.exists():
-            click.echo(click.style("🟢 Docker daemon proxy: Enabled", fg="green"))
+            typer.echo("Docker daemon proxy: Enabled")
             with open(self.systemd_proxy_file) as f:
                 content = f.read()
-                click.echo("   Configuration:")
+                typer.echo("   Configuration:")
                 for line in content.strip().split("\n"):
                     if line.startswith("Environment="):
-                        click.echo(f"   {line}")
+                        typer.echo(f"   {line}")
         else:
-            click.echo(click.style("🔴 Docker daemon proxy: Disabled", fg="red"))
+            typer.echo("Docker daemon proxy: Disabled")
 
-    def enable_proxy(self, proxy_url=None) -> None:
+    def enable_proxy(self, proxy_url: str | None = None) -> None:
         """Enable proxy."""
         if proxy_url:
             self.proxy_settings["http"] = proxy_url
             self.proxy_settings["https"] = proxy_url
 
-        click.echo(click.style("=== Enabling Docker Proxy ===", fg="blue", bold=True))
+        typer.echo("=== Enabling Docker Proxy ===")
 
         # Enable client proxy
         client_success = self.enable_docker_client_proxy()
@@ -209,30 +191,17 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
             if daemon_success:
                 self.restart_docker()
         else:
-            click.echo(
-                click.style(
-                    "⚠️  Root privileges required for Docker daemon proxy",
-                    fg="yellow",
-                ),
-            )
-            click.echo("   Please run with sudo or configure daemon proxy manually")
+            typer.echo("Root privileges required for Docker daemon proxy")
+            typer.echo("   Please run with sudo or configure daemon proxy manually")
 
         if client_success:
-            click.echo(
-                click.style(
-                    "🎉 Docker proxy enabled successfully!",
-                    fg="green",
-                    bold=True,
-                ),
-            )
+            typer.echo("Docker proxy enabled successfully!")
         else:
-            click.echo(
-                click.style("❌ Failed to enable Docker proxy", fg="red", bold=True),
-            )
+            typer.echo("Failed to enable Docker proxy", err=True)
 
     def disable_proxy(self) -> None:
         """Disable proxy."""
-        click.echo(click.style("=== Disabling Docker Proxy ===", fg="blue", bold=True))
+        typer.echo("=== Disabling Docker Proxy ===")
 
         # Disable client proxy
         client_success = self.disable_docker_client_proxy()
@@ -244,54 +213,23 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
             if daemon_success:
                 self.restart_docker()
         else:
-            click.echo(
-                click.style(
-                    "⚠️  Root privileges required for Docker daemon proxy",
-                    fg="yellow",
-                ),
-            )
-            click.echo("   Please run with sudo or configure daemon proxy manually")
+            typer.echo("Root privileges required for Docker daemon proxy")
+            typer.echo("   Please run with sudo or configure daemon proxy manually")
 
         if client_success:
-            click.echo(
-                click.style(
-                    "🎉 Docker proxy disabled successfully!",
-                    fg="green",
-                    bold=True,
-                ),
-            )
+            typer.echo("Docker proxy disabled successfully!")
         else:
-            click.echo(
-                click.style("❌ Failed to disable Docker proxy", fg="red", bold=True),
-            )
+            typer.echo("Failed to disable Docker proxy", err=True)
 
 
-# Create Click command group
-@click.group()
-@click.version_option(version="1.0.0", prog_name="Clash Docker Proxy Manager")
-@click.pass_context
-def cli(ctx) -> None:
-    """Clash Docker Proxy Management Tool.
-
-    Support one-click enable and disable Docker proxy settings for Clash,
-    including client proxy and daemon proxy.
-    """
-    # Initialize context object
-    if ctx.obj is None:
-        ctx.obj = {}
-    ctx.obj["manager"] = DockerProxyManager()
+# Create Typer command group
+app = typer.Typer(help="Clash Docker Proxy Management Tool", no_args_is_help=True)
 
 
-@cli.command()
-@click.option(
-    "--proxy",
-    "-p",
-    default=DEFAULT_PROXY["http"],
-    help=f"Proxy URL (default: {DEFAULT_PROXY['http']})",
-    show_default=True,
-)
-@click.pass_context
-def enable(ctx, proxy) -> None:
+@app.command()
+def enable(
+    proxy: str = typer.Option(DEFAULT_PROXY["http"], "--proxy", "-p", help="Proxy URL"),
+) -> None:
     r"""Enable Docker proxy.
 
     \b
@@ -300,39 +238,33 @@ def enable(ctx, proxy) -> None:
         ./clash_docker enable --proxy http://192.168.1.100:8080
         ./clash_docker enable -p socks5://127.0.0.1:1080
     """
-    manager = ctx.obj["manager"]
-    manager.enable_proxy(proxy)
+    DockerProxyManager().enable_proxy(proxy)
 
 
-@cli.command()
-@click.pass_context
-def disable(ctx) -> None:
+@app.command()
+def disable() -> None:
     r"""Disable Docker proxy.
 
     \b
     Examples:
         ./clash_docker disable
     """
-    manager = ctx.obj["manager"]
-    manager.disable_proxy()
+    DockerProxyManager().disable_proxy()
 
 
-@cli.command()
-@click.pass_context
-def status(ctx) -> None:
+@app.command()
+def status() -> None:
     r"""Check Docker proxy status.
 
     \b
     Examples:
         ./clash_docker status
     """
-    manager = ctx.obj["manager"]
-    manager.check_proxy_status()
+    DockerProxyManager().check_proxy_status()
 
 
-@cli.command()
-@click.pass_context
-def reset(ctx) -> None:
+@app.command()
+def reset() -> None:
     r"""Reset all Docker proxy configurations.
 
     This will completely remove all Docker proxy settings including:
@@ -343,22 +275,15 @@ def reset(ctx) -> None:
     Examples:
         ./clash_docker reset
     """
-    manager = ctx.obj["manager"]
-
-    click.echo(
-        click.style(
-            "=== Resetting Docker Proxy Configurations ===",
-            fg="blue",
-            bold=True,
-        ),
-    )
-    click.echo("This will remove:")
-    click.echo("- Docker client proxy configuration")
-    click.echo("- Docker daemon proxy configuration")
+    manager = DockerProxyManager()
+    typer.echo("=== Resetting Docker Proxy Configurations ===")
+    typer.echo("This will remove:")
+    typer.echo("- Docker client proxy configuration")
+    typer.echo("- Docker daemon proxy configuration")
 
     manager.disable_proxy()
-    click.echo(click.style("✅ All configurations have been reset", fg="green"))
+    typer.echo("All configurations have been reset")
 
 
 if __name__ == "__main__":
-    cli()
+    app()

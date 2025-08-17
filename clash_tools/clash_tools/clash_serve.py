@@ -1,59 +1,106 @@
 #!/usr/bin/env python3
-"""Simple Clash Runner Script
-Run 'sudo ./clash -d ./' in script directory.
+"""Simple Clash Runner Script using Typer.
+
+Run 'sudo ./clash -d <user_config_dir>' with config managed under the user's
+XDG config directory.
 """
 
 import os
 import subprocess
 from pathlib import Path
+from shutil import copyfile
 
-import click
+import typer
 
 SCRIPT_DIR = Path(__file__).parent.absolute()
 
 
-@click.group()
-def cli() -> None:
-    """Clash service management tool."""
+def _user_config_dir() -> Path:
+    """Return user config directory for Clash (XDG compliant)."""
+    xdg = os.environ.get("XDG_CONFIG_HOME")
+    base = Path(xdg) if xdg else Path.home() / ".config"
+    cfg_dir = base / "clash_tools" / "clash"
+    cfg_dir.mkdir(parents=True, exist_ok=True)
+    return cfg_dir
 
 
-@cli.command()
+def _user_config_path() -> Path:
+    """Return user config file path (config.yml)."""
+    return _user_config_dir() / "config.yml"
+
+
+def _template_config_path() -> Path:
+    """Return template config path shipped with the package (in SCRIPT_DIR)."""
+    return SCRIPT_DIR / "config.yml"
+
+
+app = typer.Typer(help="Clash service management tool", no_args_is_help=True)
+service_app = typer.Typer(
+    help="Manage clash as a systemd service",
+    no_args_is_help=True,
+)
+app.add_typer(service_app, name="service")
+
+
+@app.command()
 def run() -> None:
-    """Run 'sudo ./clash -d ./' in script directory."""
-    # Change to script directory
-    original_cwd = os.getcwd()
-    os.chdir(SCRIPT_DIR)
-
-    click.echo(f"Running: sudo ./clash -d ./ in {SCRIPT_DIR}")
-
-    # Run the command
-    subprocess.run(["sudo", "./clash", "-d", "./"], check=False)
-
-    # Restore original directory
-    os.chdir(original_cwd)
+    """Run clash using the user config directory."""
+    cfg_dir = _user_config_dir()
+    typer.echo(f"Running: sudo ./clash -d {cfg_dir}")
+    # Execute from script dir where binary resides, but point -d to user cfg dir
+    subprocess.run(["sudo", str(SCRIPT_DIR / "clash"), "-d", str(cfg_dir)], check=False)
 
 
-@cli.command()
-@click.option("--edit", "-e", is_flag=True, help="Open config file in default editor")
-def config(edit) -> None:
-    """Manage config.yml file."""
-    # Get config file path
-    config_file = SCRIPT_DIR / "config.yml"
+@app.command()
+def config(
+    edit: bool = typer.Option(
+        False,
+        "--edit",
+        "-e",
+        help="Open config file in default editor",
+    ),
+    reset: bool = typer.Option(
+        False,
+        "--reset",
+        help="Overwrite user config from template",
+    ),
+) -> None:
+    """Manage user config.yml file.
 
-    # Always print config file path
-    click.echo(f"Config file: {config_file.absolute()}")
+    - Always prints the user config path
+    - If --reset is provided, copy template to user config (overwrite)
+    - If --edit is provided, ensure user config exists by copying template if missing, then open editor
+    """
+    user_cfg = _user_config_path()
+    tpl_cfg = _template_config_path()
 
-    if not config_file.exists():
-        click.echo("❌ Config file not found!", err=True)
+    typer.echo(f"Config file: {user_cfg.absolute()}")
+
+    if reset:
+        try:
+            if not tpl_cfg.exists():
+                typer.echo("Template config not found!", err=True)
+                return
+            copyfile(tpl_cfg, user_cfg)
+            typer.echo("Reset from template.")
+        except Exception as e:
+            typer.echo(f"Failed to reset: {e}", err=True)
         return
 
-    # Handle --edit option
     if edit:
+        # bootstrap from template if missing
+        if not user_cfg.exists():
+            if tpl_cfg.exists():
+                copyfile(tpl_cfg, user_cfg)
+            else:
+                # create empty file if template missing
+                user_cfg.write_text("", encoding="utf-8")
         editor = os.environ.get("EDITOR", "nano")
         try:
-            subprocess.run([editor, str(config_file)], check=False)
+            subprocess.run([editor, str(user_cfg)], check=False)
         except Exception as e:
-            click.echo(f"❌ Error opening editor: {e}", err=True)
+            typer.echo(f"Error opening editor: {e}", err=True)
+        return
 
 
 SERVICE_NAME = "clash.service"
@@ -77,37 +124,30 @@ def run_sudo_command(command, success_msg, failure_msg, input_data=None) -> bool
             input=input_data,
         )
         if success_msg:
-            click.secho(f"✅ {success_msg}", fg="green")
+            typer.echo(success_msg)
         return True
     except subprocess.CalledProcessError as e:
-        click.secho(f"❌ {failure_msg}", fg="red", err=True)
-        click.secho(e.stderr.strip(), fg="red", err=True)
+        typer.echo(failure_msg, err=True)
+        typer.echo(e.stderr.strip(), err=True)
         return False
 
 
-@click.group()
+@service_app.callback()
 def service() -> None:
     """Manage clash as a systemd service."""
     # This check is a hint, actual sudo is enforced in run_sudo_command
     if os.geteuid() != 0:
-        click.secho("Hint: Service commands may require sudo permissions.", fg="yellow")
+        typer.echo("Hint: Service commands may require sudo permissions.")
 
 
-cli.add_command(service)
-
-
-@service.command("add")
+@service_app.command("add")
 def add_service() -> None:
     """Install, enable, and start the clash systemd service."""
     clash_executable = SCRIPT_DIR / "clash"
     service_file = get_service_file_path()
 
     if not clash_executable.is_file():
-        click.secho(
-            f"Clash executable not found at: {clash_executable}",
-            fg="red",
-            err=True,
-        )
+        typer.echo(f"Clash executable not found at: {clash_executable}", err=True)
         return
 
     service_content = f"""[Unit]
@@ -124,13 +164,14 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 """
-    click.echo("The following service file will be created:")
-    click.secho(service_content, fg="blue")
+    typer.echo("The following service file will be created:")
+    typer.echo(service_content)
 
     if service_file.exists():
-        click.confirm("Service file already exists. Overwrite?", abort=True)
+        if not typer.confirm("Service file already exists. Overwrite?"):
+            raise typer.Abort()
 
-    click.echo(f"Writing service file to {service_file}...")
+    typer.echo(f"Writing service file to {service_file}...")
     if run_sudo_command(
         ["tee", str(service_file)],
         success_msg=f"Service file created at {service_file}",
@@ -154,15 +195,12 @@ WantedBy=multi-user.target
         )
 
 
-@service.command("remove")
+@service_app.command("remove")
 def remove_service() -> None:
     """Stop, disable, and remove the clash systemd service."""
     service_file = get_service_file_path()
     if not service_file.exists():
-        click.secho(
-            f"Service file not found at {service_file}. Is the service added?",
-            fg="yellow",
-        )
+        typer.echo(f"Service file not found at {service_file}. Is the service added?")
         return
 
     run_sudo_command(
@@ -187,13 +225,13 @@ def remove_service() -> None:
     )
 
 
-@service.command()
+@service_app.command()
 def status() -> None:
     """Check the status of the clash service."""
-    click.echo(f"Checking status for {SERVICE_NAME}...")
+    typer.echo(f"Checking status for {SERVICE_NAME}...")
     # Does not need sudo to run, and we want to see the output directly.
     subprocess.run(["sudo", "systemctl", "status", SERVICE_NAME], check=False)
 
 
 if __name__ == "__main__":
-    cli()
+    app()

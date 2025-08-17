@@ -22,9 +22,9 @@ import typer
 from .config import get_user_config_dir
 from .utils import WGConfRenderer, WGKeyStoreManager
 
-app = typer.Typer(help="WireGuard docker manager", no_args_is_help=True)
-server_app = typer.Typer(help="Server operations", no_args_is_help=True)
-client_app = typer.Typer(help="Client operations", no_args_is_help=True)
+app = typer.Typer(help="WireGuard docker manager")
+server_app = typer.Typer(help="Server operations")
+client_app = typer.Typer(help="Client operations")
 app.add_typer(server_app, name="server")
 app.add_typer(client_app, name="client")
 
@@ -84,6 +84,13 @@ def _client_config_path() -> Path:
 def _server_template() -> Path:
     """Return absolute path to the server_config.yml template in package."""
     return Path(__file__).parent / "templates" / "server_config.yml"
+
+
+@app.callback(invoke_without_command=True)
+def _root(ctx: typer.Context) -> None:
+    """Show help when no subcommand is provided, without error panel."""
+    if ctx.invoked_subcommand is None:
+        typer.echo(ctx.get_help())
 
 
 # ---------- Server commands ----------

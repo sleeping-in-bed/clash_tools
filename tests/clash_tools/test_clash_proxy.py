@@ -6,11 +6,12 @@ import importlib
 from pathlib import Path
 
 import pytest
-from click.testing import CliRunner
+from typer.testing import CliRunner
 
 
 @pytest.fixture
 def in_pkg_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    """Ensure running inside moved package directory."""
     # Ensure running inside moved package directory
     pkg_dir = Path(__file__).parents[2] / "clash_tools" / "clash_tools"
     assert (pkg_dir / "config.yml").exists()
@@ -19,9 +20,10 @@ def in_pkg_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
 
 
 def test_clash_proxy_reads_config_and_prints_exports(in_pkg_dir: Path) -> None:
+    """Test that clash_proxy reads config and prints exports."""
     mod = importlib.import_module("clash_tools.clash_tools.clash_proxy")
     runner = CliRunner()
-    result = runner.invoke(mod.main)
+    result = runner.invoke(mod.app, [])
     assert result.exit_code == 0
     assert "export http_proxy='http://127.0.0.1:" in result.stdout
     assert "export all_proxy='socks5://127.0.0.1:" in result.stdout
@@ -31,6 +33,7 @@ def test_clash_serve_config_path_and_edit_flag(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    """Test --config-path and --edit flags."""
     mod = importlib.import_module("clash_tools.clash_tools.clash_serve")
     runner = CliRunner()
 
@@ -46,8 +49,8 @@ def test_clash_serve_config_path_and_edit_flag(
     if not cfg.exists():
         cfg.write_text("port: 7890\nsocks-port: 7891\n", encoding="utf-8")
 
-    result = runner.invoke(mod.cli, ["config", "--path"], catch_exceptions=False)
+    result = runner.invoke(mod.app, ["config", "--path"], catch_exceptions=False)
     # Our CLI shows path unconditionally; emulate by running without args then with --edit
     # Here we just ensure the command succeeds; editor execution is covered by setting EDITOR=true
-    result = runner.invoke(mod.cli, ["config", "--edit"], catch_exceptions=False)
+    result = runner.invoke(mod.app, ["config", "--edit"], catch_exceptions=False)
     assert result.exit_code == 0

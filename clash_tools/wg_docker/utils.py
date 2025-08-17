@@ -10,7 +10,7 @@ import json
 from ipaddress import IPv4Address, IPv4Network, ip_network
 from pathlib import Path
 from subprocess import CalledProcessError, CompletedProcess, run
-from typing import Final
+from typing import Final, cast
 
 from .config import (
     get_jinja_env,
@@ -33,7 +33,7 @@ def generate_wg_keypair() -> WGKeyPair:
 
     """
     try:
-        genkey_proc: CompletedProcess[str] = run(  # noqa: S603
+        genkey_proc: CompletedProcess[str] = run(
             [_WG_BIN, "genkey"],
             check=True,
             capture_output=True,
@@ -41,7 +41,7 @@ def generate_wg_keypair() -> WGKeyPair:
         )
         private_key: str = genkey_proc.stdout.strip()
 
-        pubkey_proc: CompletedProcess[str] = run(  # noqa: S603
+        pubkey_proc: CompletedProcess[str] = run(
             [_WG_BIN, "pubkey"],
             input=private_key,
             check=True,
@@ -63,6 +63,7 @@ class WGKeyStoreManager:
     """
 
     def __init__(self) -> None:
+        """Initialize the key store manager."""
         self.json_path: Path = get_user_config_dir() / "wg_keys.json"
 
     def generate_pairs_for_range(self, start: int = 1, end: int = 254) -> WGKeyStore:
@@ -117,6 +118,7 @@ class WGConfRenderer:
     """
 
     def __init__(self) -> None:
+        """Initialize the configuration renderer."""
         self.store: WGKeyStore = WGKeyStoreManager().read_store()
         self.server_cfg = load_server_config()
 
@@ -124,7 +126,10 @@ class WGConfRenderer:
         self.listen_port: int = self.server_cfg.server.listen_port
 
         # Shared network fields
-        self.network: IPv4Network = ip_network(self.cidr, strict=False)  # type: ignore[assignment]
+        self.network: IPv4Network = cast(
+            "IPv4Network",
+            ip_network(self.cidr, strict=False),
+        )
         self.base_ip: IPv4Address = self.network.network_address
         self.server_ip: IPv4Address = IPv4Address(int(self.base_ip) + 1)
 
@@ -183,7 +188,7 @@ class WGConfRenderer:
 
         return post_up_rules, post_down_rules
 
-    def render_server_conf(self, write: bool = True) -> tuple[str, Path]:
+    def render_server_conf(self, *, write: bool = True) -> tuple[str, Path]:
         """Render full wg0.conf with PostUp/PostDown from the template."""
         server_private_key: str = ""
         peers: list[WGPeer] = []
@@ -249,6 +254,7 @@ class WGConfRenderer:
     def render_client_conf(
         self,
         client_id: int,
+        *,
         write: bool = True,
     ) -> tuple[str, Path]:
         """Render client wg0.conf for a given client_id from server_config.yml.
@@ -297,7 +303,7 @@ class WGConfRenderer:
             out_path.write_text(rendered, encoding="utf-8")
         return rendered, out_path
 
-    def render_client_compose(self, write: bool = True) -> tuple[str, Path]:
+    def render_client_compose(self, *, write: bool = True) -> tuple[str, Path]:
         """Render docker compose for client deployment."""
         template = get_jinja_env().get_template("client_compose.yml.j2")
         rendered = template.render()
@@ -306,21 +312,25 @@ class WGConfRenderer:
             out_path.write_text(rendered, encoding="utf-8")
         return rendered, out_path
 
-    def render_server_compose(self, write: bool = True) -> tuple[str, Path]:
+    def render_server_compose(self, *, write: bool = True) -> tuple[str, Path]:
         """Render docker compose for server deployment with dynamic ports."""
         # Build forwards from user cfg
         forwards: list[dict[str, str | int]] = []
-        for peer_id, client_cfg in sorted(self.server_cfg.clients.items()):
-            client_ip = IPv4Address(int(self.base_ip) + int(peer_id))
-            for mapping in client_cfg.c_to_s_ports:
-                forwards.append(
-                    {
-                        "tsl_method": mapping.tsl_method,
-                        "server_port": mapping.server_port,
-                        "client_ip": str(client_ip),
-                        "client_port": mapping.client_port,
-                    },
-                )
+        if self.server_cfg.clients:
+            for peer_id, client_cfg in self.server_cfg.clients.items():
+                if client_cfg.c_to_s_ports:
+                    client_ip = IPv4Address(int(self.base_ip) + int(peer_id))
+                    forwards.extend(
+                        [
+                            {
+                                "tsl_method": mapping.tsl_method,
+                                "server_port": mapping.server_port,
+                                "client_ip": str(client_ip),
+                                "client_port": mapping.client_port,
+                            }
+                            for mapping in client_cfg.c_to_s_ports
+                        ],
+                    )
         template = get_jinja_env().get_template("server_compose.yml.j2")
         rendered = template.render(listen_port=self.listen_port, forwards=forwards)
         out_path = get_user_config_dir() / "server_compose.yml"

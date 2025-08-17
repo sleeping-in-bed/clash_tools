@@ -58,7 +58,7 @@ def capture_subprocess(monkeypatch: pytest.MonkeyPatch) -> list[list[str]]:
     """
     calls: list[list[str]] = []
 
-    def _fake_run(cmd: list[str], check: bool = False) -> None:  # type: ignore[unused-argument]
+    def _fake_run(cmd: list[str], *, check: bool = False) -> None:
         calls.append(list(cmd))
 
     monkeypatch.setenv("VISUAL", "true")
@@ -90,7 +90,7 @@ def test_server_get_client_config_uses_renderer(
     cli_module.renderer = SimpleNamespace(
         render_client_conf=lambda client_id, write=False: ("ok: 2\n", Path("ignored")),
     )
-    result = runner.invoke(cli_module.app, ["server", "get-client-config", "2"])  # type: ignore[arg-type]
+    result = runner.invoke(cli_module.app, ["server", "get-client-config", "2"])
     assert result.exit_code == 0
     assert result.stdout.strip() == "ok: 2"
 
@@ -107,7 +107,7 @@ def test_server_up_invokes_compose_up(
         render_server_conf=lambda: ("", Path("ignored")),
         render_server_compose=lambda: ("", compose_path),
     )
-    result = runner.invoke(cli_module.app, ["server", "up"])  # type: ignore[arg-type]
+    result = runner.invoke(cli_module.app, ["server", "up"])
     assert result.exit_code == 0
     assert capture_subprocess == [
         ["docker", "compose", "-f", str(compose_path), "up", "-d"],
@@ -125,7 +125,7 @@ def test_server_down_invokes_compose_down(
     cli_module.renderer = SimpleNamespace(
         render_server_compose=lambda: ("", compose_path),
     )
-    result = runner.invoke(cli_module.app, ["server", "down"])  # type: ignore[arg-type]
+    result = runner.invoke(cli_module.app, ["server", "down"])
     assert result.exit_code == 0
     assert capture_subprocess == [
         ["docker", "compose", "-f", str(compose_path), "down", "-v"],
@@ -144,7 +144,7 @@ def test_server_restart_invokes_down_then_up(
         render_server_conf=lambda: ("", Path("ignored")),
         render_server_compose=lambda: ("", compose_path),
     )
-    result = runner.invoke(cli_module.app, ["server", "restart"])  # type: ignore[arg-type]
+    result = runner.invoke(cli_module.app, ["server", "restart"])
     assert result.exit_code == 0
     assert capture_subprocess == [
         ["docker", "compose", "-f", str(compose_path), "down", "-v"],
@@ -161,22 +161,22 @@ def test_server_config_reset_and_cat_and_path(
     cfg_path = _app_config_path(tmp_config_dir)
 
     # Reset writes the template content
-    result_reset = runner.invoke(cli_module.app, ["server", "config", "--reset"])  # type: ignore[arg-type]
+    result_reset = runner.invoke(cli_module.app, ["server", "config", "--reset"])
     assert result_reset.exit_code == 0
     assert cfg_path.exists()
 
-    template_path = cli_module._server_template()  # type: ignore[attr-defined]
+    template_path = cli_module._server_template()
     assert cfg_path.read_text(encoding="utf-8") == template_path.read_text(
         encoding="utf-8",
     )
 
     # Cat prints the content
-    result_cat = runner.invoke(cli_module.app, ["server", "config", "--cat"])  # type: ignore[arg-type]
+    result_cat = runner.invoke(cli_module.app, ["server", "config", "--cat"])
     assert result_cat.exit_code == 0
     assert result_cat.stdout == cfg_path.read_text(encoding="utf-8") + "\n"
 
     # Path prints the resolved path
-    result_path = runner.invoke(cli_module.app, ["server", "config", "--path"])  # type: ignore[arg-type]
+    result_path = runner.invoke(cli_module.app, ["server", "config", "--path"])
     assert result_path.exit_code == 0
     assert result_path.stdout.strip() == str(cfg_path.resolve())
 
@@ -191,7 +191,7 @@ def test_server_config_cat_missing_file_exits_with_error(
     cfg_path = _app_config_path(tmp_config_dir)
     if cfg_path.exists():
         cfg_path.unlink()
-    result = runner.invoke(module.app, ["server", "config", "--cat"])  # type: ignore[arg-type]
+    result = runner.invoke(module.app, ["server", "config", "--cat"])
     assert result.exit_code == 1
     assert "not found" in result.stdout.lower()
 
@@ -209,10 +209,10 @@ def test_client_up_down_restart(
         render_client_compose=lambda: ("", compose_path),
     )
 
-    r1 = runner.invoke(cli_module.app, ["client", "up"])  # type: ignore[arg-type]
-    r2 = runner.invoke(cli_module.app, ["client", "down"])  # type: ignore[arg-type]
+    r1 = runner.invoke(cli_module.app, ["client", "up"])
+    r2 = runner.invoke(cli_module.app, ["client", "down"])
     # restart
-    r3 = runner.invoke(cli_module.app, ["client", "restart"])  # type: ignore[arg-type]
+    r3 = runner.invoke(cli_module.app, ["client", "restart"])
 
     assert r1.exit_code == 0 and r2.exit_code == 0 and r3.exit_code == 0
 
@@ -232,7 +232,7 @@ def test_client_config_path_is_client_yaml(
 ) -> None:
     """Client config --path should point to client_wg0.conf."""
     expected_client_path = _client_config_path(tmp_config_dir)
-    res_client = runner.invoke(cli_module.app, ["client", "config", "--path"])  # type: ignore[arg-type]
+    res_client = runner.invoke(cli_module.app, ["client", "config", "--path"])
     assert res_client.exit_code == 0
     assert res_client.stdout.strip() == str(expected_client_path)
 
@@ -248,7 +248,7 @@ def test_server_config_edit_bootstrap_opens_editor(
     if cfg_path.exists():
         cfg_path.unlink()
 
-    result = runner.invoke(cli_module.app, ["server", "config", "--edit"])  # type: ignore[arg-type]
+    result = runner.invoke(cli_module.app, ["server", "config", "--edit"])
     assert result.exit_code == 0
     assert cfg_path.exists()
     # The first captured subprocess call should be opening the editor
@@ -263,10 +263,10 @@ def test_client_config_reset_and_cat(
     """Client config --reset creates file; --cat prints its content (empty by default)."""
     cfg_path = _client_config_path(tmp_config_dir)
 
-    res_reset = runner.invoke(cli_module.app, ["client", "config", "--reset"])  # type: ignore[arg-type]
+    res_reset = runner.invoke(cli_module.app, ["client", "config", "--reset"])
     assert res_reset.exit_code == 0
     assert cfg_path.exists()
 
-    res_cat = runner.invoke(cli_module.app, ["client", "config", "--cat"])  # type: ignore[arg-type]
+    res_cat = runner.invoke(cli_module.app, ["client", "config", "--cat"])
     assert res_cat.exit_code == 0
     assert res_cat.stdout == "\n"

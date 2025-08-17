@@ -7,16 +7,18 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-from click.testing import CliRunner
+from typer.testing import CliRunner
 
 
 @pytest.fixture
 def module() -> Any:
+    """Import the clash_serve module."""
     return importlib.import_module("clash_tools.clash_tools.clash_serve")
 
 
 @pytest.fixture
 def runner() -> CliRunner:
+    """Return a CliRunner instance."""
     return CliRunner()
 
 
@@ -25,9 +27,10 @@ def test_run_invokes_sudo_clash(
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    """Test that `run` command invokes `sudo clash`."""
     calls: list[list[str]] = []
 
-    def fake_run(cmd: list[str], check: bool = False, **_: Any) -> None:  # noqa: ARG001
+    def fake_run(cmd: list[str], *, check: bool = False, **_: Any) -> None:
         calls.append(cmd)
 
     monkeypatch.setattr(
@@ -36,9 +39,10 @@ def test_run_invokes_sudo_clash(
         type("S", (), {"run": staticmethod(fake_run)}),
     )
 
-    result = runner.invoke(module.run)  # type: ignore[arg-type]
+    # Invoke via app to use typer runner correctly
+    result = runner.invoke(module.app, ["run"])
     assert result.exit_code == 0
-    assert calls and calls[0][:3] == ["sudo", "./clash", "-d"]
+    assert calls and calls[0][0] == "sudo" and calls[0][2] == "-d"
 
 
 def test_config_prints_path_and_edit_opens_editor(
@@ -47,17 +51,18 @@ def test_config_prints_path_and_edit_opens_editor(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
+    """Test that `config` prints path and `config --edit` opens editor."""
     # Ensure EDITOR is a no-op
     monkeypatch.setenv("EDITOR", "true")
 
-    # Ensure config exists
-    cfg = Path(module.__file__).parent / "config.yml"
-    if not cfg.exists():
-        cfg.write_text("port: 7890\nsocks-port: 7891\n", encoding="utf-8")
+    # Ensure template exists
+    tpl = Path(module.__file__).parent / "config.yml"
+    if not tpl.exists():
+        tpl.write_text("port: 7890\nsocks-port: 7891\n", encoding="utf-8")
 
     calls: list[list[str]] = []
 
-    def fake_run(cmd: list[str], check: bool = False, **_: Any) -> None:  # noqa: ARG001
+    def fake_run(cmd: list[str], *, check: bool = False, **_: Any) -> None:
         calls.append(cmd)
 
     monkeypatch.setattr(
@@ -67,7 +72,7 @@ def test_config_prints_path_and_edit_opens_editor(
     )
 
     # Invoke config --edit
-    result = runner.invoke(module.cli, ["config", "--edit"])  # type: ignore[arg-type]
+    result = runner.invoke(module.app, ["config", "--edit"])
     assert result.exit_code == 0
     # First call should be editor invocation with path
     assert calls and calls[0][0] == "true" and calls[0][1].endswith("config.yml")
@@ -85,8 +90,8 @@ def test_service_group_hint_when_not_root(
         "subprocess",
         type("S", (), {"run": staticmethod(lambda *a, **k: None)}),
     )
-    # Invoke a subcommand so the group callback runs and prints the hint
-    result = runner.invoke(module.cli, ["service", "status"])  # type: ignore[arg-type]
+    # Invoke a subcommand so the callback runs and prints the hint
+    result = runner.invoke(module.app, ["service", "status"])
     assert result.exit_code == 0
     assert "Hint: Service commands may require sudo permissions." in result.stdout
 
@@ -96,6 +101,7 @@ def test_add_service_uses_run_sudo_command(
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    """Test that `add-service` uses the run_sudo_command helper."""
     calls: list[tuple[list[str], str]] = []
 
     def fake_run_sudo(
@@ -115,7 +121,7 @@ def test_add_service_uses_run_sudo_command(
         clash_exec.write_bytes(b"")
         clash_exec.chmod(0o755)
 
-    result = runner.invoke(module.add_service)  # type: ignore[arg-type]
+    result = runner.invoke(module.app, ["service", "add"])
     assert result.exit_code == 0
     # Should attempt to write service file and enable/start service
     assert any("tee" in c[0] for c in calls)
@@ -129,6 +135,7 @@ def test_remove_service_with_temp_path(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
 ) -> None:
+    """Test `remove-service` command with a temporary service file."""
     calls: list[list[str]] = []
 
     def fake_run_sudo(
@@ -150,7 +157,7 @@ def test_remove_service_with_temp_path(
     # Create fake service file
     (tmp_path / "clash.service").write_text("[Unit]\n", encoding="utf-8")
 
-    result = runner.invoke(module.remove_service)  # type: ignore[arg-type]
+    result = runner.invoke(module.app, ["service", "remove"])
     assert result.exit_code == 0
     # Should call systemctl stop/disable and remove file
     joined = [" ".join(c) for c in calls]
@@ -164,9 +171,10 @@ def test_status_invokes_systemctl_status(
     runner: CliRunner,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
+    """Test that `status` command invokes `systemctl status`."""
     calls: list[list[str]] = []
 
-    def fake_run(cmd: list[str], check: bool = False, **_: Any) -> None:  # noqa: ARG001
+    def fake_run(cmd: list[str], *, check: bool = False, **_: Any) -> None:
         calls.append(cmd)
 
     monkeypatch.setattr(
@@ -175,6 +183,6 @@ def test_status_invokes_systemctl_status(
         type("S", (), {"run": staticmethod(fake_run)}),
     )
 
-    result = runner.invoke(module.status)  # type: ignore[arg-type]
+    result = runner.invoke(module.app, ["service", "status"])
     assert result.exit_code == 0
     assert calls and calls[0][:3] == ["sudo", "systemctl", "status"]

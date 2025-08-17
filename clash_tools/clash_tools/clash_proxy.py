@@ -1,29 +1,24 @@
 #!/usr/bin/env python3
-"""clash_tools package initialization."""
+"""Clash proxy helper CLI using Typer."""
 
-import sys
 from pathlib import Path
 
-import click
+import typer
 import yaml
 
+app = typer.Typer(add_completion=False)
 
-@click.command()
-def main() -> None:
-    """Set up proxy environment variables based on config.yml.
 
-    This tool reads the Clash configuration and sets up proxy environment variables.
-    """
-    # Output export commands for shell sourcing
-    script_dir = Path(__file__).parent.absolute()
-    config_file = script_dir / "config.yml"
+def _config_path() -> Path:
+    return Path(__file__).parent.absolute() / "config.yml"
 
+
+def print_env() -> None:
+    """Print environment exports for HTTP/HTTPS and SOCKS proxies."""
+    config_file = _config_path()
     if not config_file.exists():
-        click.echo(
-            f"echo '❌ Error: Config file not found: {config_file}' >&2",
-            err=True,
-        )
-        sys.exit(1)
+        typer.echo(f"echo 'Error: Config file not found: {config_file}' >&2", err=True)
+        raise typer.Exit(code=1)
 
     try:
         with open(config_file) as f:
@@ -33,27 +28,31 @@ def main() -> None:
         socks_port = config.get("socks-port")
 
         if not http_port or not socks_port:
-            click.echo("echo '❌ Error: Invalid ports in config file' >&2", err=True)
-            sys.exit(1)
+            typer.echo("echo 'Error: Invalid ports in config file' >&2", err=True)
+            raise typer.Exit(code=1)
 
-        # Output export commands
-        click.echo(f"export http_proxy='http://127.0.0.1:{http_port}'")
-        click.echo(f"export https_proxy='http://127.0.0.1:{http_port}'")
-        click.echo(f"export HTTP_PROXY='http://127.0.0.1:{http_port}'")
-        click.echo(f"export HTTPS_PROXY='http://127.0.0.1:{http_port}'")
-        click.echo(f"export all_proxy='socks5://127.0.0.1:{socks_port}'")
-        click.echo(f"export ALL_PROXY='socks5://127.0.0.1:{socks_port}'")
-        click.echo("export no_proxy='localhost,127.0.0.1,::1'")
-        click.echo("export NO_PROXY='localhost,127.0.0.1,::1'")
-        click.echo(
-            f"echo '✅ Proxy environment variables set: "
-            f"HTTP/HTTPS: http://127.0.0.1:{http_port}, "
-            f"SOCKS: socks5://127.0.0.1:{socks_port}'",
-        )
-
+        typer.echo(f"export http_proxy='http://127.0.0.1:{http_port}'")
+        typer.echo(f"export https_proxy='http://127.0.0.1:{http_port}'")
+        typer.echo(f"export HTTP_PROXY='http://127.0.0.1:{http_port}'")
+        typer.echo(f"export HTTPS_PROXY='http://127.0.0.1:{http_port}'")
+        typer.echo(f"export all_proxy='socks5://127.0.0.1:{socks_port}'")
+        typer.echo(f"export ALL_PROXY='socks5://127.0.0.1:{socks_port}'")
+        typer.echo("export no_proxy='localhost,127.0.0.1,::1'")
+        typer.echo("export NO_PROXY='localhost,127.0.0.1,::1'")
     except Exception as e:
-        click.echo(f"echo '❌ Error: {e}' >&2", err=True)
-        sys.exit(1)
+        typer.echo(f"echo 'Error: {e}' >&2", err=True)
+        raise typer.Exit(code=1)
+
+
+@app.callback(invoke_without_command=True)
+def _root(ctx: typer.Context) -> None:
+    """Default behavior: print environment exports when no command is provided."""
+    if ctx.invoked_subcommand is None:
+        print_env()
+
+
+def main() -> None:
+    app()
 
 
 if __name__ == "__main__":
