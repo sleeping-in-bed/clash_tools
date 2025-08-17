@@ -1,3 +1,9 @@
+## [2.7.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.6.3...v2.7.0) (2025-08-17)
+
+### Features
+
+* move client config to server ([aaef602](https://github.com/sleeping-in-bed/clash_tools/commit/aaef6026804d5c9f766b18541c7f9b6cdca62bbd))
+
 ## [2.6.3](https://github.com/sleeping-in-bed/clash_tools/compare/v2.6.2...v2.6.3) (2025-08-14)
 
 ### Bug Fixes
