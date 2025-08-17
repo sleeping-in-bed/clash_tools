@@ -17,7 +17,7 @@ def print_env() -> None:
     """Print environment exports for HTTP/HTTPS and SOCKS proxies."""
     config_file = _config_path()
     if not config_file.exists():
-        typer.echo(f"echo 'Error: Config file not found: {config_file}' >&2", err=True)
+        typer.echo(f"Error: Config file not found: {config_file}", err=True)
         raise typer.Exit(code=1)
 
     try:
@@ -28,7 +28,7 @@ def print_env() -> None:
         socks_port = config.get("socks-port")
 
         if not http_port or not socks_port:
-            typer.echo("echo 'Error: Invalid ports in config file' >&2", err=True)
+            typer.echo("Error: Invalid ports in config file", err=True)
             raise typer.Exit(code=1)
 
         typer.echo(f"export http_proxy='http://127.0.0.1:{http_port}'")
@@ -40,7 +40,7 @@ def print_env() -> None:
         typer.echo("export no_proxy='localhost,127.0.0.1,::1'")
         typer.echo("export NO_PROXY='localhost,127.0.0.1,::1'")
     except Exception as e:
-        typer.echo(f"echo 'Error: {e}' >&2", err=True)
+        typer.echo(f"Error: {e}", err=True)
         raise typer.Exit(code=1)
 
 
@@ -51,9 +51,5 @@ def _root(ctx: typer.Context) -> None:
         print_env()
 
 
-def main() -> None:
-    app()
-
-
 if __name__ == "__main__":
-    main()
+    app()
