@@ -1,3 +1,13 @@
+## [3.0.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.7.0...v3.0.0) (2025-08-17)
+
+### ⚠ BREAKING CHANGES
+
+* remove wireguard command and move clahs_tools and add tests
+
+### Features
+
+* changed ([3ba58e9](https://github.com/sleeping-in-bed/clash_tools/commit/3ba58e96f12bdf6d5b96d860bb8b68ce5bec61c8))
+
 ## [2.7.0](https://github.com/sleeping-in-bed/clash_tools/compare/v2.6.3...v2.7.0) (2025-08-17)
 
 ### Features
