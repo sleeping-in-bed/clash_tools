@@ -247,7 +247,9 @@ class WGConfRenderer:
         return post_up, pre_down
 
     def render_client_conf(
-        self, client_id: int, write: bool = True,
+        self,
+        client_id: int,
+        write: bool = True,
     ) -> tuple[str, Path]:
         """Render client wg0.conf for a given client_id from server_config.yml.
 

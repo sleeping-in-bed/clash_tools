@@ -126,7 +126,8 @@ def server_show() -> None:
     """Exec into the server container and run `wg show`."""
     _, compose_file = renderer.render_server_compose()
     subprocess.run(
-        _compose_cmd(compose_file, ["exec", "wireguard", "wg", "show"]), check=False,
+        _compose_cmd(compose_file, ["exec", "wireguard", "wg", "show"]),
+        check=False,
     )
 
 

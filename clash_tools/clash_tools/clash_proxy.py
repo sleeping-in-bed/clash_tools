@@ -10,13 +10,13 @@ import yaml
 
 @click.command()
 def main() -> None:
-    """Set up proxy environment variables based on config.yaml.
+    """Set up proxy environment variables based on config.yml.
 
     This tool reads the Clash configuration and sets up proxy environment variables.
     """
     # Output export commands for shell sourcing
     script_dir = Path(__file__).parent.absolute()
-    config_file = script_dir / "config.yaml"
+    config_file = script_dir / "config.yml"
 
     if not config_file.exists():
         click.echo(

@@ -36,9 +36,9 @@ def run() -> None:
 @cli.command()
 @click.option("--edit", "-e", is_flag=True, help="Open config file in default editor")
 def config(edit) -> None:
-    """Manage config.yaml file."""
+    """Manage config.yml file."""
     # Get config file path
-    config_file = SCRIPT_DIR / "config.yaml"
+    config_file = SCRIPT_DIR / "config.yml"
 
     # Always print config file path
     click.echo(f"Config file: {config_file.absolute()}")
