@@ -230,25 +230,34 @@ class WGConfRenderer:
         Ensures the WireGuard subnet stays reachable by adding a specific
         route via `wg0`, even if LAN ranges are excluded.
         """
-        post_up_cmds: list[str] = [f'ip route replace "{self.cidr}" dev wg0 || true']
-        pre_down_cmds: list[str] = [f'ip route del "{self.cidr}" || true']
+        post_up_cmds: list[str] = []
+        pre_down_cmds: list[str] = []
 
         if client_cfg.excludedips:
-            dsts = " ".join(sorted(client_cfg.excludedips))
-            # Extract default gateway IP only if a 'via' exists; otherwise leave empty
-            post_up_cmds.insert(
-                0,
-                "gw=$(ip route show default | awk '{for(i=1;i<=NF;i++) if($i==\"via\"){print $(i+1); exit}}')",
-            )
+            # Use more reliable gateway detection similar to the working example
             post_up_cmds.append(
-                f'for dst in {dsts}; do if [ -n "$gw" ]; then ip route replace "$dst" via "$gw" dev {client_cfg.nic} || true; else ip route replace "$dst" dev {client_cfg.nic} || true; fi; done',
-            )
-            pre_down_cmds.append(
-                f'for dst in {dsts}; do ip route del "$dst" || true; done',
+                "gw=$(ip route show default | awk '/^default/ {print $3}' | head -n1)",
             )
 
-        post_up = 'sh -c "' + "; ".join(post_up_cmds) + '"'
-        pre_down = 'sh -c "' + "; ".join(pre_down_cmds) + '"'
+            # Process each excluded network individually for better reliability
+            for dst in sorted(client_cfg.excludedips):
+                # Only set route if gateway exists, otherwise skip to avoid syntax errors
+                post_up_cmds.append(
+                    f'[ -n "$gw" ] && ip route replace {dst} via $gw dev {client_cfg.nic} || true',
+                )
+                pre_down_cmds.append(f'ip route del {dst} || true')
+
+        # Always ensure WireGuard server subnet routes through wg0 (after excluded IPs)
+        # This ensures the WG subnet is reachable even if it overlaps with excluded ranges
+        post_up_cmds.append(f'ip route replace {self.cidr} dev wg0 || true')
+        pre_down_cmds.append(f'ip route del {self.cidr} || true')
+
+        # Escape shell variables properly for the outer sh -c command
+        post_up_escaped = "; ".join(post_up_cmds).replace('$', '\\$').replace('"', '\\"')
+        pre_down_escaped = "; ".join(pre_down_cmds)
+
+        post_up = f'sh -c "{post_up_escaped}"'
+        pre_down = f'sh -c "{pre_down_escaped}"'
         return post_up, pre_down
 
     def render_client_conf(

@@ -21,6 +21,7 @@ def main() -> int:
     """
     # Resolve config directory
     config_dir: Path = Path(__file__).parent / "tmp"
+    config_dir.mkdir(parents=True, exist_ok=True)
 
     # Patch default config path usage throughout the lib to tests/tmp
     with (

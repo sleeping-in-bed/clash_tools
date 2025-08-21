@@ -10,7 +10,7 @@ node_modules/
 .env
 # tmp dir
 /tmp/
-/tests/tmp/
+/tests/**/tmp/
 # build
 build/
 dist/
