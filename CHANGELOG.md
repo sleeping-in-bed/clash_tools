@@ -1,3 +1,9 @@
+## [3.2.1](https://github.com/sleeping-in-bed/clash_tools/compare/v3.2.0...v3.2.1) (2025-08-21)
+
+### Bug Fixes
+
+* postup and predown rules ([ff33ed7](https://github.com/sleeping-in-bed/clash_tools/commit/ff33ed77e57051c3d62d4cc40e9b9dd971822f2e))
+
 ## [3.2.0](https://github.com/sleeping-in-bed/clash_tools/compare/v3.1.4...v3.2.0) (2025-08-17)
 
 ### Features
