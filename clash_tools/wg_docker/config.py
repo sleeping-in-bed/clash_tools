@@ -1,34 +1,35 @@
 """Configuration helpers for wg_docker.
 
-Provide user config directory resolution and Jinja2 environment setup.
+Provide global config directory resolution and Jinja2 environment setup.
 """
 
 from __future__ import annotations
 
 import os
 from pathlib import Path
+from typing import Final
 
 import yaml
 from jinja2 import Environment, FileSystemLoader
 
 from .models import ServerWGConfig
 
+_CONFIG_ENV_VAR: Final[str] = "CLASH_TOOLS_WG_CONFIG_DIR"
+_DEFAULT_GLOBAL_CONFIG_DIR: Final[Path] = Path("/var/lib/clash_tools/wireguard")
+
 
 def get_user_config_dir() -> Path:
-    """Return the user config directory for wg_docker, respecting XDG.
+    """Return the global config directory for wg_docker.
 
-    Follows: `$XDG_CONFIG_HOME` if set, otherwise `~/.config`, then
-    `clash_tools/wireguard`.
+    Prefers the ``CLASH_TOOLS_WG_CONFIG_DIR`` override when present and
+    otherwise uses ``/var/lib/clash_tools/wireguard``.
 
     Returns:
-        Path to the configuration directory.
+        Path: Absolute path to the configuration directory.
 
     """
-    xdg_config_home = os.environ.get("XDG_CONFIG_HOME")
-    base_config_dir = (
-        Path(xdg_config_home) if xdg_config_home else Path.home() / ".config"
-    )
-    cfg_dir = base_config_dir / "clash_tools" / "wireguard"
+    override = os.environ.get(_CONFIG_ENV_VAR)
+    cfg_dir = Path(override) if override else _DEFAULT_GLOBAL_CONFIG_DIR
     cfg_dir.mkdir(parents=True, exist_ok=True)
     return cfg_dir
 

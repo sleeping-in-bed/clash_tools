@@ -10,8 +10,15 @@ from typer.testing import CliRunner
 
 
 @pytest.fixture
-def module() -> object:
+def module(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> object:
     """Import the clash_serve module."""
+    override_dir = tmp_path / "clash_config"
+    override_dir.mkdir(parents=True, exist_ok=True)
+    (override_dir / "config.yaml").write_text(
+        "port: 7890\nsocks-port: 7891\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("CLASH_TOOLS_CONFIG_DIR", str(override_dir))
     return importlib.import_module("clash_tools.clash_tools.clash_serve")
 
 

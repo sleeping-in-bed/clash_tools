@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Clash Docker Proxy Management Script
-Support one-click enable and disable Docker proxy settings for Clash.
+"""Clash Docker Proxy Management Script.
+
+Support one-click enable and disable Docker daemon proxy settings for Clash.
 """
 
-import json
 import os
 import subprocess
 from pathlib import Path
@@ -20,10 +20,6 @@ DEFAULT_PROXY = {
 
 class DockerProxyManager:
     def __init__(self) -> None:
-        # Docker config file paths
-        self.docker_config_dir = Path.home() / ".docker"
-        self.docker_config_file = self.docker_config_dir / "config.json"
-
         # systemd service config paths
         self.systemd_dir = Path("/etc/systemd/system/docker.service.d")
         self.systemd_proxy_file = self.systemd_dir / "http-proxy.conf"
@@ -51,73 +47,6 @@ class DockerProxyManager:
             )
             return False
 
-    def enable_docker_client_proxy(self) -> bool | None:
-        """Enable Docker client proxy."""
-        try:
-            # Create config directory
-            self.docker_config_dir.mkdir(exist_ok=True)
-
-            # Read existing config
-            config = {}
-            if self.docker_config_file.exists():
-                with open(self.docker_config_file) as f:
-                    config = json.load(f)
-
-            # Add proxy configuration
-            config["proxies"] = {
-                "default": {
-                    "httpProxy": self.proxy_settings["http"],
-                    "httpsProxy": self.proxy_settings["https"],
-                    "noProxy": self.proxy_settings["no_proxy"],
-                },
-            }
-
-            # Write config file
-            with open(self.docker_config_file, "w") as f:
-                json.dump(config, f, indent=2)
-
-            typer.secho("Docker client proxy enabled", fg=typer.colors.GREEN)
-            return True
-        except Exception as e:
-            typer.secho(
-                f"Failed to enable Docker client proxy: {e}",
-                err=True,
-                fg=typer.colors.RED,
-            )
-            return False
-
-    def disable_docker_client_proxy(self) -> bool | None:
-        """Disable Docker client proxy."""
-        try:
-            if not self.docker_config_file.exists():
-                typer.secho(
-                    "Docker client proxy config file not found, no need to disable",
-                    fg=typer.colors.YELLOW,
-                )
-                return True
-
-            # Read existing config
-            with open(self.docker_config_file) as f:
-                config = json.load(f)
-
-            # Remove proxy configuration
-            if "proxies" in config:
-                del config["proxies"]
-
-            # Write config file
-            with open(self.docker_config_file, "w") as f:
-                json.dump(config, f, indent=2)
-
-            typer.secho("Docker client proxy disabled", fg=typer.colors.GREEN)
-            return True
-        except Exception as e:
-            typer.secho(
-                f"Failed to disable Docker client proxy: {e}",
-                err=True,
-                fg=typer.colors.RED,
-            )
-            return False
-
     def enable_docker_daemon_proxy(self) -> bool | None:
         """Enable Docker daemon proxy."""
         try:
@@ -131,8 +60,7 @@ Environment="HTTPS_PROXY={self.proxy_settings["https"]}"
 Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
 """
 
-            with open(self.systemd_proxy_file, "w") as f:
-                f.write(proxy_config)
+            self.systemd_proxy_file.write_text(proxy_config, encoding="utf-8")
 
             typer.secho("Docker daemon proxy enabled", fg=typer.colors.GREEN)
             return True
@@ -168,30 +96,14 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
         """Check proxy status."""
         typer.secho("=== Docker Proxy Status ===", fg=typer.colors.CYAN, bold=True)
 
-        # Check client proxy
-        if self.docker_config_file.exists():
-            with open(self.docker_config_file) as f:
-                config = json.load(f)
-            if "proxies" in config:
-                typer.secho("Docker client proxy: Enabled", fg=typer.colors.GREEN)
-                proxy_info = config["proxies"]["default"]
-                typer.echo(f"   HTTP Proxy: {proxy_info.get('httpProxy', 'N/A')}")
-                typer.echo(f"   HTTPS Proxy: {proxy_info.get('httpsProxy', 'N/A')}")
-                typer.echo(f"   No Proxy: {proxy_info.get('noProxy', 'N/A')}")
-            else:
-                typer.secho("Docker client proxy: Disabled", fg=typer.colors.YELLOW)
-        else:
-            typer.secho("Docker client proxy: Disabled", fg=typer.colors.YELLOW)
-
         # Check daemon proxy
         if self.systemd_proxy_file.exists():
             typer.secho("Docker daemon proxy: Enabled", fg=typer.colors.GREEN)
-            with open(self.systemd_proxy_file) as f:
-                content = f.read()
-                typer.secho("   Configuration:", fg=typer.colors.CYAN)
-                for line in content.strip().split("\n"):
-                    if line.startswith("Environment="):
-                        typer.echo(f"   {line}")
+            content = self.systemd_proxy_file.read_text(encoding="utf-8")
+            typer.secho("   Configuration:", fg=typer.colors.CYAN)
+            for line in content.strip().split("\n"):
+                if line.startswith("Environment="):
+                    typer.echo(f"   {line}")
         else:
             typer.secho("Docker daemon proxy: Disabled", fg=typer.colors.YELLOW)
 
@@ -202,17 +114,7 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
             self.proxy_settings["https"] = proxy_url
 
         typer.secho("=== Enabling Docker Proxy ===", fg=typer.colors.CYAN, bold=True)
-
-        # Enable client proxy
-        client_success = self.enable_docker_client_proxy()
-
-        # Enable daemon proxy (requires root privileges)
-        daemon_success = True
-        if self.check_root():
-            daemon_success = self.enable_docker_daemon_proxy()
-            if daemon_success:
-                self.restart_docker()
-        else:
+        if not self.check_root():
             typer.secho(
                 "Root privileges required for Docker daemon proxy",
                 fg=typer.colors.YELLOW,
@@ -221,8 +123,12 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
                 "   Please run with sudo or configure daemon proxy manually",
                 fg=typer.colors.YELLOW,
             )
+            typer.secho("Failed to enable Docker proxy", err=True, fg=typer.colors.RED)
+            return
 
-        if client_success:
+        daemon_success = self.enable_docker_daemon_proxy()
+        if daemon_success:
+            self.restart_docker()
             typer.secho("Docker proxy enabled successfully!", fg=typer.colors.GREEN)
         else:
             typer.secho("Failed to enable Docker proxy", err=True, fg=typer.colors.RED)
@@ -230,17 +136,7 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
     def disable_proxy(self) -> None:
         """Disable proxy."""
         typer.secho("=== Disabling Docker Proxy ===", fg=typer.colors.CYAN, bold=True)
-
-        # Disable client proxy
-        client_success = self.disable_docker_client_proxy()
-
-        # Disable daemon proxy (requires root privileges)
-        daemon_success = True
-        if self.check_root():
-            daemon_success = self.disable_docker_daemon_proxy()
-            if daemon_success:
-                self.restart_docker()
-        else:
+        if not self.check_root():
             typer.secho(
                 "Root privileges required for Docker daemon proxy",
                 fg=typer.colors.YELLOW,
@@ -249,8 +145,12 @@ Environment="NO_PROXY={self.proxy_settings["no_proxy"]}"
                 "   Please run with sudo or configure daemon proxy manually",
                 fg=typer.colors.YELLOW,
             )
+            typer.secho("Failed to disable Docker proxy", err=True, fg=typer.colors.RED)
+            return
 
-        if client_success:
+        daemon_success = self.disable_docker_daemon_proxy()
+        if daemon_success:
+            self.restart_docker()
             typer.secho("Docker proxy disabled successfully!", fg=typer.colors.GREEN)
         else:
             typer.secho("Failed to disable Docker proxy", err=True, fg=typer.colors.RED)
@@ -295,7 +195,7 @@ def disable() -> None:
 
 @app.command()
 def status() -> None:
-    r"""Check Docker proxy status.
+    r"""Check Docker daemon proxy status.
 
     \b
     Examples:
@@ -306,11 +206,9 @@ def status() -> None:
 
 @app.command()
 def reset() -> None:
-    r"""Reset all Docker proxy configurations.
+    r"""Reset Docker daemon proxy configuration.
 
-    This will completely remove all Docker proxy settings including:
-    - Docker client proxy configuration
-    - Docker daemon proxy configuration
+    This removes the Docker daemon proxy drop-in and restarts Docker if possible.
 
     \b
     Examples:
@@ -318,10 +216,11 @@ def reset() -> None:
     """
     manager = DockerProxyManager()
     typer.secho(
-        "=== Resetting Docker Proxy Configurations ===", fg=typer.colors.CYAN, bold=True,
+        "=== Resetting Docker Proxy Configuration ===",
+        fg=typer.colors.CYAN,
+        bold=True,
     )
     typer.secho("This will remove:", fg=typer.colors.YELLOW)
-    typer.echo("- Docker client proxy configuration")
     typer.echo("- Docker daemon proxy configuration")
 
     manager.disable_proxy()

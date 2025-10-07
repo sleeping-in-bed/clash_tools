@@ -245,15 +245,17 @@ class WGConfRenderer:
                 post_up_cmds.append(
                     f'[ -n "$gw" ] && ip route replace {dst} via $gw dev {client_cfg.nic} || true',
                 )
-                pre_down_cmds.append(f'ip route del {dst} || true')
+                pre_down_cmds.append(f"ip route del {dst} || true")
 
         # Always ensure WireGuard server subnet routes through wg0 (after excluded IPs)
         # This ensures the WG subnet is reachable even if it overlaps with excluded ranges
-        post_up_cmds.append(f'ip route replace {self.cidr} dev wg0 || true')
-        pre_down_cmds.append(f'ip route del {self.cidr} || true')
+        post_up_cmds.append(f"ip route replace {self.cidr} dev wg0 || true")
+        pre_down_cmds.append(f"ip route del {self.cidr} || true")
 
         # Escape shell variables properly for the outer sh -c command
-        post_up_escaped = "; ".join(post_up_cmds).replace('$', '\\$').replace('"', '\\"')
+        post_up_escaped = (
+            "; ".join(post_up_cmds).replace("$", "\\$").replace('"', '\\"')
+        )
         pre_down_escaped = "; ".join(pre_down_cmds)
 
         post_up = f'sh -c "{post_up_escaped}"'

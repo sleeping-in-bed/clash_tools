@@ -13,14 +13,15 @@ Prerequisites
 - ``wg`` binary available in ``$PATH`` (used for key generation)
 - Systemd-based distributions are recommended for production
 
-User Configuration Directory
-----------------------------
+Configuration Directory
+-----------------------
 
 All generated and user-managed files live under::
 
-    $XDG_CONFIG_HOME/clash_tools/wireguard
-    # or
-    ~/.config/clash_tools/wireguard
+    /var/lib/clash_tools/wireguard
+
+Set ``CLASH_TOOLS_WG_CONFIG_DIR`` to override the default location if you
+need a custom path (for example, when running without elevated privileges).
 
 Key files:
 

@@ -1,9 +1,7 @@
 """Configuration path utilities for clash_tools.
 
-Provide helpers to resolve the script directory, user configuration directory,
-and the paths to the user and template configuration files.
-
-All paths are XDG compliant where applicable.
+Provide helpers to resolve the script directory, global configuration directory,
+and the paths to the configuration files.
 """
 
 from __future__ import annotations
@@ -11,15 +9,25 @@ from __future__ import annotations
 import os
 from pathlib import Path
 from shutil import copyfile
+from typing import Final
 
 SCRIPT_DIR: Path = Path(__file__).parent.absolute()
+_CONFIG_ENV_VAR: Final[str] = "CLASH_TOOLS_CONFIG_DIR"
+_DEFAULT_GLOBAL_CONFIG_DIR: Final[Path] = Path("/var/lib/clash_tools/clash")
 
 
 def user_config_dir() -> Path:
-    """Return user config directory for Clash (XDG compliant)."""
-    xdg = os.environ.get("XDG_CONFIG_HOME")
-    base = Path(xdg) if xdg else Path.home() / ".config"
-    cfg_dir = base / "clash_tools" / "clash"
+    """Return the global config directory for Clash.
+
+    Prefers the ``CLASH_TOOLS_CONFIG_DIR`` override when provided and
+    otherwise falls back to ``/var/lib/clash_tools/clash``.
+
+    Returns:
+        Path: Absolute path to the configuration directory.
+
+    """
+    override = os.environ.get(_CONFIG_ENV_VAR)
+    cfg_dir = Path(override) if override else _DEFAULT_GLOBAL_CONFIG_DIR
     cfg_dir.mkdir(parents=True, exist_ok=True)
     return cfg_dir
 

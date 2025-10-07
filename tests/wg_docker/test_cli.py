@@ -1,7 +1,7 @@
 """Tests for clash_tools.wg_docker.cli.
 
 Use Typer's CliRunner to invoke subcommands, isolate filesystem via
-XDG_CONFIG_HOME, and monkeypatch subprocess/rendering to avoid side effects.
+temporary directories, and monkeypatch subprocess/rendering to avoid side effects.
 """
 
 from __future__ import annotations
@@ -16,15 +16,15 @@ from typer.testing import CliRunner
 
 @pytest.fixture
 def tmp_config_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
-    """Provide isolated XDG config directory for tests.
+    """Provide isolated config directory for tests.
 
     Returns:
-        Path: The resolved config directory base for XDG (not the app subdir).
+        Path: The resolved config directory used by the application.
 
     """
-    xdg_dir: Path = tmp_path / "xdg"
-    monkeypatch.setenv("XDG_CONFIG_HOME", str(xdg_dir))
-    return xdg_dir
+    config_dir: Path = tmp_path / "config"
+    monkeypatch.setenv("CLASH_TOOLS_WG_CONFIG_DIR", str(config_dir))
+    return config_dir
 
 
 @pytest.fixture
@@ -66,19 +66,19 @@ def capture_subprocess(monkeypatch: pytest.MonkeyPatch) -> list[list[str]]:
     return calls
 
 
-def _app_config_path(base_xdg: Path) -> Path:
-    """Resolve app server_config.yml under the test XDG config tree."""
-    return base_xdg / "clash_tools" / "wireguard" / "server_config.yml"
+def _app_config_path(base_dir: Path) -> Path:
+    """Resolve app server_config.yml under the test config tree."""
+    return base_dir / "server_config.yml"
 
 
-def _compose_path(base_xdg: Path, name: str) -> Path:
-    """Resolve a compose file under the test XDG config tree."""
-    return base_xdg / "clash_tools" / "wireguard" / name
+def _compose_path(base_dir: Path, name: str) -> Path:
+    """Resolve a compose file under the test config tree."""
+    return base_dir / name
 
 
-def _client_config_path(base_xdg: Path) -> Path:
-    """Resolve client_wg0.conf under the test XDG config tree."""
-    return base_xdg / "clash_tools" / "wireguard" / "client_wg0.conf"
+def _client_config_path(base_dir: Path) -> Path:
+    """Resolve client_wg0.conf under the test config tree."""
+    return base_dir / "client_wg0.conf"
 
 
 def test_server_get_client_config_uses_renderer(

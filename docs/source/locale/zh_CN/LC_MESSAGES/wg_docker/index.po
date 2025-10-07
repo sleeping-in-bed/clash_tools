@@ -49,12 +49,24 @@ msgid "Systemd-based distributions are recommended for production"
 msgstr "生产环境建议使用基于 systemd 的发行版"
 
 #: ../../source/wg_docker/index.rst:17
-msgid "User Configuration Directory"
-msgstr "用户配置目录"
+msgid "Configuration Directory"
+msgstr "配置目录"
 
 #: ../../source/wg_docker/index.rst:19
 msgid "All generated and user-managed files live under::"
 msgstr "所有生成与用户管理的文件位于::"
+
+#: ../../source/wg_docker/index.rst:21
+msgid "    /var/lib/clash_tools/wireguard"
+msgstr "    /var/lib/clash_tools/wireguard"
+
+#: ../../source/wg_docker/index.rst:23
+msgid "Set ``CLASH_TOOLS_WG_CONFIG_DIR`` to override the default location if you"
+msgstr "若需自定义路径，可设置 ``CLASH_TOOLS_WG_CONFIG_DIR`` 覆盖默认位置，"
+
+#: ../../source/wg_docker/index.rst:24
+msgid "need a custom path (for example, when running without elevated privileges)."
+msgstr "例如在无特权环境下运行。"
 
 #: ../../source/wg_docker/index.rst:25
 msgid "Key files:"

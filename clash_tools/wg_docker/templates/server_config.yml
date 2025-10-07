@@ -1,7 +1,9 @@
 server:
-  nic: eth0
+  # Set to the public IP address or DNS name of the WireGuard server
   server_ip: 6.6.6.6
+  # Set to the subnet that the WireGuard interface should serve (CIDR notation), for example 10.9.100.0/24
   subnet: 10.9.0.0/24
+  # Set to the UDP listen port exposed by the WireGuard server
   listen_port: 51820
 
 clients:

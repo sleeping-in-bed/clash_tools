@@ -12,17 +12,14 @@ from typer.testing import CliRunner
 @pytest.fixture
 def in_pkg_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
     """Ensure running inside moved package directory, and prepare user config."""
-    # Directory that contains top-level config.py used by scripts (imported as `from config import ...`)
     pkg_dir = Path(__file__).parents[2] / "clash_tools" / "clash_tools" / "clash_tools"
-    # Prepare XDG user config
-    xdg_home = tmp_path / "xdg"
-    user_cfg_dir = xdg_home / "clash_tools" / "clash"
-    user_cfg_dir.mkdir(parents=True, exist_ok=True)
-    (user_cfg_dir / "config.yaml").write_text(
+    override_dir = tmp_path / "clash_config"
+    override_dir.mkdir(parents=True, exist_ok=True)
+    (override_dir / "config.yaml").write_text(
         "port: 7890\nsocks-port: 7891\n",
         encoding="utf-8",
     )
-    monkeypatch.setenv("XDG_CONFIG_HOME", str(xdg_home))
+    monkeypatch.setenv("CLASH_TOOLS_CONFIG_DIR", str(override_dir))
     return pkg_dir
 
 
@@ -46,6 +43,10 @@ def test_clash_serve_config_path_and_edit_flag(
 
     # Prepare fake editor
     monkeypatch.setenv("EDITOR", "true")
+
+    override_dir = tmp_path / "clash_config"
+    override_dir.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setenv("CLASH_TOOLS_CONFIG_DIR", str(override_dir))
 
     # Change to module dir to ensure config path calculation
     script_dir = Path(mod.__file__).parent

@@ -77,13 +77,12 @@ msgstr "面向服务端/客户端部署的 WireGuard Docker 编排工具。"
 #: ../../source/index.rst:29
 msgid ""
 "Key highlights: - User config directory: "
-"``$XDG_CONFIG_HOME/clash_tools/wireguard/`` or "
-"``~/.config/clash_tools/wireguard/`` - Renders "
+"``/var/lib/clash_tools/wireguard/`` (override with ``CLASH_TOOLS_WG_CONFIG_DIR``) - Renders "
 "``server_wg0.conf``/``client_wg0.conf`` and docker compose files - "
 "Commands: ``server`` (``up``/``down``/``restart``/``show``/``config"
 "``/``get-client-config``), ``client`` "
 "(``up``/``down``/``restart``/``config``)"
-msgstr "要点：- 用户配置目录：``$XDG_CONFIG_HOME/clash_tools/wireguard/`` 或 ``~/.config/clash_tools/wireguard/`` - 渲染 ``server_wg0.conf``/``client_wg0.conf`` 与 docker compose 文件 - 命令：``server``（``up``/``down``/``restart``/``show``/``config``/``get-client-config``）、``client``（``up``/``down``/``restart``/``config``）"
+msgstr "要点：- 配置目录：``/var/lib/clash_tools/wireguard/``（可通过 ``CLASH_TOOLS_WG_CONFIG_DIR`` 覆盖）- 渲染 ``server_wg0.conf``/``client_wg0.conf`` 与 docker compose 文件 - 命令：``server``（``up``/``down``/``restart``/``show``/``config``/``get-client-config``）、``client``（``up``/``down``/``restart``/``config``）"
 
 #: ../../source/index.rst:34
 msgid "**clash_docker**"

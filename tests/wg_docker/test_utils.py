@@ -20,6 +20,12 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+@pytest.fixture(autouse=True)
+def _override_config_dir(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Ensure tests run against an isolated config directory."""
+    monkeypatch.setenv("CLASH_TOOLS_WG_CONFIG_DIR", str(tmp_path))
+
+
 def test_generate_wg_keypair_success(monkeypatch: pytest.MonkeyPatch) -> None:
     """Return a WGKeyPair when underlying `wg` commands succeed."""
 

@@ -8,7 +8,6 @@ XDG config directory.
 import os
 import subprocess
 from pathlib import Path
-from shutil import copyfile
 
 import typer
 
@@ -145,7 +144,10 @@ def service() -> None:
     """Manage clash as a systemd service."""
     # This check is a hint, actual sudo is enforced in run_sudo_command
     if os.geteuid() != 0:
-        typer.secho("Hint: Service commands may require sudo permissions.", fg=typer.colors.YELLOW)
+        typer.secho(
+            "Hint: Service commands may require sudo permissions.",
+            fg=typer.colors.YELLOW,
+        )
 
 
 @service_app.command("add")

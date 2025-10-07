@@ -27,7 +27,8 @@ The toolkit includes four main utilities:
   WireGuard docker orchestration for server/client deployments.
 
   Key highlights:
-  - User config directory: ``$XDG_CONFIG_HOME/clash_tools/wireguard/`` or ``~/.config/clash_tools/wireguard/``
+  - WireGuard config directory: ``/var/lib/clash_tools/wireguard/`` (override with ``CLASH_TOOLS_WG_CONFIG_DIR``)
+  - Clash config directory: ``/var/lib/clash_tools/clash/`` (override with ``CLASH_TOOLS_CONFIG_DIR``)
   - Renders ``server_wg0.conf``/``client_wg0.conf`` and docker compose files
   - Commands: ``server`` (``up``/``down``/``restart``/``show``/``config``/``get-client-config``), ``client`` (``up``/``down``/``restart``/``config``)
 
