@@ -68,7 +68,7 @@ def _compose_cmd(compose_file: Path, args: list[str]) -> list[str]:
 def _open_in_editor(path: Path) -> None:
     """Open the file in the user's default editor."""
     editor = os.environ.get("VISUAL") or os.environ.get("EDITOR") or "nano"
-    subprocess.run([editor, str(path)], check=False)
+    subprocess.run(["sudo", editor, str(path)], check=False)
 
 
 def _server_config_path() -> Path:
