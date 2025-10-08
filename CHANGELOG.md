@@ -1,3 +1,9 @@
+## [3.3.1](https://github.com/sleeping-in-bed/clash_tools/compare/v3.3.0...v3.3.1) (2025-10-08)
+
+### Bug Fixes
+
+* open editor with sudo ([445e434](https://github.com/sleeping-in-bed/clash_tools/commit/445e434e9ef3b1393fe87972dff40f6753672706))
+
 ## [3.3.0](https://github.com/sleeping-in-bed/clash_tools/compare/v3.2.1...v3.3.0) (2025-10-07)
 
 ### Features
